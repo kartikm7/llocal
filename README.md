@@ -1,26 +1,42 @@
-# llocal
+# LLocal
 
-An Electron application with React and TypeScript
+Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3, Phi-3, Mistral).
 
-## Recommended IDE Setup
+## Current Roadmap
+- Locally storing the chats
+- AI Chat streaming
+- Retrieval Augmented Generation/RAG (with single PDF's)
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+## What's ahead?
+- Web Search
+- Multiple PDF chat
+- Chat with chats ?! (Not sure)
+*At some point: would want to pivot the LLocal in a different direction...* (Although would need to discuss this with the users.)
+
 
 ## Project Setup
 
-### Install
+An Electron application with React and TypeScript
+
+### Recommended IDE Setup
+
+- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+### Project Setup
+
+#### Install
 
 ```bash
 $ npm install
 ```
 
-### Development
+#### Development
 
 ```bash
 $ npm run dev
 ```
 
-### Build
+#### Build
 
 ```bash
 # For windows
