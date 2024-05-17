@@ -11,7 +11,8 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 - Web Search
 - Multiple PDF chat
 - Chat with chats ?! (Not sure)
-*At some point: would want to pivot the LLocal in a different direction...* (Although would need to discuss this with the users.)
+
+> *At some point: would want to pivot LLocal in a different direction...* (Although would need to discuss this with the users.)
 
 
 ## Project Setup
