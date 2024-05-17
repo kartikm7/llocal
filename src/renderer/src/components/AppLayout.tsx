@@ -38,9 +38,9 @@ export const Sidebar = ({
 
     </AnimatePresence>
     {open ? (
-          <IoIosArrowBack onClick={sideBarClose} className="text-2xl dark:text-black" />
+          <IoIosArrowBack onClick={()=>sideBarClose()} className="text-2xl dark:text-black" />
         ) : (
-          <IoIosArrowForward onClick={sideBarClose} className="absolute left-1 text-2xl dark:text-black opacity-50" />
+          <IoIosArrowForward onClick={()=>sideBarClose()} className="absolute left-1 text-2xl dark:text-black opacity-50" />
         )}
     </div>
   )
