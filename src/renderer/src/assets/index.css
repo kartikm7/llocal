@@ -19,3 +19,8 @@
   font-weight: 300;
   src: url(./fonts/Poppins-Light.ttf) format("truetype");
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--primary);
+}

@@ -29,7 +29,7 @@ export const Sidebar = ({
             initial={{ width: 0 }}
             animate={{ width: 250, transition: {type: "spring", bounce: 0, duration: 0.4 } }}
             exit={{ width: 0, transition: {type: "spring", bounce: 0, duration: 0.1 } }}
-            className={twMerge('w-[250px] h-screen p-5', className)}
+            className={twMerge('w-[250px] h-screen p-5 ', className)}
             {...props}
           >
             {children}
@@ -38,9 +38,9 @@ export const Sidebar = ({
 
     </AnimatePresence>
     {open ? (
-          <IoIosArrowBack onClick={()=>sideBarClose()} className="text-2xl dark:text-black" />
+          <IoIosArrowBack onClick={()=>sideBarClose()} className="text-2xl cursor-pointer dark:text-black opacity-50" />
         ) : (
-          <IoIosArrowForward onClick={()=>sideBarClose()} className="absolute left-1 text-2xl dark:text-black opacity-50" />
+          <IoIosArrowForward onClick={()=>sideBarClose()} className="absolute cursor-pointer left-1 text-2xl dark:text-black opacity-50" />
         )}
     </div>
   )

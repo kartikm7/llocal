@@ -11,7 +11,7 @@ export const Input = (props:ComponentProps<'input'>&customProps): React.ReactEle
     <input
       placeholder={props.placeholder}
       className={twMerge(
-        'p-5 bg-black placeholder-white outline-none rounded-full text-sm bg-opacity-20 text-white backdrop-blur-lg shadow-xl',
+        'p-5 bg-foreground dark:bg-opacity-20 dark:bg-background dark:text-white dark:placeholder-white placeholder:opacity-80 dark:placeholder:opacity-60 outline-none rounded-full text-sm bg-opacity-20  backdrop-blur-lg shadow-xl',
         props.className
       )}
       {...props.register(props.name)}
