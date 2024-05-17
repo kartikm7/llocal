@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 400;
+  src: url(./fonts/Poppins-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 500;
+  src: url(./fonts/Poppins-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 300;
+  src: url(./fonts/Poppins-Light.ttf) format("truetype");
+}
