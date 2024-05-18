@@ -8,6 +8,7 @@ import { Separator } from './ui/Separator'
 import { CommandCentre } from './components/Sidebar/CommandCentre'
 
 function App(): JSX.Element {
+
   return (
     <RootLayout
       className="font-poppins dark dark:bg-background dark:text-foreground w-full bg-cover h-screen"

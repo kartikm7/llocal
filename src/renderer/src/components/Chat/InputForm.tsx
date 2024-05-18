@@ -4,14 +4,16 @@ import { twMerge } from 'tailwind-merge'
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { Input } from '@renderer/ui/Input';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { usePrompt } from '@renderer/hooks/usePrompt';
 
 type FormFields = {
-  prompt: string;
+  prompt?: string;
 }
 
 export const InputForm = ({ className, ...props }: ComponentProps<'form'>): React.ReactElement => {
   const {register, handleSubmit, reset} = useForm<FormFields>()
-  const onSubmit:SubmitHandler<FormFields> =(data)=>{
+  const onSubmit:SubmitHandler<FormFields> = async(data)=>{
+    const [isLoading] = await usePrompt(data.prompt || '')    
     console.log(data.prompt);
     reset();
   }

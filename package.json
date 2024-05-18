@@ -23,9 +23,11 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "axios": "^1.6.8",
     "electron-updater": "^6.1.7",
     "framer-motion": "^11.2.4",
     "jotai": "^2.8.0",
+    "localbase": "^0.7.5",
     "react-hook-form": "^7.51.4",
     "react-icons": "^5.2.1",
     "tailwind-merge": "^2.3.0"
