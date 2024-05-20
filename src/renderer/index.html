@@ -5,11 +5,11 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval';"
+      content="default-src 'self';  connect-src 'self' http://localhost:11434 http://127.0.0.1:11434 ; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval';"
     />
   </head>
 
-  <body>
+  <body class="">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

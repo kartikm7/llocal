@@ -11,7 +11,7 @@ function App(): JSX.Element {
 
   return (
     <RootLayout
-      className="font-poppins dark dark:bg-background dark:text-foreground w-full bg-cover h-screen"
+      className="font-poppins dark dark:bg-background dark:text-foreground w-full bg-cover h-screen "
       style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
       <Sidebar className="bg-foreground bg-opacity-20 dark:bg-background dark:bg-opacity-20 backdrop-blur-lg flex flex-col gap-5">

@@ -21,9 +21,9 @@ export const messages =
     }
   ]
 
-export const chatAtom = atom<Message[]>(messages) // Current Chat
-export const selectedChatIndexAtom = atom<number>(-1); // Selected Chat
-
+export const chatAtom = atom<Message[]>([]) // Current Chat
+export const selectedChatIndexAtom = atom<string>(""); // Selected Chat
+export const streamingAtom = atom<string>('') // Handling Streaming
 
 // Important fundamental states
-export const modelNameAtom =  atom<string>('phi3');
+export const modelNameAtom =  atom<string>('tinyllama');
