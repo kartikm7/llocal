@@ -32,7 +32,7 @@ export const Settings = ({
       {settingsToggle && (
         <div
           className={twMerge(
-            `dark:bg-black dark:bg-opacity-50 bg-foreground bg-opacity-50 absolute z-30 flex flex-col justify-center itm w-full h-screen backdrop-blur`,
+            `dark:bg-black dark:bg-opacity-50 bg-foreground bg-opacity-50 absolute z-30 flex flex-col justify-center itm w-full h-screen backdrop-blur p-5 overflow-auto`,
             className
           )}
           {...props}
@@ -51,12 +51,25 @@ export const Settings = ({
   )
 }
 
+export const ModelConfiguration = ({
+  className,
+  children,
+  ...props
+}: ComponentProps<'div'>): React.ReactElement => {
+
+  return (
+    <div className={twMerge('', className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
 export const Sidebar = ({
   className,
   children,
   ...props
 }: ComponentProps<'aside'> & MotionProps): React.ReactElement => {
-  const [open, sideBarClose] = useCycle(false, true)
+  const [open, sideBarClose] = useCycle(true, false)
   return (
     <div className="flex gap-2 items-center justify-center bg-transparent">
       <AnimatePresence>
@@ -65,7 +78,7 @@ export const Sidebar = ({
             initial={{ width: 0 }}
             animate={{ width: 250, transition: { type: 'spring', bounce: 0, duration: 0.4 } }}
             exit={{ width: 0, transition: { type: 'spring', bounce: 0, duration: 0.1 } }}
-            className={twMerge('w-[250px] h-screen p-5 ', className)}
+            className={twMerge('w-[250px] h-screen p-5', className)}
             {...props}
           >
             {children}

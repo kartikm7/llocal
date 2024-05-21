@@ -1,4 +1,4 @@
-import { Chat, RootLayout, Settings, Sidebar } from './components/AppLayout'
+import { Chat, ModelConfiguration, RootLayout, Settings, Sidebar } from './components/AppLayout'
 import { InputForm } from './components/Chat/InputForm'
 import { Messages } from './components/Chat/Messages'
 import { ChatList } from './components/Sidebar/ChatList'
@@ -10,6 +10,8 @@ import { useAtom } from 'jotai'
 import { backgroundImageAtom, darkModeAtom } from './store/mocks'
 import { ModeSelector } from './components/Settings/ModeSelector'
 import { Toaster } from 'sonner'
+import { ChooseModel } from './components/Settings/ChooseModel'
+import { PullModel } from './components/Settings/PullModel'
 
 function App(): JSX.Element {
   const [backgroundImage] = useAtom(backgroundImageAtom)
@@ -22,12 +24,22 @@ function App(): JSX.Element {
       className={`${darkMode && 'dark'} bg-[#DDDDDD] font-poppins scrollbar scrollbar-thumb-thin dark:bg-[#2c2c2c] dark:text-foreground w-full bg-cover h-screen`}
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <Toaster />
+      <Toaster richColors />
       <Settings className="flex flex-col justify-between items-center">
         <h1 className="mt-10 text-4xl">Settings</h1>
-        <div className="flex flex-col gap-5">
-          <BackgroundSelector />
-          <ModeSelector />
+        <div className="flex flex-col gap-10 lg:flex-row  lg:gap-24">
+          <ModelConfiguration className='flex flex-col gap-5'>
+            <h1 className="text-xl">Model:</h1>
+            <Separator className='mb-8'/> 
+            <ChooseModel />
+            <PullModel />
+          </ModelConfiguration>
+          <div className="flex flex-col gap-5">
+            <h1 className="text-xl">Theme:</h1>
+            <Separator className='mb-8' />
+            <BackgroundSelector />
+            <ModeSelector />
+          </div>
         </div>
         <div></div>
       </Settings>

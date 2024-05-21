@@ -26,9 +26,8 @@ export const selectedChatIndexAtom = atom<string>(""); // Selected Chat
 export const streamingAtom = atom<string>('') // Handling Streaming
 export const settingsToggleAtom = atom<boolean>(false)
 
-
 // User Preferences 
 export const backgroundImageAtom = atom<string>(localStorage.getItem('bg') ?? '/src/assets/themes/galaxia.svg')
+export const prefModelAtom = atom<string>(localStorage.getItem('prefModel')??'')
 
 export const darkModeAtom = atom<boolean>(true);
-export const modelNameAtom =  atom<string>('tinyllama');

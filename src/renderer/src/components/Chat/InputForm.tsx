@@ -20,7 +20,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={twMerge('relative w-3/6 h-12', className)} {...props}>
-      <Input name='prompt' register={register} disabled={isLoading} className='h-full w-full' placeholder='Enter your prompt'  />
+      <Input name='prompt' register={register} disabled={isLoading} className='h-full w-full pr-8' placeholder='Enter your prompt'  />
       <IconButton type='submit' disabled={isLoading} className='text-2xl absolute right-2 top-1/2 transform -translate-y-1/2'><PiPaperPlaneRightFill /></IconButton>
     </form>
   )
