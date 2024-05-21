@@ -51,7 +51,7 @@ export function useDb(): useDbReturn {
     const response = await db.collection('chat').orderBy('date').get()
     console.log(response);
     
-    return response
+    return response.reverse()
   }
 
   const updateDate = async (date:string): Promise<string> => {

@@ -21,7 +21,7 @@
 }
 
 ::-webkit-scrollbar{
-  width: 8px;
+  width: 4px;
 }
 ::-webkit-scrollbar-thumb{
   background: rgba(0, 0, 0, 0.5);
@@ -30,4 +30,25 @@
 
 ::-webkit-scrollbar-thumb:hover{
   background: rgba(0, 0, 0, 0.75);
+}
+
+code {
+  text-wrap: wrap;
+  padding: 2px;
+  margin: 2px;
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  code {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  ::-webkit-scrollbar-thumb{
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover{
+    background: rgba(255, 255, 255, 0.75);
+  }
 }

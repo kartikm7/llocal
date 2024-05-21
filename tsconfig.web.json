@@ -14,6 +14,7 @@
       "@renderer/*": [
         "src/renderer/src/*"
       ]
-    }
+    },
+    "skipLibCheck": false
   }
 }

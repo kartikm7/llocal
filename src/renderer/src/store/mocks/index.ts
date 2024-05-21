@@ -24,6 +24,11 @@ export const messages =
 export const chatAtom = atom<Message[]>([]) // Current Chat
 export const selectedChatIndexAtom = atom<string>(""); // Selected Chat
 export const streamingAtom = atom<string>('') // Handling Streaming
+export const settingsToggleAtom = atom<boolean>(false)
 
-// Important fundamental states
+
+// User Preferences 
+export const backgroundImageAtom = atom<string>(localStorage.getItem('bg') ?? '/src/assets/themes/galaxia.svg')
+
+export const darkModeAtom = atom<boolean>(true);
 export const modelNameAtom =  atom<string>('tinyllama');
