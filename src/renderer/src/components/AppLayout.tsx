@@ -1,6 +1,5 @@
-import { ComponentProps } from 'react'
+import { ComponentProps, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { AnimatePresence, MotionProps, motion, useCycle } from 'framer-motion'
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { settingsToggleAtom } from '@renderer/store/mocks'
@@ -39,7 +38,7 @@ export const Settings = ({
         >
           <div
             onClick={handleClick}
-            className="flex opacity-50 gap-1 absolute left-2 top-2 cursor-pointer hover:opacity-100 hover:scale-105 transition-all "
+            className="flex opacity-50 gap-1 sticky top-2 w-full cursor-pointer hover:opacity-100 transition-all "
           >
             <AiFillCloseCircle className="text-2xl " />
             <h1 className="">Close</h1>
@@ -56,7 +55,6 @@ export const ModelConfiguration = ({
   children,
   ...props
 }: ComponentProps<'div'>): React.ReactElement => {
-
   return (
     <div className={twMerge('', className)} {...props}>
       {children}
@@ -68,31 +66,24 @@ export const Sidebar = ({
   className,
   children,
   ...props
-}: ComponentProps<'aside'> & MotionProps): React.ReactElement => {
-  const [open, sideBarClose] = useCycle(true, false)
+}: ComponentProps<'aside'>): React.ReactElement => {
+  const [open, setOpen] = useState(true)
   return (
-    <div className="flex gap-2 items-center justify-center bg-transparent">
-      <AnimatePresence>
-        {open && (
-          <motion.aside
-            initial={{ width: 0 }}
-            animate={{ width: 250, transition: { type: 'spring', bounce: 0, duration: 0.4 } }}
-            exit={{ width: 0, transition: { type: 'spring', bounce: 0, duration: 0.1 } }}
-            className={twMerge('w-[250px] h-screen p-5', className)}
-            {...props}
-          >
-            {children}
-          </motion.aside>
-        )}
-      </AnimatePresence>
+    <div className={`flex gap-2 items-center justify-center bg-transparent`}>
+      <aside
+        className={twMerge(`transition-transform transform ${open ? 'translate-x-0 w-[250px] h-screen p-5' : '-translate-x-full w-0'} `, className)}
+        {...props}
+      >
+        {open && children}
+      </aside>
       {open ? (
         <IoIosArrowBack
-          onClick={() => sideBarClose()}
+          onClick={() => setOpen((preValue) => !preValue)}
           className="text-2xl cursor-pointer opacity-50"
         />
       ) : (
         <IoIosArrowForward
-          onClick={() => sideBarClose()}
+          onClick={() => setOpen((preValue) => !preValue)}
           className="absolute cursor-pointer left-1 text-2xl opacity-50"
         />
       )}

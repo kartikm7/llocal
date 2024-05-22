@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.llocal.app
 productName: LLocal
 directories:
   buildResources: build
@@ -33,11 +33,11 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: electronjs.org
+  maintainer: llocal.in
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: github
+  url: https://github.com/kartikm7/llocal
