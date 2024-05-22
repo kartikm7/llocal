@@ -49,3 +49,4 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+> Worth noting, one of the core dependencies LocalBase has a severe issue with vite. It still uses a commonjs import. which causes an issue. That can be rectified by following this guide **https://github.com/dannyconnell/localbase/issues/57#issuecomment-1102740539** .
