@@ -14,11 +14,11 @@ type FormFields = {
   model?: string
 }
 
-export const PullModel = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
+export const PullModel = ({ className, ...props }: ComponentProps<'form'>): React.ReactElement => {
   const { register, handleSubmit, reset } = useForm<FormFields>()
   const [isLoading, setLoading] = useState(false)
   const breadcrumbs = ['gemma:2b', 'llama3', 'phi3']
-  const [selectedBreadcrumb, setSelectedBreadcrumb] = useState('')
+  const [, setSelectedBreadcrumb] = useState('')
   const [percentage, setPercentage] = useState(0)
   const { setModelChoice } = useLocal()
 
@@ -66,7 +66,7 @@ export const PullModel = ({ className, ...props }: ComponentProps<'div'>): React
     reset()
   }
   return (
-    <div className={twMerge('flex flex-col gap-2 justify-center ', className)} {...props}>
+    <div className='flex flex-col gap-2 justify-center'>
       <h1 className="font-thin">Pull a new model :</h1>
       <form
         onSubmit={handleSubmit(onSubmit)} // don't quite understand the type error here

@@ -2,12 +2,12 @@ import { Card } from '@renderer/ui/Card'
 import Logo from '../../assets/logo.svg'
 import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { chatAtom, selectedChatIndexAtom } from '@renderer/store/mocks'
 
 export const NewChat = ({className, ...props}:ComponentProps<'div'>): React.ReactElement => {
-  const [chat,setChat] = useAtom(chatAtom)
-  const [selectedChatIndex, setSelectedChatIndex] = useAtom(selectedChatIndexAtom)
+  const setChat= useSetAtom(chatAtom)
+  const setSelectedChatIndex = useSetAtom(selectedChatIndexAtom)
   function handleClick():void{
     setSelectedChatIndex('')
     setChat([]);

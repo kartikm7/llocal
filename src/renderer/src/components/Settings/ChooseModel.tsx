@@ -17,7 +17,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
     async function list(): Promise<void> {
       const response = await listModels()
       if (!prefModel) {
-        setModelChoice(`${response[0].modelName} ${response[0].modelParameters}`)
+        setModelChoice(`${response[0].modelName}`)
       }
       setListMod(response)
     }
@@ -41,7 +41,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
                 <DropDownSelector
                   key={index}
                   value={`${val.modelName}`}
-                >{`${val.modelName} (Parameters: ${val.modelParameters})`}</DropDownSelector>
+                >{`${val.modelName}`}</DropDownSelector>
               )
             })}
         </Dropdown>

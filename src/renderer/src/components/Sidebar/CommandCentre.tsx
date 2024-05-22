@@ -1,13 +1,13 @@
 import { prefModelAtom, settingsToggleAtom } from '@renderer/store/mocks'
 import { Card } from '@renderer/ui/Card'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { ComponentProps, useEffect } from 'react'
 import { IoIosSettings } from 'react-icons/io'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 
 export const CommandCentre = ({className,...props}:ComponentProps<'div'>): React.ReactElement => {
-  const [settingsToggle, setSettingsToggle] = useAtom(settingsToggleAtom)
+  const setSettingsToggle = useSetAtom(settingsToggleAtom)
   const [prefModel] = useAtom(prefModelAtom)
 
   useEffect(()=>{

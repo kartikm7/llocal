@@ -1,7 +1,7 @@
-import { chatAtom, modelNameAtom, prefModelAtom, streamingAtom } from '@renderer/store/mocks'
+import { chatAtom, prefModelAtom, streamingAtom } from '@renderer/store/mocks'
 import { ollama } from '@renderer/utils/ollama'
 // import axios from 'axios'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { useState } from 'react'
 import { useDb } from './useDb'
 
@@ -9,7 +9,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
   const [isLoading, setLoading] = useState(false)
   const [chat, setChat] = useAtom(chatAtom)
   const [modelName] = useAtom(prefModelAtom)
-  const [stream, setStream] = useAtom(streamingAtom)
+  const setStream = useSetAtom(streamingAtom)
   const {addChat} = useDb()
   // To Debug
   // useEffect(()=>{console.log(stream);

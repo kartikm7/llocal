@@ -1,14 +1,14 @@
 import { backgroundImageAtom, darkModeAtom, prefModelAtom } from '@renderer/store/mocks'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 interface useLocalReturn {
   setBackground: (pref: string) => void
   setMode: (pref: boolean) => void
   setModelChoice: (pref: string) => void
 }
 export const useLocal = (): useLocalReturn => {
-  const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom)
-  const [darkMode, setDarkMode] = useAtom(darkModeAtom)
-  const [prefModel, setPrefModel] = useAtom(prefModelAtom)
+  const setBackgroundImage = useSetAtom(backgroundImageAtom)
+  const setDarkMode = useSetAtom(darkModeAtom)
+  const setPrefModel = useSetAtom(prefModelAtom)
 
   const setBackground = (pref: string): void => {
     if (pref == 'none') {

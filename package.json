@@ -24,6 +24,7 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "@mdxeditor/editor": "^3.3.4",
+    "@swc/core": "^1.5.7",
     "axios": "^1.6.8",
     "electron-updater": "^6.1.7",
     "framer-motion": "^11.2.4",
