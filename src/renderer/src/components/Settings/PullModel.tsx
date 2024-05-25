@@ -38,7 +38,7 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
       let currentDigestDone = false
       const response = await ollama.pull({ model: `${data.model}`, stream: true })
       toast.info(
-        'Depending on your model of choice and internet connection, this may take sometime!'
+        'Depending on your model of choice and internet connection, this may take sometime! Do not leave the settings page until 100% has been reached, you will be notified of every 5% that is completed!'
       )
       setLoading(false)
       for await (const part of response) {
