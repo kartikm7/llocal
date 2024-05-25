@@ -39,5 +39,6 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
+  provider: github
   owner: kartikm7
   repo: llocal
