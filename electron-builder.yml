@@ -12,12 +12,13 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: llocal
+  executableName: LLocal
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  allowToChangeInstallationDirectory: true
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
@@ -42,3 +43,4 @@ publish:
   provider: github
   owner: kartikm7
   repo: llocal
+  token: $GH_TOKEN
