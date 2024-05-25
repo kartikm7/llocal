@@ -21,8 +21,8 @@ function App(): JSX.Element {
   setDarkMode(mode ?? true)
   return (
     <RootLayout
-      className={`${darkMode && 'dark'} bg-[#DDDDDD] font-poppins scrollbar scrollbar-thumb-thin dark:bg-[#2c2c2c] dark:text-foreground w-full bg-cover h-screen`}
-      style={{ backgroundImage: `url(${backgroundImage})`}}
+      className={`${darkMode && 'dark'} bg-[#DDDDDD] relative font-poppins scrollbar scrollbar-thumb-thin dark:bg-[#2c2c2c] dark:text-foreground w-full bg-cover h-screen`}
+      style={{ backgroundImage: `url("${backgroundImage}")`}}
     >
       <Toaster richColors />
       <Settings className="flex flex-col justify-between items-center">

@@ -15,8 +15,9 @@ export const useLocal = (): useLocalReturn => {
       localStorage.setItem('bg', pref)
       setBackgroundImage(pref)
     } else {
-      localStorage.setItem('bg', '/src/assets/themes/' + pref + '.svg')
-      setBackgroundImage('/src/assets/themes/' + pref + '.svg')
+      const url = new URL(`/src/assets/themes/${pref}.svg`, import.meta.url).href
+      localStorage.setItem('bg',url)
+      setBackgroundImage(url)
     }
     localStorage.setItem('settingsState', pref)
   }

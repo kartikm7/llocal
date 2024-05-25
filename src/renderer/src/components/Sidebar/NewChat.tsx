@@ -1,5 +1,5 @@
 import { Card } from '@renderer/ui/Card'
-import Logo from '../../assets/logo.svg'
+import Logo from '../../assets/logo.png'
 import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useSetAtom } from 'jotai'
@@ -12,7 +12,6 @@ export const NewChat = ({className, ...props}:ComponentProps<'div'>): React.Reac
     setSelectedChatIndex('')
     setChat([]);
   }
-
   return (
     <div onClick={handleClick} className={twMerge('', className)} {...props}>
       <Card className="flex items-center gap-3 p-3 bg-opacity-10 dark:bg-opacity-10 hover:bg-opacity-50 transition-opacity cursor-pointer">
