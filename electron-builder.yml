@@ -39,5 +39,5 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: github
-  url: https://github.com/kartikm7/llocal
+  owner: kartikm7
+  repo: llocal
