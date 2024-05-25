@@ -19,6 +19,7 @@ nsis:
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
   allowToChangeInstallationDirectory: true
+  oneClick: false
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
@@ -34,7 +35,7 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: llocal.in
+  maintainer: Kartikeya Mishra
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}
@@ -43,4 +44,4 @@ publish:
   provider: github
   owner: kartikm7
   repo: llocal
-  token: $GH_TOKEN
+  releaseType: prerelease  # Add this line
