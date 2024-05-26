@@ -12,6 +12,8 @@ import { ModeSelector } from './components/Settings/ModeSelector'
 import { Toaster } from 'sonner'
 import { ChooseModel } from './components/Settings/ChooseModel'
 import { PullModel } from './components/Settings/PullModel'
+import { useEffect } from 'react'
+import { ollamaServe } from './utils/ollama'
 
 function App(): JSX.Element {
   const [backgroundImage] = useAtom(backgroundImageAtom)
@@ -19,12 +21,18 @@ function App(): JSX.Element {
   const [darkMode, setDarkMode] = useAtom(darkModeAtom)
   const mode = localStorage.getItem('darkMode') === 'false' ? false : true
   setDarkMode(mode ?? true)
+
+  // Serving ollama, if not present, then downloading ollama
+  useEffect(()=>{
+   ollamaServe()
+  },[])
+
   return (
     <RootLayout
       className={`${darkMode && 'dark'} bg-[#DDDDDD] relative font-poppins scrollbar scrollbar-thumb-thin dark:bg-[#2c2c2c] dark:text-foreground w-full bg-cover h-screen`}
       style={{ backgroundImage: `url("${backgroundImage}")`}}
     >
-      <Toaster richColors />
+      <Toaster richColors theme={darkMode ? 'dark' : 'light'} />
       <Settings className="flex flex-col justify-between items-center">
         <h1 className="mt-10 text-4xl">Settings</h1>
         <div className="flex flex-col gap-10 lg:flex-row  lg:gap-24">

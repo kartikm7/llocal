@@ -10,7 +10,14 @@ export const CommandCentre = ({className,...props}:ComponentProps<'div'>): React
   const setSettingsToggle = useSetAtom(settingsToggleAtom)
   const [prefModel] = useAtom(prefModelAtom)
 
+
   useEffect(()=>{
+    // async function check(): Promise<void> {
+    //     const res = await window.api.checkUpdate()
+    //     console.log('Update check result:', res)
+    // }
+    // setTimeout(()=>check(), 3000)
+
     if(!prefModel){
      toast.info('Download a LLM through settings!') 
     }     

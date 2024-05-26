@@ -45,11 +45,11 @@ export function checkOllama(): Promise<boolean> {
   })
 }
 
-export function binaryPath(binary: string): string {
+export function binaryPath(binary: string): string[] {
   const val: binary = binaries[binary]
   const directory = path.join(os.homedir(), 'AppData', 'Local', 'LLocal', 'binaries')
-  const binaryDirectory = path.resolve(directory, val.name).replace(/\s/g, '^ ')
-  return binaryDirectory
+  const binaryDirectory = path.resolve(directory, val.name)
+  return [binaryDirectory, binaryDirectory.replace(/\s/g, '^ ')]
 }
 
 export async function downloadBinaries(): Promise<string> {

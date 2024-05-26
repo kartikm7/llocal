@@ -4,8 +4,9 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { autoUpdater } from 'electron-updater'
 import { binaryPath, checkOllama, downloadBinaries } from './ollama-binaries'
-import { dialog } from 'electron'
+// import { dialog } from 'electron'
 import os from 'os'
+import fs from 'fs'
 import { exec } from 'child_process'
 
 autoUpdater.checkForUpdatesAndNotify()
@@ -25,45 +26,8 @@ function createWindow(): void {
     }
   })
 
-  mainWindow.on('ready-to-show', async () => {
+  mainWindow.on('ready-to-show', () => {
     mainWindow.show()
-
-    // Checking for binaries
-    const check = await checkOllama()
-    console.log(check)
-
-    const platform = os.platform()
-    const path = binaryPath(platform)
-
-    if (!check) {
-      dialog.showMessageBox(mainWindow, {
-        title: 'Ollama is Downloading!',
-        message: 'Download!',
-        detail:
-          'Ollama is being downloaded, depending on your internet connection this may take a few minutes. (Approx 200MB)'
-      })
-      const response = await downloadBinaries()
-      if (response == 'success') {
-        dialog
-          .showMessageBox(mainWindow, {
-            title: 'Ollama has been downloaded!',
-            message: 'Downloaded!',
-            detail:
-              'Ollama has been successfully downloaded!\nInstall Ollama, and then you can utilize LLocal. Click Ok to continue to the Ollama installer!'
-          })
-          .then((response) => {
-            const choice = response.response
-            if (!choice) {
-              exec(path, (error) => {
-                console.log(error)
-                if(error == null){
-                  dialog.showMessageBox(mainWindow,{title: 'Ollama has been installed!', message: 'Ollama has been installed!', detail:"Now you can make use of LLocal and all it's features!"})
-                }
-              })
-            }
-          })
-      }
-    }
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -94,14 +58,77 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.handle('checkUpdate', async () => {
-    // Simulate an asynchronous operation, like fetching data or performing checks
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    return 'Current version is 1.0.0'
+  // Serving ollama, if not present then performing the download function
+  async function checkingOllama():Promise<boolean>{
+    const check = await checkOllama()
+    return check
+  }
+  
+  const platform = os.platform()
+  const path = binaryPath(platform)
+
+  // Checking if binaries already exist
+  async function checkingBinaries():Promise<boolean>{
+    return new Promise((resolve)=>{
+      if(fs.existsSync(path[0])){
+        resolve(true)
+      }else{
+        resolve(false)
+      }
+    })
+  }
+  
+  //  used when ollama is not downloaded
+  async function downloadingOllama():Promise<string>{
+    const check = await checkOllama()
+    if (!check) {
+      // ollama is downloading
+      const response = await downloadBinaries()
+      if (response == 'success') {
+        // ollama has been downloaded
+        return 'success'
+      } else {
+        return 'download-failed'
+      }
+    }
+    return 'already-present'
+  }
+
+  async function installingOllama():Promise<boolean>{
+    return new Promise((resolve)=>{
+      exec(path[1], (error) => {
+        if (error == null) {
+          // ollama has been installed
+          resolve(true)
+        }else {
+          resolve(false)
+        }
+      })
+    }
+  
+  ) 
+  }
+
+  // the handlers are for interprocess communication
+  ipcMain.handle('checkingOllama', async () => {
+    const response = await checkingOllama();
+    return response
   })
 
-  ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.handle('checkingBinaries', async () => {
+    const response = await checkingBinaries();
+    return response
+  })
+
+  ipcMain.handle('downloadingOllama', async () => {
+    const response = await downloadingOllama();
+    return response
+  })
+
+  ipcMain.handle('installingOllama', async () => {
+    const response = await installingOllama();
+    return response
+  })
 
   createWindow()
 
