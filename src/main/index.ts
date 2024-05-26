@@ -3,9 +3,12 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { autoUpdater } from 'electron-updater'
+import { binaryPath, checkOllama, downloadBinaries } from './ollama-binaries'
+import { dialog } from 'electron'
+import os from 'os'
+import { exec } from 'child_process'
 
-autoUpdater.checkForUpdatesAndNotify();
-
+autoUpdater.checkForUpdatesAndNotify()
 
 function createWindow(): void {
   // Create the browser window.
@@ -22,8 +25,45 @@ function createWindow(): void {
     }
   })
 
-  mainWindow.on('ready-to-show', () => {
+  mainWindow.on('ready-to-show', async () => {
     mainWindow.show()
+
+    // Checking for binaries
+    const check = await checkOllama()
+    console.log(check)
+
+    const platform = os.platform()
+    const path = binaryPath(platform)
+
+    if (!check) {
+      dialog.showMessageBox(mainWindow, {
+        title: 'Ollama is Downloading!',
+        message: 'Download!',
+        detail:
+          'Ollama is being downloaded, depending on your internet connection this may take a few minutes. (Approx 200MB)'
+      })
+      const response = await downloadBinaries()
+      if (response == 'success') {
+        dialog
+          .showMessageBox(mainWindow, {
+            title: 'Ollama has been downloaded!',
+            message: 'Downloaded!',
+            detail:
+              'Ollama has been successfully downloaded!\nInstall Ollama, and then you can utilize LLocal. Click Ok to continue to the Ollama installer!'
+          })
+          .then((response) => {
+            const choice = response.response
+            if (!choice) {
+              exec(path, (error) => {
+                console.log(error)
+                if(error == null){
+                  dialog.showMessageBox(mainWindow,{title: 'Ollama has been installed!', message: 'Ollama has been installed!', detail:"Now you can make use of LLocal and all it's features!"})
+                }
+              })
+            }
+          })
+      }
+    }
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -57,19 +97,15 @@ app.whenReady().then(() => {
   // IPC test
   ipcMain.handle('checkUpdate', async () => {
     // Simulate an asynchronous operation, like fetching data or performing checks
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return 'Current version is 1.0.0';
-  });
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    return 'Current version is 1.0.0'
+  })
 
-
-  
-
-  
   ipcMain.on('ping', () => console.log('pong'))
-  
+
   createWindow()
 
-  app.on('activate', function () {
+  app.on('activate', async function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
@@ -84,7 +120,6 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
