@@ -1,36 +1,39 @@
-import { prefModelAtom, settingsToggleAtom } from '@renderer/store/mocks'
+import { isOllamaInstalledAtom, prefModelAtom, settingsToggleAtom } from '@renderer/store/mocks'
 import { Card } from '@renderer/ui/Card'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai/react'
 import { ComponentProps, useEffect } from 'react'
 import { IoIosSettings } from 'react-icons/io'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 
-export const CommandCentre = ({className,...props}:ComponentProps<'div'>): React.ReactElement => {
+export const CommandCentre = ({
+  className,
+  ...props
+}: ComponentProps<'div'>): React.ReactElement => {
   const setSettingsToggle = useSetAtom(settingsToggleAtom)
   const [prefModel] = useAtom(prefModelAtom)
+  const isOllamaInstalled = useAtomValue(isOllamaInstalledAtom)
 
+  useEffect(() => {
+    // Not sure if this works
+    if (!prefModel && isOllamaInstalled) {
+      setTimeout(() => {
+        toast.info('Download a LLM through settings!')
+      }, 3000)
+    }
+  }, [])
 
-  useEffect(()=>{
-    // async function check(): Promise<void> {
-    //     const res = await window.api.checkUpdate()
-    //     console.log('Update check result:', res)
-    // }
-    // setTimeout(()=>check(), 3000)
-
-    if(!prefModel){
-     toast.info('Download a LLM through settings!') 
-    }     
-  },[])
-  
-  function handleClick():void{
-    setSettingsToggle((preValue)=>!preValue)
+  function handleClick(): void {
+    setSettingsToggle((preValue) => !preValue)
   }
   return (
-    <div className=''>
+    <div className="">
       <Card className={twMerge('flex flex-col gap-2 ', className)} {...props}>
         <h1 className="">{prefModel || 'No LLM Found'}</h1>
-        <div onClick={handleClick} className="flex gap-2 items-start cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+        <div
+          onClick={handleClick}
+          className="flex gap-2 items-start cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
+        >
           <IoIosSettings className="text-2xl" />
           <h1>Settings</h1>
         </div>

@@ -9,15 +9,15 @@ async function installOllama(): Promise<void> {
     toast.success('Ollama has been successfully installed!')
     setTimeout(() => {
       toast.info(
-        'Whenever ollama is served, initially there is a cold-boot (slow start) and then it will work as expected.'
+        'Whenever ollama is served, initially there is a cold-boot (slow start) and then it will work as expected. Anyways, you can now download models via Pull models in settings!'
       )
     }, 2000)
   } else {
-    toast.error('Installation failed')
+    toast.error('Installation failed. (Press CTRL + R to refresh, or go to llocal.in)')
   }
 }
 
-export async function ollamaServe(): Promise<void> {
+export async function ollamaServe(setIsOllamaInstalled): Promise<void> {
   const check = await window.api.checkingOllama()
   if (!check) {
     const alreadyDownloaded = await window.api.checkingBinaries()
@@ -28,9 +28,6 @@ export async function ollamaServe(): Promise<void> {
     }
     // if not downloaded
     else {
-      // toast.info(
-      //   'Ollama has started downloading. This may take time depending on your internet connection (Approx 200 MB)'
-      // )
       const toastId = toast.loading('Ollama has started downloading. This may take some time depending on your internet connection (Approx 200 MB)')
       const download = await window.api.downloadingOllama()
       toast.dismiss(toastId)
@@ -43,5 +40,9 @@ export async function ollamaServe(): Promise<void> {
       if (download === 'download-failed')
         toast.error('There has been some error while downloading ollama!')
     }
+  } 
+  // if check is true, set the atom state
+  else{
+    setIsOllamaInstalled(true)
   }
 }

@@ -6,8 +6,8 @@ import { NewChat } from './components/Sidebar/NewChat'
 import { Separator } from './ui/Separator'
 import { CommandCentre } from './components/Sidebar/CommandCentre'
 import { BackgroundSelector } from './components/Settings/BackgroundSelector'
-import { useAtom } from 'jotai'
-import { backgroundImageAtom, darkModeAtom } from './store/mocks'
+import { useAtom, useSetAtom } from 'jotai/react'
+import { backgroundImageAtom, darkModeAtom, isOllamaInstalledAtom } from './store/mocks'
 import { ModeSelector } from './components/Settings/ModeSelector'
 import { Toaster } from 'sonner'
 import { ChooseModel } from './components/Settings/ChooseModel'
@@ -17,14 +17,14 @@ import { ollamaServe } from './utils/ollama'
 
 function App(): JSX.Element {
   const [backgroundImage] = useAtom(backgroundImageAtom)
+  const setIsOllamaInstalled = useSetAtom(isOllamaInstalledAtom)
   // Ensuring the state update according to preference
   const [darkMode, setDarkMode] = useAtom(darkModeAtom)
   const mode = localStorage.getItem('darkMode') === 'false' ? false : true
   setDarkMode(mode ?? true)
-
   // Serving ollama, if not present, then downloading ollama
   useEffect(()=>{
-   ollamaServe()
+   ollamaServe(setIsOllamaInstalled)
   },[])
 
   return (

@@ -24,7 +24,7 @@ export const chatAtom = atom<Message[]>([]) // Current Chat
 export const selectedChatIndexAtom = atom<string>('') // Selected Chat
 export const streamingAtom = atom<string>('') // Handling Streaming
 export const settingsToggleAtom = atom<boolean>(false)
-export const isOllamaInstalledAtom = atom<boolean>(localStorage.getItem('isInstalled') == 'true' ?? false)
+export const isOllamaInstalledAtom = atom<boolean>(false)
 
 // User Preferences
 const url = new URL('/src/assets/themes/galaxia.svg', import.meta.url).href
