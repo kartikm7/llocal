@@ -6,6 +6,7 @@ const api = {
   checkingBinaries:():Promise<boolean>=> ipcRenderer.invoke('checkingBinaries'),
   downloadingOllama:():Promise<string>=> ipcRenderer.invoke('downloadingOllama'),
   installingOllama:():Promise<boolean>=> ipcRenderer.invoke('installingOllama'),
+  checkVersion:():Promise<string>=> ipcRenderer.invoke('checkVersion'),
 }
 
 

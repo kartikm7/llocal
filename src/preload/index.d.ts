@@ -8,6 +8,7 @@ declare global {
       checkingBinaries: ()=>Promise<boolean>,
       downloadingOllama: ()=>Promise<string>,
       installingOllama: ()=>Promise<boolean>,
+      checkVersion: ()=>Promise<string>,
     }
   }
 }

@@ -14,6 +14,7 @@ import { ChooseModel } from './components/Settings/ChooseModel'
 import { PullModel } from './components/Settings/PullModel'
 import { useEffect } from 'react'
 import { ollamaServe } from './utils/ollama'
+import { GetVersion } from './components/Settings/GetVersion'
 
 function App(): JSX.Element {
   const [backgroundImage] = useAtom(backgroundImageAtom)
@@ -33,7 +34,7 @@ function App(): JSX.Element {
       style={{ backgroundImage: `url("${backgroundImage}")`}}
     >
       <Toaster richColors theme={darkMode ? 'dark' : 'light'} />
-      <Settings className="flex flex-col justify-between items-center">
+      <Settings className="flex flex-col justify-between items-center gap-2">
         <h1 className="mt-10 text-4xl">Settings</h1>
         <div className="flex flex-col gap-10 lg:flex-row  lg:gap-24">
           <ModelConfiguration className='flex flex-col gap-5'>
@@ -49,7 +50,9 @@ function App(): JSX.Element {
             <ModeSelector />
           </div>
         </div>
-        <div></div>
+        <div>
+          <GetVersion />
+        </div>
       </Settings>
       <Sidebar className="bg-foreground bg-opacity-20 dark:bg-background dark:bg-opacity-20 backdrop-blur-lg flex flex-col gap-5">
         <NewChat />

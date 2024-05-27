@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -8,8 +8,6 @@ import { binaryPath, checkOllama, downloadBinaries } from './ollama-binaries'
 import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
-
-autoUpdater.checkForUpdatesAndNotify()
 
 function createWindow(): void {
   // Create the browser window.
@@ -58,28 +56,46 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  // Autoupdater
+  autoUpdater.checkForUpdatesAndNotify()
+
+  autoUpdater.on('update-downloaded', () => {
+    dialog
+      .showMessageBox({
+        title: 'Update Downloaded!',
+        message: 'A new version has been downloaded!',
+        buttons: ['Go Ahead', 'Later'],
+        detail: 'LLocal will be closed and the update will be installed'
+      })
+      .then((click) => {
+        if (click.response === 0) {
+          autoUpdater.quitAndInstall()
+        }
+      })
+  })
+
   // Serving ollama, if not present then performing the download function
-  async function checkingOllama():Promise<boolean>{
+  async function checkingOllama(): Promise<boolean> {
     const check = await checkOllama()
     return check
   }
-  
+
   const platform = os.platform()
   const path = binaryPath(platform)
 
   // Checking if binaries already exist
-  async function checkingBinaries():Promise<boolean>{
-    return new Promise((resolve)=>{
-      if(fs.existsSync(path[0])){
+  async function checkingBinaries(): Promise<boolean> {
+    return new Promise((resolve) => {
+      if (fs.existsSync(path[0])) {
         resolve(true)
-      }else{
+      } else {
         resolve(false)
       }
     })
   }
-  
+
   //  used when ollama is not downloaded
-  async function downloadingOllama():Promise<string>{
+  async function downloadingOllama(): Promise<string> {
     const check = await checkOllama()
     if (!check) {
       // ollama is downloading
@@ -94,40 +110,44 @@ app.whenReady().then(() => {
     return 'already-present'
   }
 
-  async function installingOllama():Promise<boolean>{
-    return new Promise((resolve)=>{
+  async function installingOllama(): Promise<boolean> {
+    return new Promise((resolve) => {
       exec(path[1], (error) => {
         if (error == null) {
           // ollama has been installed
           resolve(true)
-        }else {
+        } else {
           resolve(false)
         }
       })
-    }
-  
-  ) 
+    })
   }
 
   // the handlers are for interprocess communication
   ipcMain.handle('checkingOllama', async () => {
-    const response = await checkingOllama();
+    const response = await checkingOllama()
     return response
   })
 
   ipcMain.handle('checkingBinaries', async () => {
-    const response = await checkingBinaries();
+    const response = await checkingBinaries()
     return response
   })
 
   ipcMain.handle('downloadingOllama', async () => {
-    const response = await downloadingOllama();
+    const response = await downloadingOllama()
     return response
   })
 
   ipcMain.handle('installingOllama', async () => {
-    const response = await installingOllama();
+    const response = await installingOllama()
     return response
+  })
+
+  ipcMain.handle('checkVersion', async () => {
+    return new Promise((resolve) => {
+      resolve(app.getVersion())
+    })
   })
 
   createWindow()
