@@ -25,20 +25,24 @@ const binaries = {
 }
 
 export function checkOllama(): Promise<boolean> {
-  return new Promise((resolve)=>{
+  return new Promise((resolve) => {
     exec('ollama serve', (error) => {
-      // if check is true, that means there's an error      
+      // if check is true, that means there's an error
       const ollamaAlreadyRunning = error?.message.includes(`listen tcp`)
-      const ollamaNotInstalled = error?.message.includes(`is not recognized`)
-      
+      const ollamaNotInstalled =
+        error?.message.includes(`not found`) ||
+        error?.message.includes(`not recognized`) ||
+        error?.message.includes(`not internal`) ||
+        error?.message.includes(`not an internal`)
+
       // incase not installed then, resolve false, so we can again download
       if (ollamaNotInstalled) {
         resolve(false)
         // incase its already running then it's fine
-      } else if(ollamaAlreadyRunning) {
+      } else if (ollamaAlreadyRunning) {
         resolve(true)
         // in the case the ollama serve works then great!
-      } else{
+      } else {
         resolve(true)
       }
     })
