@@ -1,6 +1,6 @@
 {
   "name": "LLocal",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Llocal is client application to interact with locally installed LLM's.",
   "main": "./out/main/index.js",
   "author": "Kartikeya Mishra",
@@ -35,7 +35,7 @@
     "axios": "^1.6.8",
     "electron-updater": "^6.1.7",
     "jotai": "^2.8.0",
-    "localbase": "^0.7.5",
+    "localbase": "https://github.com/kartikm7/localbase",
     "node-fetch": "^3.3.2",
     "ollama": "^0.5.1",
     "react-copy-to-clipboard": "^5.1.0",

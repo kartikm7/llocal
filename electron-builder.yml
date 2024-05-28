@@ -42,4 +42,4 @@ publish:
   provider: github
   owner: kartikm7
   repo: llocal
-  releaseType: prerelease  # Add this line
+  releaseType: release  # Add this line
