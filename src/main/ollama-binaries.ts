@@ -3,6 +3,11 @@ import os from 'os'
 import path from 'path'
 import fs from 'fs'
 import { exec } from 'child_process'
+import { downloadPath } from '.'
+// import decompress from 'decompress';
+// import decompressUnzip from 'decompress-unzip';
+// import { error } from 'console'
+import util from 'util';
 
 type binary = {
   name: string
@@ -16,7 +21,7 @@ const binaries = {
   },
   darwin: {
     name: 'ollama-darwin',
-    url: 'https://github.com/ollama/ollama/releases/download/v0.1.38/ollama-darwin'
+    url: 'https://github.com/ollama/ollama/releases/download/v0.1.38/Ollama-darwin.zip'
   },
   linux: {
     name: 'ollama-linux',
@@ -55,7 +60,7 @@ function dir(): string {
   console.log(operatingSystem)
   switch (operatingSystem) {
     case 'darwin':
-      return path.join(os.homedir(), 'Library', 'Application Support','LLocal', 'binaries');
+      return path.join(downloadPath, 'binaries');
     case 'win32':
       return path.join(os.homedir(), 'AppData', 'Roaming','LLocal', 'binaries');
     default:
@@ -75,29 +80,43 @@ export function binaryPath(binary: string): string[] {
 }
 
 export async function downloadBinaries(): Promise<string> {
-  const operatingSystem = os.platform()
+  const operatingSystem = os.platform();
 
-  // This is for returning if the platform is not supported
-  const binary: binary = binaries[operatingSystem]
-  if (!binary) return 'Not availble for this platform'
+  const binary: binary = binaries[operatingSystem];
+  if (!binary) return 'Not available for this platform';
 
-  const directory = dir()
-  const binaryDirectory = path.join(directory, binary.name)
-  if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
+  const directory = dir();
+  console.log('Directory:', directory);
+  if (!fs.existsSync(directory)) {
+    console.log('Creating directory:', directory);
+    fs.mkdirSync(directory, { recursive: true });
+  }
 
-  // This is for returning if it already exists (Not optimal)
-  if (fs.existsSync(binaryDirectory)) return 'exists'
-  const filePath = path.resolve(directory, binary.name)
+  const binaryDirectory = path.join(directory, binary.name);
+  if (fs.existsSync(binaryDirectory)) return 'exists';
+
+  let filePath = '';
+  if (operatingSystem === 'darwin') {
+    filePath = path.resolve(directory, binary.name + '.zip');
+  } else {
+    filePath = path.resolve(directory, binary.name);
+  }
+  const execPromise = util.promisify(exec);
 
   try {
     const writer = fs.createWriteStream(filePath)
     const response = await axios.get(binary.url, { responseType: 'stream' })
     await new Promise<void>((resolve, reject) => {
-      response.data.pipe(writer)
-      writer.on('finish', resolve)
-      writer.on('error', reject)
-    })
-    return 'success'
+      response.data.pipe(writer);
+      writer.on('finish', resolve);
+      writer.on('error', reject);
+    });
+
+    if (operatingSystem === 'darwin') {
+      await execPromise(`unzip ${filePath.replace(/\s/g, '\\ ')}`);
+    }
+    
+    return 'success';
   } catch (error) {
     return 'error'
   }

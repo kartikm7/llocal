@@ -41,6 +41,7 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+export const downloadPath = app.getAppPath() 
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -74,9 +75,11 @@ app.whenReady().then(() => {
       })
   })
 
+  console.log("DPATH>>>",downloadPath)
   // Serving ollama, if not present then performing the download function
   async function checkingOllama(): Promise<boolean> {
     const check = await checkOllama()
+    
     return check
   }
 
@@ -86,6 +89,10 @@ app.whenReady().then(() => {
   // Checking if binaries already exist
   async function checkingBinaries(): Promise<boolean> {
     return new Promise((resolve) => {
+      if (fs.existsSync(path[0]+'.zip') && platform == 'darwin')
+        {
+          resolve(true)
+        }
       if (fs.existsSync(path[0])) {
         resolve(true)
       } else {
