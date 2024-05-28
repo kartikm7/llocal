@@ -41,7 +41,9 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
-export const downloadPath = app.getAppPath() 
+
+  // exporting downloads directory
+  export const downloadDirectory = app.getPath('downloads')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -75,11 +77,10 @@ app.whenReady().then(() => {
       })
   })
 
-  console.log("DPATH>>>",downloadPath)
   // Serving ollama, if not present then performing the download function
   async function checkingOllama(): Promise<boolean> {
     const check = await checkOllama()
-    
+    console.log('Checking ollama', check)
     return check
   }
 
@@ -89,13 +90,10 @@ app.whenReady().then(() => {
   // Checking if binaries already exist
   async function checkingBinaries(): Promise<boolean> {
     return new Promise((resolve) => {
-      if (fs.existsSync(path[0]+'.zip') && platform == 'darwin')
-        {
-          resolve(true)
-        }
-      if (fs.existsSync(path[0])) {
+      if (platform == 'darwin' ? fs.existsSync(path[0]+'.zip') : fs.existsSync(path[0])) {
         resolve(true)
       } else {
+        console.log("Checking behavior", false)
         resolve(false)
       }
     })
@@ -117,8 +115,25 @@ app.whenReady().then(() => {
     return 'already-present'
   }
 
-  async function installingOllama(): Promise<boolean> {
+  async function installingOllama(): Promise<boolean> {    
     return new Promise((resolve) => {
+      // mac-os has an edge case that needs to be dealt with
+      if(platform == 'darwin'){
+        // the path to the directory where it's extracting
+        const extractDirectory =  path[1].replace('/ollama-darwin','')
+        // this script ensures, the zip gets extracted and has the required permisions to execute
+        exec(`unzip ${path[1]}.zip -d ${extractDirectory} && chmod +x ${extractDirectory}/Ollama.app && ${extractDirectory}/Ollama.app/Contents/MacOS/Ollama`, (error)=>{
+          if(error == null){
+            // ollama has been installed
+            resolve(true)
+          } else{
+            resolve(false)
+          }
+        })
+      }
+      else{
+
+      // so much easier on windows, with linux hopefully the logic just needs to be appended with mac
       exec(path[1], (error) => {
         if (error == null) {
           // ollama has been installed
@@ -127,6 +142,7 @@ app.whenReady().then(() => {
           resolve(false)
         }
       })
+    }
     })
   }
 

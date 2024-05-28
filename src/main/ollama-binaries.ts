@@ -3,11 +3,7 @@ import os from 'os'
 import path from 'path'
 import fs from 'fs'
 import { exec } from 'child_process'
-import { downloadPath } from '.'
-// import decompress from 'decompress';
-// import decompressUnzip from 'decompress-unzip';
-// import { error } from 'console'
-import util from 'util';
+import { downloadDirectory } from '.'
 
 type binary = {
   name: string
@@ -21,7 +17,7 @@ const binaries = {
   },
   darwin: {
     name: 'ollama-darwin',
-    url: 'https://github.com/ollama/ollama/releases/download/v0.1.38/Ollama-darwin.zip'
+    url: 'https://github.com/ollama/ollama/releases/download/v0.1.38/ollama-darwin.zip'
   },
   linux: {
     name: 'ollama-linux',
@@ -60,14 +56,13 @@ function dir(): string {
   console.log(operatingSystem)
   switch (operatingSystem) {
     case 'darwin':
-      return path.join(downloadPath, 'binaries');
+      return path.join(downloadDirectory, 'LLocal', 'binaries')
     case 'win32':
-      return path.join(os.homedir(), 'AppData', 'Roaming','LLocal', 'binaries');
+      return path.join(os.homedir(), 'AppData', 'Roaming', 'LLocal', 'binaries')
     default:
-      return path.join(os.homedir(), '.config');
+      return path.join(downloadDirectory, 'LLocal', 'Binaries')
   }
 }
-
 
 export function binaryPath(binary: string): string[] {
   const val: binary = binaries[binary]
@@ -80,44 +75,47 @@ export function binaryPath(binary: string): string[] {
 }
 
 export async function downloadBinaries(): Promise<string> {
-  const operatingSystem = os.platform();
+  const operatingSystem = os.platform()
 
-  const binary: binary = binaries[operatingSystem];
-  if (!binary) return 'Not available for this platform';
+  // This is for returning if the platform is not supported
+  const binary: binary = binaries[operatingSystem]
+  if (!binary) return 'Not availble for this platform'
 
-  const directory = dir();
-  console.log('Directory:', directory);
-  if (!fs.existsSync(directory)) {
-    console.log('Creating directory:', directory);
-    fs.mkdirSync(directory, { recursive: true });
-  }
-
-  const binaryDirectory = path.join(directory, binary.name);
-  if (fs.existsSync(binaryDirectory)) return 'exists';
-
-  let filePath = '';
-  if (operatingSystem === 'darwin') {
-    filePath = path.resolve(directory, binary.name + '.zip');
+  const directory = dir()
+  // Handling the edge cases for mac and (hopefully) linux
+  // mac requires the extension (I think)
+  let binaryDirectory = ''
+  if (operatingSystem == 'darwin' || operatingSystem == 'linux') {
+    binaryDirectory = path.join(directory, `${binary.name}.zip`)
   } else {
-    filePath = path.resolve(directory, binary.name);
+    binaryDirectory = path.join(directory, binary.name)
   }
-  const execPromise = util.promisify(exec);
 
+  if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
+
+  // This is for returning if it already exists (Not optimal)
+  if (fs.existsSync(binaryDirectory)) return 'exists'
+
+  // mack surely requires .zip extension here otherwise, doesn't download the file correctly
+  let filePath = ''
+  if (operatingSystem == 'darwin' || operatingSystem == 'linux') {
+    filePath = path.resolve(directory, `${binary.name}.zip`)
+  } else {
+    filePath = path.resolve(directory, binary.name)
+  }
+
+  // downloading by writing to the resolved path
   try {
     const writer = fs.createWriteStream(filePath)
     const response = await axios.get(binary.url, { responseType: 'stream' })
     await new Promise<void>((resolve, reject) => {
-      response.data.pipe(writer);
-      writer.on('finish', resolve);
-      writer.on('error', reject);
-    });
-
-    if (operatingSystem === 'darwin') {
-      await execPromise(`unzip ${filePath.replace(/\s/g, '\\ ')}`);
-    }
-    
-    return 'success';
+      response.data.pipe(writer)
+      writer.on('finish', resolve)
+      writer.on('error', reject)
+    })
+    return 'success'
   } catch (error) {
     return 'error'
   }
 }
+
