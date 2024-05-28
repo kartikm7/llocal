@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 export const ollama = new Ollama({ host: 'http://localhost:11434' })
 
 async function installOllama(): Promise<void> {
-  toast.info("Please be patient here, there are background process running to get Ollama up and running for you! (Should take about a mintue)")
+  toast.info("Please be patient with the Ollama installation, there are background process running to get the Ollama installer up and running for you! (Should take about a mintue)")
   const install = await window.api.installingOllama()
   if (install) {
     toast.success('Ollama has been successfully installed!')
