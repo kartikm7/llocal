@@ -49,9 +49,27 @@ export function checkOllama(): Promise<boolean> {
   })
 }
 
+// check os and resolve directory, this makes llocal os agnostic hopefully
+function dir(): string {
+  const operatingSystem = os.platform()
+  console.log(operatingSystem)
+  switch (operatingSystem) {
+    case 'darwin':
+      return path.join(os.homedir(), 'Library', 'Application Support','LLocal', 'binaries');
+    case 'win32':
+      return path.join(os.homedir(), 'AppData', 'Roaming','LLocal', 'binaries');
+    default:
+      return path.join(os.homedir(), '.config');
+  }
+}
+
+
 export function binaryPath(binary: string): string[] {
   const val: binary = binaries[binary]
-  const directory = path.join(os.homedir(), 'AppData', 'Local', 'LLocal', 'binaries')
+  // const directory = path.join(os.homedir(), 'AppData', 'Local', 'LLocal', 'binaries')
+
+  // this ensures the directory is correct
+  const directory = dir()
   const binaryDirectory = path.resolve(directory, val.name)
   return [binaryDirectory, binaryDirectory.replace(/\s/g, '^ ')]
 }
@@ -63,7 +81,7 @@ export async function downloadBinaries(): Promise<string> {
   const binary: binary = binaries[operatingSystem]
   if (!binary) return 'Not availble for this platform'
 
-  const directory = path.join(os.homedir(), 'AppData', 'Local', 'LLocal', 'binaries')
+  const directory = dir()
   const binaryDirectory = path.join(directory, binary.name)
   if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
 
