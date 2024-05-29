@@ -25,15 +25,15 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 
 ## Project Setup
 
-An Electron application with React and TypeScript
+LLocal is an Electron application with React and TypeScript. 
 
-### Recommended IDE Setup
+### Recommended IDE Setup (You do you, honestly)
 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-### Project Setup
+### Installation
 
-#### Install
+#### Install dependencies
 
 ```bash
 $ npm install
