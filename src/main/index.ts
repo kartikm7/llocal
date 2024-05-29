@@ -8,6 +8,25 @@ import { binaryPath, checkOllama, downloadBinaries } from './ollama-binaries'
 import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
+import process from 'node:process';
+import {shellPathSync} from 'shell-path';
+
+// this function fixes the shell errors for mac and possibly linux
+// the original https://github.com/sindresorhus the code has been referenced from here
+function fixPath():void {
+	if (process.platform === 'win32') {
+		return;
+	}
+
+	process.env.PATH = shellPathSync() || [
+		'./node_modules/.bin',
+		'/.nodebrew/current/bin',
+		'/usr/local/bin',
+		process.env.PATH,
+	].join(':');
+}
+
+fixPath()
 
 function createWindow(): void {
   // Create the browser window.
