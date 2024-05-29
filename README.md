@@ -60,3 +60,7 @@ $ npm run build:mac:intel
 # For Linux (Not supported currently, might just work though)
 $ npm run build:linux
 ```
+## How to contribute?
+You can refer to the (Contribute.md)[https://github.com/kartikm7/llocal/blob/master/CONTRIBUTE.md]
+## How to contribute?
+You can refer to [Contribute.md](https://github.com/kartikm7/llocal/blob/master/CONTRIBUTE.md)
