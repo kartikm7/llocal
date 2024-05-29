@@ -4,29 +4,32 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { autoUpdater } from 'electron-updater'
 import { binaryPath, checkOllama, downloadBinaries } from './ollama-binaries'
-// import { dialog } from 'electron'
 import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
 import process from 'node:process';
-import {shellPathSync} from 'shell-path';
 
-// this function fixes the shell errors for mac and possibly linux
-// the original https://github.com/sindresorhus the code has been referenced from here
-function fixPath():void {
-	if (process.platform === 'win32') {
-		return;
-	}
+// Handling dynamic imports the shell-path module, provides asynchronous functions
+(async ():Promise<void> => {
+    const { shellPathSync } = await import('shell-path');
+    // This function fixes the shell errors for mac and possibly linux
+    // The original code has been referenced from here: https://github.com/sindresorhus
+    function fixPath():void {
+        if (process.platform === 'win32') {
+            return;
+        }
 
-	process.env.PATH = shellPathSync() || [
-		'./node_modules/.bin',
-		'/.nodebrew/current/bin',
-		'/usr/local/bin',
-		process.env.PATH,
-	].join(':');
-}
+        process.env.PATH = shellPathSync() || [
+            './node_modules/.bin',
+            '/.nodebrew/current/bin',
+            '/usr/local/bin',
+            process.env.PATH,
+        ].join(':');
+    }
 
-fixPath()
+    fixPath();
+})();
+
 
 function createWindow(): void {
   // Create the browser window.
