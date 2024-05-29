@@ -2,7 +2,7 @@
 
 Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3, Phi-3, Mistral).
 
-![llocal-demo](https://github.com/kartikm7/llocal/assets/108652656/62904ac1-c165-45de-9b53-219dddb0dac0)
+<img src="https://github.com/kartikm7/llocal/assets/108652656/62904ac1-c165-45de-9b53-219dddb0dac0" alt="llocal-demo" height=400 />
 
 ## Current Roadmap
 - Locally storing the chats
