@@ -12,6 +12,7 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 - Llocal utilizes Ollama which ensures that from processing to utilizing everything happens on your machine LLocally.
 - Seamlessly switch between models.
 - Easily pull new models.
+- Multiple themes (5 themes all suporting both light and dark mode)
 - Seamless integration with Ollama, from download to install.
 
 ## What's ahead?
