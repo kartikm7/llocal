@@ -1,16 +1,22 @@
 # LLocal
 
-Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3, Phi-3, Mistral).
+Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3, Phi-3, Mistral). Focused on ease of use.
+
+## Demo
 
 <img src="https://github.com/kartikm7/llocal/assets/108652656/62904ac1-c165-45de-9b53-219dddb0dac0" alt="llocal-demo" height=400 />
 
-## Current Roadmap
-- Locally storing the chats
-- AI Chat streaming
-- Retrieval Augmented Generation/RAG (with single PDF's)
+## What can LLocal do?
+- Llocaly store chats.
+- Llocal utilizes Ollama which ensures that from processing to utilizing everything happens on your machine LLocally.
+- Seamlessly switch between models.
+- Easily pull new models.
+- Seamless integration with Ollama, from download to install.
 
 ## What's ahead?
+- Chat with images
 - Web Search
+- Retrieval Augmented Generation/RAG (with single PDF's)
 - Multiple PDF chat
 - Chat with chats ?! (Not sure)
 
@@ -45,10 +51,12 @@ $ npm run dev
 # For windows
 $ npm run build:win
 
-# For macOS
-$ npm run build:mac
+# For macOS (m-series)
+$ npm run build:mac:arm
 
-# For Linux
+# For macOS (intel-chips)
+$ npm run build:mac:intel
+
+# For Linux (Not supported currently, might just work though)
 $ npm run build:linux
 ```
-> Worth noting, one of the core dependencies LocalBase has a severe issue with vite. It still uses a commonjs import. which causes an issue. That can be rectified by following this guide **https://github.com/dannyconnell/localbase/issues/57#issuecomment-1102740539** .
