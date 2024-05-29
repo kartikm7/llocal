@@ -2,8 +2,8 @@
 
 Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3, Phi-3, Mistral). Focused on ease of use.
 
+<a target="_blank" href="https://discord.gg/ygrrVJA6Th"><img src="https://dcbadge.limes.pink/api/server/ygrrVJA6Th" alt="" /></a>
 ## Demo
-
 <img src="https://github.com/kartikm7/llocal/assets/108652656/62904ac1-c165-45de-9b53-219dddb0dac0" alt="llocal-demo" height=400 />
 
 ## What can LLocal do?
