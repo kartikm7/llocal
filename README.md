@@ -1,6 +1,7 @@
 # LLocal
 
 Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3, Phi-3, Mistral). Focused on ease of use.
+LLocal can be installed on both Windows and Mac (Linux version is not yet being worked on).
 
 <a target="_blank" href="https://discord.gg/ygrrVJA6Th"><img src="https://dcbadge.limes.pink/api/server/ygrrVJA6Th" alt="" /></a>
 ## Demo
