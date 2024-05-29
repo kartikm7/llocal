@@ -9,7 +9,7 @@ Contributing, does not just mean implementing new features but rather inclusive 
 
 ## Style guidelines
 - Make sure, you add appropriate comments explaining your thought process at relevant intervals. Making the code readable and enjoyable.
-- The commits should be following the conventional github commit messages (can be referenced here: [text](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13)) 
+- The commits should be following the conventional github commit messages (can be referenced here: [refer](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13)) 
 
 ## Additional notes
 - All of us are consistently learning, and I genuinely believe that we should go headfirst in the things we are scared off. So, if you're unsure/scared you should totally fork the repo and have fun with it.
