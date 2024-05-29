@@ -22,10 +22,12 @@
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
-    "build:mac": "electron-vite build && electron-builder --mac",
+    "build:mac:arm": "electron-vite build && electron-builder --mac --arm64",
+    "build:mac:intel": "electron-vite build && electron-builder --mac --x64",
     "build:linux": "electron-vite build && electron-builder --linux",
     "build:win:release": "npm run build && electron-builder --win --publish always",
-    "build:mac:release": "electron-vite build && electron-builder --mac --publish always",
+    "build:mac:arm:release": "electron-vite build && electron-builder --mac --arm64 --publish always",
+    "build:mac:intel:release": "electron-vite build && electron-builder --mac --x64 --publish always",
     "build:linux:release": "electron-vite build && electron-builder --linux --publish always"
   },
   "dependencies": {
