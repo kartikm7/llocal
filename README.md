@@ -1,3 +1,5 @@
+<img src="https://github.com/kartikm7/llocal/assets/108652656/94d81f69-73d8-4fda-98b1-da71e91c4596" alt="llocal-banner" width="800" />
+
 # LLocal
 
 Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3, Phi-3, Mistral). Focused on ease of use.
