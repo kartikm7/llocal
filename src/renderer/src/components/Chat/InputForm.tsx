@@ -14,9 +14,9 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   const {register, handleSubmit, reset} = useForm<FormFields>()
   const [isLoading, promptReq] = usePrompt()
   const onSubmit:SubmitHandler<FormFields> = async(data)=>{
-    await promptReq(data.prompt || '');
-    console.log(data.prompt);
     reset();
+    await promptReq(data.prompt || '');
+    // console.log(data.prompt);
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={twMerge('relative w-3/6 h-12', className)} {...props}>

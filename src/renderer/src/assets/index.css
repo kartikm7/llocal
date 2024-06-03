@@ -32,6 +32,14 @@
   background: rgba(0, 0, 0, 0.75);
 }
 
+::-webkit-progress-bar {
+  height: 4px;
+}
+
+::-webkit-progress-value {
+  background: rgba(0, 0, 0, 0.75);
+}
+
 code {
   text-wrap: wrap;
   padding: 2px;
@@ -49,6 +57,9 @@ code {
     border-radius: 8px;
   }
   ::-webkit-scrollbar-thumb:hover{
+    background: rgba(255, 255, 255, 0.75);
+  }
+  ::-webkit-progress-value {
     background: rgba(255, 255, 255, 0.75);
   }
 }

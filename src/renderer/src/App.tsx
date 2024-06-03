@@ -24,28 +24,28 @@ function App(): JSX.Element {
   const mode = localStorage.getItem('darkMode') === 'false' ? false : true
   setDarkMode(mode ?? true)
   // Serving ollama, if not present, then downloading ollama
-  useEffect(()=>{
-   ollamaServe(setIsOllamaInstalled)
-  },[])
+  useEffect(() => {
+    ollamaServe(setIsOllamaInstalled)
+  }, [])
 
   return (
     <RootLayout
       className={`${darkMode && 'dark'} bg-[#DDDDDD] relative font-poppins scrollbar scrollbar-thumb-thin dark:bg-[#2c2c2c] dark:text-foreground w-full bg-cover h-screen`}
-      style={{ backgroundImage: `url("${backgroundImage}")`}}
+      style={{ backgroundImage: `url("${backgroundImage}")` }}
     >
-      <Toaster richColors theme={darkMode ? 'dark' : 'light'} />
+      <Toaster className='font-poppins text-base' richColors theme={darkMode ? 'dark' : 'light'} />
       <Settings className="flex flex-col justify-between items-center gap-2">
         <h1 className="mt-10 text-4xl">Settings</h1>
         <div className="flex flex-col gap-10 lg:flex-row  lg:gap-24">
-          <ModelConfiguration className='flex flex-col gap-5'>
+          <ModelConfiguration className="flex flex-col gap-5">
             <h1 className="text-xl">Model:</h1>
-            <Separator className='mb-8'/> 
+            <Separator className="mb-8" />
             <ChooseModel />
             <PullModel />
           </ModelConfiguration>
           <div className="flex flex-col gap-5">
             <h1 className="text-xl">Theme:</h1>
-            <Separator className='mb-8' />
+            <Separator className="mb-8" />
             <BackgroundSelector />
             <ModeSelector />
           </div>
