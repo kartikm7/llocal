@@ -1,19 +1,27 @@
-import { chatAtom, prefModelAtom, streamingAtom } from '@renderer/store/mocks'
+import { chatAtom, prefModelAtom, stopGeneratingAtom, streamingAtom } from '@renderer/store/mocks'
 import { ollama } from '@renderer/utils/ollama'
 // import axios from 'axios'
 import { useAtom, useSetAtom } from 'jotai'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDb } from './useDb'
 
 export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
+  // Defining states
   const [isLoading, setLoading] = useState(false)
   const [chat, setChat] = useAtom(chatAtom)
   const [modelName] = useAtom(prefModelAtom)
   const setStream = useSetAtom(streamingAtom)
+  const [stopGenerating, setStopGenerating] = useAtom(stopGeneratingAtom)
   const {addChat} = useDb()
+  const stopGeneratingRef = useRef(stopGenerating)
   // To Debug
   // useEffect(()=>{console.log(stream);
   // },[stream])
+  
+  // To ensure, the state update works just right 
+  useEffect(()=>{
+    stopGeneratingRef.current = stopGenerating
+  },[stopGenerating])
 
   const promptReq = async (prompt: string): Promise<void> => {
     setLoading(true)
@@ -29,6 +37,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
       //   responseType: 'stream'
       // })
 
+
       const response = await ollama.chat({
         model: modelName,
         messages: [...chat, user],
@@ -38,12 +47,15 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
 
       for await (const part of response) {
         chunk += part.message.content
-        if (part.done == true) {
-          // break;          
+        // incase stop generating is invoked as true, then we abort the process
+        if (part.done == true || stopGeneratingRef.current) {
+          // break;        
           const ai = { role: 'assistant', content: chunk }
           addChat([...chat, user, ai]);            
           setChat((preValue) => [...preValue, ai])
           setStream('');
+          setStopGenerating(false);
+          ollama.abort()
           break;
         }
         setStream(chunk)

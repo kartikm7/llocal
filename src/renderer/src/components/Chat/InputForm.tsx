@@ -1,4 +1,3 @@
-import { IconButton } from '@renderer/ui/IconButton'
 import React, { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { PiPaperPlaneRightFill } from 'react-icons/pi'
@@ -7,6 +6,7 @@ import { usePrompt } from '@renderer/hooks/usePrompt'
 import { TextArea } from '@renderer/ui/TextArea'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@renderer/ui/Button'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -46,13 +46,14 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
         className="h-full w-full pr-8"
         placeholder="Enter your prompt"
       />
-      <IconButton
+      <Button
         type="submit"
+        variant={'icon'}
         disabled={isLoading}
         className="text-2xl absolute right-2 top-1/2 transform -translate-y-1/2"
       >
         <PiPaperPlaneRightFill />
-      </IconButton>
+      </Button>
     </form>
   )
 }

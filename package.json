@@ -36,6 +36,8 @@
     "@hookform/resolvers": "^3.6.0",
     "@swc/core": "^1.5.7",
     "axios": "^1.6.8",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "electron-updater": "^6.1.7",
     "jotai": "^2.8.0",
     "localbase": "https://github.com/kartikm7/localbase",

@@ -1,11 +1,13 @@
 import { useDb } from '@renderer/hooks/useDb'
-import { chatAtom, selectedChatIndexAtom, streamingAtom } from '@renderer/store/mocks'
+import { chatAtom, selectedChatIndexAtom, stopGeneratingAtom, streamingAtom } from '@renderer/store/mocks'
 import { Card } from '@renderer/ui/Card'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import React, { ComponentProps, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import Markdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
+import { Button } from '@renderer/ui/Button'
+import { FaRegCircleStop } from "react-icons/fa6";
 
 export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const [chat, setChat] = useAtom(chatAtom)
@@ -13,10 +15,16 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
   const [stream] = useAtom(streamingAtom)
   const { getChat } = useDb()
   const scrollRef = useRef<HTMLDivElement>(null)
+  const setStopGenerating = useSetAtom(stopGeneratingAtom)
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [stream, chat])
+
+  function handleClick():void{
+    // to stop streaming on click
+    setStopGenerating(true)
+  }
 
   useEffect(() => {
     // Update chatAtom, based on selectedText
@@ -42,11 +50,18 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
             </Card>
           ) : (
             <Card key={index}>
-                <Markdown className="markdown" rehypePlugins={[rehypeHighlight]} >{val.content}</Markdown>
+              <Markdown className="markdown" rehypePlugins={[rehypeHighlight]}>
+                {val.content}
+              </Markdown>
             </Card>
           )
         })}
-      {stream && <Card>{stream}</Card>}
+      {stream && (
+        <div className='flex flex-col gap-2'>
+          <Button variant='link' onClick={handleClick} className='flex justify-center items-center gap-1 text-sm self-start'><FaRegCircleStop /> Stop generating</Button>
+          <Card>{stream}</Card>
+        </div>
+      )}
       <div ref={scrollRef}></div>
     </div>
   )

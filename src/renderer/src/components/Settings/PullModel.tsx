@@ -1,5 +1,5 @@
 import { Card } from '@renderer/ui/Card'
-import { IconButton } from '@renderer/ui/IconButton'
+import { Button } from '@renderer/ui/Button'
 import { Input } from '@renderer/ui/Input'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { ComponentProps, useState } from 'react'
@@ -46,13 +46,13 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
           className="h-auto w-96"
           placeholder="Not sure? check the options below!"
         />
-        <IconButton
+        <Button
           type="submit"
           disabled={isLoading}
           className={`text-2xl absolute right-5 top-1/2 transform -translate-y-1/2 ${isLoading && 'hover:scale-100'}`}
         >
           <PiMagnifyingGlassFill />
-        </IconButton>
+        </Button>
       </form>
       <div className="flex gap-2">
         {breadcrumbs.map((val, index) => {
