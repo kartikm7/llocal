@@ -5,20 +5,30 @@ import { PiPaperPlaneRightFill } from 'react-icons/pi'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { usePrompt } from '@renderer/hooks/usePrompt'
 import { TextArea } from '@renderer/ui/TextArea'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-type FormFields = {
+// Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
+const FormFieldsSchema = z.object({
+  prompt: z.string().trim().min(1)
+})
+
+// defining the form type as usual
+type FormFieldsType = {
   prompt?: string
 }
 
 export const InputForm = ({ className, ...props }: ComponentProps<'form'>): React.ReactElement => {
-  const { register, handleSubmit, reset } = useForm<FormFields>()
+  const { register, handleSubmit, reset } = useForm<FormFieldsType>({
+    resolver: zodResolver(FormFieldsSchema)
+  })
   const [isLoading, promptReq] = usePrompt()
-  function handleKeyDown(event : React.KeyboardEvent<HTMLTextAreaElement>):void{
-    if(event.key === 'Enter'){
+  function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>): void {
+    if (event.key === 'Enter') {
       handleSubmit(onSubmit)()
     }
   }
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+  const onSubmit: SubmitHandler<FormFieldsType> = async (data) => {
     reset()
     await promptReq(data.prompt || '')
   }
