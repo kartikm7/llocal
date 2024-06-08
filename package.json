@@ -47,7 +47,8 @@
     "rehype-highlight": "^7.0.0",
     "shell-path": "^3.0.0",
     "sonner": "^1.4.41",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",

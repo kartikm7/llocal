@@ -2,16 +2,21 @@ import { Card } from '@renderer/ui/Card'
 import Logo from '../../assets/logo.png'
 import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { useSetAtom } from 'jotai'
-import { chatAtom, selectedChatIndexAtom } from '@renderer/store/mocks'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { chatAtom, selectedChatIndexAtom, streamingAtom } from '@renderer/store/mocks'
 
-export const NewChat = ({className, ...props}:ComponentProps<'div'>): React.ReactElement => {
-  const setChat= useSetAtom(chatAtom)
+export const NewChat = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
+  const setChat = useSetAtom(chatAtom)
   const setSelectedChatIndex = useSetAtom(selectedChatIndexAtom)
-  function handleClick():void{
-    setSelectedChatIndex('')
-    setChat([]);
+  const stream = useAtomValue(streamingAtom)
+
+  function handleClick(): void {
+    if (!stream) {
+      setSelectedChatIndex('')
+      setChat([])
+    }
   }
+
   return (
     <div onClick={handleClick} className={twMerge('', className)} {...props}>
       <Card className="flex items-center gap-3 p-3 bg-opacity-10 dark:bg-opacity-10 hover:bg-opacity-50 transition-opacity cursor-pointer">
