@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { PiPaperPlaneRightFill } from 'react-icons/pi'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -19,12 +19,17 @@ type FormFieldsType = {
 }
 
 export const InputForm = ({ className, ...props }: ComponentProps<'form'>): React.ReactElement => {
+  const [scroll, setScroll] = useState(false)
+
+
+
   const { register, handleSubmit, reset } = useForm<FormFieldsType>({
     resolver: zodResolver(FormFieldsSchema)
   })
   const [isLoading, promptReq] = usePrompt()
+
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>): void {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !event.shiftKey) {
       handleSubmit(onSubmit)()
     }
   }
@@ -35,7 +40,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={twMerge('relative w-3/6 h-12', className)}
+      className={twMerge(`relative w-3/6 ${scroll ? 'h-24,' : 'h-12'}`, className)}
       {...props}
     >
       <TextArea
@@ -43,7 +48,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
         register={register}
         disabled={isLoading}
         onKeyDown={handleKeyDown}
-        className="h-full w-full pr-8"
+        className={`h-full w-full pr-8 ${scroll && 'rounded-lg overflow-y-scroll'}`}
         placeholder="Enter your prompt"
       />
       <Button
