@@ -7,6 +7,7 @@ interface TextAreaProps extends ComponentProps<'textarea'> {
 }
 
 export const TextArea = ({ className, ...props }: TextAreaProps): React.ReactElement => {
+
   return (
     <textarea
       id='textarea'

@@ -43,6 +43,7 @@
     "localbase": "https://github.com/kartikm7/localbase",
     "node-fetch": "^3.3.2",
     "ollama": "^0.5.1",
+    "open": "^10.1.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-hook-form": "^7.51.4",
     "react-icons": "^5.2.1",

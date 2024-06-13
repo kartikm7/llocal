@@ -7,29 +7,27 @@ import { binaryPath, checkOllama, downloadBinaries } from './ollama-binaries'
 import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
-import process from 'node:process';
+import process from 'node:process'
 
 // Handling dynamic imports the shell-path module, provides asynchronous functions
-(async ():Promise<void> => {
-    const { shellPathSync } = await import('shell-path');
-    // This function fixes the shell errors for mac and possibly linux
-    // The original code has been referenced from here: https://github.com/sindresorhus
-    function fixPath():void {
-        if (process.platform === 'win32') {
-            return;
-        }
-
-        process.env.PATH = shellPathSync() || [
-            './node_modules/.bin',
-            '/.nodebrew/current/bin',
-            '/usr/local/bin',
-            process.env.PATH,
-        ].join(':');
+;(async (): Promise<void> => {
+  const { shellPathSync } = await import('shell-path')
+  // This function fixes the shell errors for mac and possibly linux
+  // The original code has been referenced from here: https://github.com/sindresorhus
+  function fixPath(): void {
+    if (process.platform === 'win32') {
+      return
     }
 
-    fixPath();
-})();
+    process.env.PATH =
+      shellPathSync() ||
+      ['./node_modules/.bin', '/.nodebrew/current/bin', '/usr/local/bin', process.env.PATH].join(
+        ':'
+      )
+  }
 
+  fixPath()
+})()
 
 function createWindow(): void {
   // Create the browser window.
@@ -64,8 +62,8 @@ function createWindow(): void {
   }
 }
 
-  // exporting downloads directory
-  export const downloadDirectory = app.getPath('downloads')
+// exporting downloads directory
+export const downloadDirectory = app.getPath('downloads')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -83,18 +81,20 @@ app.whenReady().then(() => {
 
   // Autoupdater
   autoUpdater.checkForUpdatesAndNotify()
-
   autoUpdater.on('update-downloaded', () => {
     dialog
       .showMessageBox({
         title: 'Update Downloaded!',
         message: 'A new version has been downloaded!',
-        buttons: ['Go Ahead', 'Later'],
-        detail: 'LLocal will be closed and the update will be installed'
+        buttons: ['Go Ahead', 'Release Notes', 'Later'],
+        detail: 'LLocal will be closed and the update will be installed!'
       })
       .then((click) => {
         if (click.response === 0) {
           autoUpdater.quitAndInstall()
+        }
+        if (click.response === 1) {
+          shell.openExternal('https://github.com/kartikm7/llocal/releases')
         }
       })
   })
@@ -112,10 +112,10 @@ app.whenReady().then(() => {
   // Checking if binaries already exist
   async function checkingBinaries(): Promise<boolean> {
     return new Promise((resolve) => {
-      if (platform == 'darwin' ? fs.existsSync(path[0]+'.zip') : fs.existsSync(path[0])) {
+      if (platform == 'darwin' ? fs.existsSync(path[0] + '.zip') : fs.existsSync(path[0])) {
         resolve(true)
       } else {
-        console.log("Checking behavior", false)
+        console.log('Checking behavior', false)
         resolve(false)
       }
     })
@@ -137,34 +137,35 @@ app.whenReady().then(() => {
     return 'already-present'
   }
 
-  async function installingOllama(): Promise<boolean> {    
+  async function installingOllama(): Promise<boolean> {
     return new Promise((resolve) => {
       // mac-os has an edge case that needs to be dealt with
-      if(platform == 'darwin'){
+      if (platform == 'darwin') {
         // the path to the directory where it's extracting
-        const extractDirectory =  path[1].replace('/ollama-darwin','')
+        const extractDirectory = path[1].replace('/ollama-darwin', '')
         // this script ensures, the zip gets extracted and has the required permisions to execute
-        exec(`unzip ${path[1]}.zip -d ${extractDirectory} && chmod +x ${extractDirectory}/Ollama.app && ${extractDirectory}/Ollama.app/Contents/MacOS/Ollama`, (error)=>{
-          if(error == null){
+        exec(
+          `unzip ${path[1]}.zip -d ${extractDirectory} && chmod +x ${extractDirectory}/Ollama.app && ${extractDirectory}/Ollama.app/Contents/MacOS/Ollama`,
+          (error) => {
+            if (error == null) {
+              // ollama has been installed
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          }
+        )
+      } else {
+        // so much easier on windows, with linux hopefully the logic just needs to be appended with mac
+        exec(path[1], (error) => {
+          if (error == null) {
             // ollama has been installed
             resolve(true)
-          } else{
+          } else {
             resolve(false)
           }
         })
       }
-      else{
-
-      // so much easier on windows, with linux hopefully the logic just needs to be appended with mac
-      exec(path[1], (error) => {
-        if (error == null) {
-          // ollama has been installed
-          resolve(true)
-        } else {
-          resolve(false)
-        }
-      })
-    }
     })
   }
 
