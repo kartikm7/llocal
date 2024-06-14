@@ -1,4 +1,4 @@
-import React, { ComponentProps, useState } from 'react'
+import React, { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { PiPaperPlaneRightFill } from 'react-icons/pi'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -7,6 +7,7 @@ import { TextArea } from '@renderer/ui/TextArea'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@renderer/ui/Button'
+import { MoreButton } from './MoreButton'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -44,9 +45,10 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
         register={register}
         disabled={isLoading}
         onKeyDown={handleKeyDown}
-        className={`h-full w-full pr-8`}
+        className={`h-full w-full pl-10 pr-8`}
         placeholder="Enter your prompt"
       />
+      <MoreButton  className='text-2xl absolute left-2 top-1/2 transform -translate-y-1/2'/>
       <Button
         type="submit"
         variant={'icon'}

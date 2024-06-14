@@ -24,6 +24,7 @@ export const chatAtom = atom<Message[]>([]) // Current Chat
 export const selectedChatIndexAtom = atom<string>('') // Selected Chat
 export const streamingAtom = atom<string>('') // Handling Streaming
 export const stopGeneratingAtom = atom<boolean>(false) // Handling the option to stop generating
+export const imageAttatchmentAtom = atom<string>('')
 export const settingsToggleAtom = atom<boolean>(false)
 export const isOllamaInstalledAtom = atom<boolean>(false)
 
