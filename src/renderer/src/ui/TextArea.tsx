@@ -12,7 +12,7 @@ export const TextArea = ({ className, ...props }: TextAreaProps): React.ReactEle
     <textarea
       id='textarea'
       className={twMerge(
-        'p-3 px-4 resize-none overflow-auto bg-foreground placeholder:text-black placeholder:text-opacity-60 dark:bg-opacity-20 dark:bg-background dark:text-white dark:placeholder-white  dark:placeholder:opacity-60 outline-none rounded-full text-sm bg-opacity-20 backdrop-blur-lg shadow-xl',
+        'p-3 px-4 pt-[14px] resize-none overflow-auto bg-foreground placeholder:text-black placeholder:text-opacity-60 dark:bg-opacity-20 dark:bg-background dark:text-white dark:placeholder-white  dark:placeholder:opacity-60 outline-none rounded-full text-sm bg-opacity-20 backdrop-blur-lg shadow-xl',
         className
       )}
       disabled={props.disabled}
