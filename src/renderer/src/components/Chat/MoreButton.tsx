@@ -27,14 +27,13 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
         const base64 = reader.result?.toString().split('base64,')
         if (base64) {
           setImageAttachment(`${base64[1]}`)
-          console.log(base64[1]);
-          
+          // console.log(base64[1]);
         }
         toast.success("The image has been processed! Please make sure a vision model is selected")
       }
     }
   }
-  
+
   return (
     <div className={cn('relative flex flex-col justify-center items-center', className)} {...props}>
       {showMenu && (
