@@ -1,5 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron'
 // import { electronAPI } from '@electron-toolkit/preload'
+
+interface duckduckgoSearchType {
+  prompt: string
+  sources: string
+}
+
 // Custom APIs for renderer
 const api = {
   checkingOllama:():Promise<boolean>=> ipcRenderer.invoke('checkingOllama'),
@@ -7,6 +13,7 @@ const api = {
   downloadingOllama:():Promise<string>=> ipcRenderer.invoke('downloadingOllama'),
   installingOllama:():Promise<boolean>=> ipcRenderer.invoke('installingOllama'),
   checkVersion:():Promise<string>=> ipcRenderer.invoke('checkVersion'),
+  experimentalSearch:(searchQuery:string):Promise<duckduckgoSearchType>=> ipcRenderer.invoke('experimentalSearch', searchQuery),
 }
 
 

@@ -4,7 +4,7 @@ import { ComponentProps } from 'react'
 import { Button } from './Button'
 
 export const MenuSelector = ({className,children, ...props}:ComponentProps<'button'>): React.ReactElement => {
-  return <Button className={cn('w-full', className)}  variant='link' {...props}>{children}</Button>
+  return <Button type='button' className={cn('w-full', className)}  variant='link' {...props}>{children}</Button>
 }
 
 const MenuVariants = cva('', {
@@ -22,7 +22,7 @@ interface MenuProps extends ComponentProps<'div'>, VariantProps<typeof MenuVaria
 
 export const Menu = ({ className, variant, children, ...props }: MenuProps): React.ReactElement => {
   return (
-    <div className={cn( 'absolute w-44 flex flex-col justify-center items-center bg-background bg-opacity-30 text-sm p-2 rounded-2xl backdrop-blur-xl transition-all',MenuVariants({variant, className}))} {...props}>
+    <div className={cn( 'absolute w-44 flex flex-col justify-center items-center bg-foreground bg-opacity-30 dark:bg-background dark:bg-opacity-30 text-sm p-2 rounded-2xl backdrop-blur-xl transition-all',MenuVariants({variant, className}))} {...props}>
       {children}
     </div>
   )

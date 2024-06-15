@@ -8,9 +8,10 @@ import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
 import process from 'node:process'
+import { duckduckgoSearch } from './duckduckgo'
 
 // Handling dynamic imports the shell-path module, provides asynchronous functions
-;(async (): Promise<void> => {
+(async (): Promise<void> => {
   const { shellPathSync } = await import('shell-path')
   // This function fixes the shell errors for mac and possibly linux
   // The original code has been referenced from here: https://github.com/sindresorhus
@@ -194,6 +195,11 @@ app.whenReady().then(() => {
     return new Promise((resolve) => {
       resolve(app.getVersion())
     })
+  })
+  
+  ipcMain.handle('experimentalSearch', async (_event, searchQuery) => {
+    const response = await duckduckgoSearch(searchQuery)
+    return response
   })
 
   createWindow()

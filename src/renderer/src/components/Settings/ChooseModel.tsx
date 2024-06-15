@@ -1,16 +1,19 @@
 import { useLocal } from '@renderer/hooks/useLocal'
-import { listModels, useOllama } from '@renderer/hooks/useOllama'
-import { prefModelAtom } from '@renderer/store/mocks'
+import { useOllama } from '@renderer/hooks/useOllama'
+import { modelListAtom, prefModelAtom } from '@renderer/store/mocks'
 import { Dropdown } from '@renderer/ui/Dropdown'
 import { DropDownSelector } from '@renderer/ui/DropdownSelector'
 import { useAtom } from 'jotai'
-import React, { ChangeEvent, ComponentProps, useEffect, useState } from 'react'
+import React, { ChangeEvent, ComponentProps, useEffect } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
 import { twMerge } from 'tailwind-merge'
 
 export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const { listModels } = useOllama()
-  const [listMod, setListMod] = useState<listModels[]>([])
+  // deprecated this, atomWithStorage uses local storage aswell making things easier
+  // const [listMod, setListMod] = useState<listModels[]>([])
+  const [modelList, setModelList] = useAtom(modelListAtom)
+
   const { setModelChoice } = useLocal()
   const [prefModel] = useAtom(prefModelAtom)
   useEffect(() => {
@@ -19,7 +22,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
       if (!prefModel) {
         setModelChoice(`${response[0].modelName}`)
       }
-      setListMod(response)
+      setModelList(response)
     }
     list()
   }, [prefModel])
@@ -35,8 +38,8 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
       <h1 className="font-thin">Choose a model :</h1>
       <div className="relative">
         <Dropdown onChange={handleChange} className="w-96">
-          {listMod &&
-            listMod.map((val, index) => {
+          {modelList &&
+            modelList.map((val, index) => {
               return (
                 <DropDownSelector
                   key={index}

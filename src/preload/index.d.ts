@@ -1,5 +1,11 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 
+interface duckduckgoSearchType {
+  prompt: string
+  sources: string
+}
+
+
 declare global {
   interface Window {
     electron: ElectronAPI
@@ -9,6 +15,7 @@ declare global {
       downloadingOllama: ()=>Promise<string>,
       installingOllama: ()=>Promise<boolean>,
       checkVersion: ()=>Promise<string>,
+      experimentalSearch: (searchQuery: string)=>Promise<duckduckgoSearchType>,
     }
   }
 }

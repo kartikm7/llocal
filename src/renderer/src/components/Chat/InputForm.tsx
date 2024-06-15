@@ -48,7 +48,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
         className={`h-full w-full pl-10 pr-8`}
         placeholder="Enter your prompt"
       />
-      <MoreButton  className='text-2xl absolute left-2 top-1/2 transform -translate-y-1/2'/>
+      <MoreButton className="text-2xl absolute left-2 top-1/2 transform -translate-y-1/2" />
       <Button
         type="submit"
         variant={'icon'}

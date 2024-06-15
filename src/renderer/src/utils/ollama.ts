@@ -18,7 +18,7 @@ async function installOllama(): Promise<void> {
   }
 }
 
-export async function ollamaServe(setIsOllamaInstalled): Promise<void> {
+export async function ollamaServe(setIsOllamaInstalled): Promise<void> {  
   const check = await window.api.checkingOllama()
   if (!check) {
     const alreadyDownloaded = await window.api.checkingBinaries()
