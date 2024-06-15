@@ -18,7 +18,7 @@ import { Button } from '@renderer/ui/Button'
 import { FaRegCircleStop } from 'react-icons/fa6'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
+import remarkGfm  from "remark-gfm"
 
 export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const [chat, setChat] = useAtom(chatAtom)
@@ -30,7 +30,6 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
   const darkMode = useAtomValue(darkModeAtom)
   const imageAttachment = useAtomValue(imageAttatchmentAtom)
   const experimentalSearch = useAtomValue(experimentalSearchAtom)
-
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -66,17 +65,23 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
           ) : (
             <Card key={index}>
               <Markdown
+                className="markdown"
+                rehypePlugins={[rehypeHighlight]}
+                remarkPlugins={[remarkGfm]}
                 components={{
                   a: (props) => {
                     return (
-                      <a href={props.href} className='bg-foreground bg-opacity-20 opacity-70 px-1 hover:opacity-100 hover:underline transition-all' target="_blank" rel="noreferrer">
+                      <a
+                        href={props.href}
+                        className="bg-foreground bg-opacity-20 opacity-70 px-1 hover:opacity-100 hover:underline transition-all"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         {props.children}
                       </a>
                     )
                   }
                 }}
-                className="markdown"
-                rehypePlugins={[rehypeHighlight]}
               >
                 {val.content}
               </Markdown>
@@ -95,9 +100,20 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
           <Card>{stream}</Card>
         </div>
       )}
-      {(chat.length > 0 && chat[chat.length-1].role == 'user' && !stream && (experimentalSearch || imageAttachment)) && <Card className='w-4/5'>
-        <Skeleton className='opacity-50' baseColor={darkMode ? "#FFFFFF" : "#202020"} highlightColor={darkMode ? "#bfbfbf" : " #b3b3b3"} borderRadius={5}  count={4} />
-      </Card> }
+      {chat.length > 0 &&
+        chat[chat.length - 1].role == 'user' &&
+        !stream &&
+        (experimentalSearch || imageAttachment) && (
+          <Card className="w-4/5">
+            <Skeleton
+              className="opacity-50"
+              baseColor={darkMode ? '#FFFFFF' : '#202020'}
+              highlightColor={darkMode ? '#bfbfbf' : ' #b3b3b3'}
+              borderRadius={5}
+              count={4}
+            />
+          </Card>
+        )}
       <div ref={scrollRef}></div>
     </div>
   )
