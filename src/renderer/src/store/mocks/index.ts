@@ -1,6 +1,6 @@
 import { listModels } from '@renderer/hooks/useOllama'
 import { atom } from 'jotai'
-import { atomWithStorage } from 'jotai/utils'
+// import { atomWithStorage } from 'jotai/utils'
 
 export interface Message {
   role: string
@@ -28,7 +28,7 @@ export const streamingAtom = atom<string>('') // Handling Streaming
 export const stopGeneratingAtom = atom<boolean>(false) // Handling the option to stop generating
 export const imageAttatchmentAtom = atom<string>('') // Storing the base64 image
 export const experimentalSearchAtom = atom<boolean>(false) // Toggle for websearch
-export const modelListAtom = atomWithStorage<listModels[]>('modelList',[]) // Storing List of Models in Local Storage
+export const modelListAtom = atom<listModels[] >(JSON.parse(localStorage.getItem('modelList') || '[]') as listModels[]) // Storing List of Models in Local Storage
 export const settingsToggleAtom = atom<boolean>(false)
 export const isOllamaInstalledAtom = atom<boolean>(false)
 

@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge'
 
 export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const { listModels } = useOllama()
-  // deprecated this, atomWithStorage uses local storage aswell making things easier
+  // deprecated this, atomWithStorage throws type errors for some reason
   // const [listMod, setListMod] = useState<listModels[]>([])
   const [modelList, setModelList] = useAtom(modelListAtom)
 
@@ -23,6 +23,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
         setModelChoice(`${response[0].modelName}`)
       }
       setModelList(response)
+      localStorage.setItem('modelList', JSON.stringify(response))
     }
     list()
   }, [prefModel])
