@@ -10,6 +10,7 @@ import { twMerge } from 'tailwind-merge'
 import { useOllama } from '@renderer/hooks/useOllama'
 import { HiMiniSparkles } from "react-icons/hi2";
 import { FaGlobeAsia } from "react-icons/fa";
+import { LuImage } from 'react-icons/lu'
 
 type FormFields = {
   model?: string
@@ -18,7 +19,7 @@ type FormFields = {
 export const PullModel = ({ className, ...props }: ComponentProps<'form'>): React.ReactElement => {
   const { register, handleSubmit, reset } = useForm<FormFields>()
   const [isLoading, setLoading] = useState(false)
-  const breadcrumbs = ['qwen2:1.5b', 'llama3', 'phi3']
+  const breadcrumbs = ['qwen2:1.5b', 'phi3', 'llama3']
   const [, setSelectedBreadcrumb] = useState('')
   const { pullModel } = useOllama()
 
@@ -87,6 +88,17 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
           <p className='flex justify-center items-center gap-1'>
             <HiMiniSparkles className='text-yellow-500' />
             mxbai-embed-large ( this is needed for <FaGlobeAsia /> web search )
+          </p>
+        </CopyToClipboard>
+      </Card>
+      <Card className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
+        <CopyToClipboard
+          text={'llava-phi3'}
+          onCopy={() => toast.success(`maxbai-embed-large copied to clipboard!`)}
+        >
+          <p className='flex justify-center items-center gap-1'>
+            <HiMiniSparkles className='text-yellow-500' />
+            llava-phi3 (supports <LuImage /> images )
           </p>
         </CopyToClipboard>
       </Card>
