@@ -40,18 +40,18 @@
   background: rgba(0, 0, 0, 0.75);
 }
 
-code {
+/* code {
   text-wrap: wrap;
   padding: 2px;
   margin: 2px;
   border-radius: 2px;
   background-color: rgba(0, 0, 0, 0.2);
-}
+} */
 
 @media (prefers-color-scheme: dark) {
-   code {
+   /* code {
     background-color: rgba(255, 255, 255, 0.15);
-  } 
+  }  */
   ::-webkit-scrollbar-thumb{
     background: rgba(255, 255, 255, 0.5);
     border-radius: 8px;

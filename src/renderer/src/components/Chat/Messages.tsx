@@ -18,7 +18,10 @@ import { Button } from '@renderer/ui/Button'
 import { FaRegCircleStop } from 'react-icons/fa6'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import remarkGfm  from "remark-gfm"
+import remarkGfm from 'remark-gfm'
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import { Code } from '@renderer/ui/Code'
+import reactNodeToString from 'react-node-to-string'
 
 export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const [chat, setChat] = useAtom(chatAtom)
@@ -58,6 +61,8 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
     >
       {chat &&
         chat.map((val, index) => {
+          console.log(val.content)
+
           return val.role == 'user' ? (
             <Card key={index} className="self-end bg-opacity-10 dark:bg-opacity-10">
               <h1 className="">{val.content}</h1>
@@ -80,6 +85,23 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
                         {props.children}
                       </a>
                     )
+                  },
+                  code(props) {
+                    const myRef = useRef<SyntaxHighlighter>(null)
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const { children, className, node, ...rest } = props
+                    console.log(children)
+
+                    const match = /language-(\w+)/.exec(className || '')
+                    return match ? (
+                      <Code language={match[1]} ref={myRef}>
+                        {reactNodeToString(children).trim().replace(/\n$/, '')}
+                      </Code>
+                    ) : (
+                      <code {...rest} className={className}>
+                        {children}
+                      </code>
+                    )
                   }
                 }}
               >
@@ -97,7 +119,46 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
           >
             <FaRegCircleStop /> Stop generating
           </Button>
-          <Card>{stream}</Card>
+          <Card>
+            <Markdown
+              className="markdown"
+              rehypePlugins={[rehypeHighlight]}
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: (props) => {
+                  return (
+                    <a
+                      href={props.href}
+                      className="bg-foreground bg-opacity-20 opacity-70 px-1 hover:opacity-100 hover:underline transition-all"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {props.children}
+                    </a>
+                  )
+                },
+                code(props) {
+                  const myRef = useRef<SyntaxHighlighter>(null)
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                  const { children, className, node, ...rest } = props
+                  console.log(children)
+
+                  const match = /language-(\w+)/.exec(className || '')
+                  return match ? (
+                    <Code language={match[1]} ref={myRef}>
+                      {reactNodeToString(children).trim().replace(/\n$/, '')}
+                    </Code>
+                  ) : (
+                    <code {...rest} className={className}>
+                      {children}
+                    </code>
+                  )
+                }
+              }}
+            >
+              {stream}
+            </Markdown>
+          </Card>
         </div>
       )}
       {chat.length > 0 &&

@@ -29,7 +29,6 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     reset()
     setLoading(true)
-    alert(data.model)
     await pullModel(data.model)
     setLoading(false)
   }
