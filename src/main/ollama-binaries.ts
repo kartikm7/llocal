@@ -13,15 +13,15 @@ type binary = {
 const binaries = {
   win32: {
     name: 'OllamaSetup.exe',
-    url: 'https://github.com/ollama/ollama/releases/download/v0.1.38/OllamaSetup.exe'
+    url: 'https://github.com/ollama/ollama/releases/download/v0.1.44/OllamaSetup.exe'
   },
   darwin: {
-    name: 'ollama-darwin',
-    url: 'https://github.com/ollama/ollama/releases/download/v0.1.38/ollama-darwin.zip'
+    name: 'Ollama-darwin',
+    url: 'https://github.com/ollama/ollama/releases/download/v0.1.44/Ollama-darwin.zip'
   },
   linux: {
     name: 'ollama-linux',
-    url: 'https://github.com/ollama/ollama/releases/download/v0.1.38/ollama-linux-arm64'
+    url: 'https://github.com/ollama/ollama/releases/download/v0.1.44/ollama-linux-arm64'
   }
 }
 
