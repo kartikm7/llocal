@@ -16,6 +16,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
 
   const { setModelChoice } = useLocal()
   const [prefModel] = useAtom(prefModelAtom)
+
   useEffect(() => {
     async function list(): Promise<void> {
       const response = await listModels()
@@ -23,10 +24,9 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
         setModelChoice(`${response[0].modelName}`)
       }
       setModelList(response)
-      localStorage.setItem('modelList', JSON.stringify(response))
     }
     list()
-  }, [prefModel])
+  }, [prefModel, modelList])
 
   function handleChange(e: ChangeEvent<HTMLSelectElement>): void {
     const val = e.target.value

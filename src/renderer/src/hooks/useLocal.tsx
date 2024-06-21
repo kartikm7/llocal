@@ -16,7 +16,7 @@ export const useLocal = (): useLocalReturn => {
       setBackgroundImage(pref)
     } else {
       const url = new URL(`/src/assets/themes/${pref}.svg`, import.meta.url).href
-      localStorage.setItem('bg',url)
+      localStorage.setItem('bg', url)
       setBackgroundImage(url)
     }
     localStorage.setItem('settingsState', pref)
@@ -27,9 +27,11 @@ export const useLocal = (): useLocalReturn => {
     setDarkMode(pref)
   }
 
-  const setModelChoice = (pref: string):void => {
+  const setModelChoice = (pref: string): void => {
+    // the embed model should not be set as model choice
+    if (pref?.includes('all-minilm')) return
     localStorage.setItem('prefModel', pref)
     setPrefModel(pref)
-  } 
+  }
   return { setBackground, setMode, setModelChoice }
 }

@@ -28,6 +28,8 @@ export const useOllama = ():useOllamaReturn => {
     console.log(list);
     
     list.models.forEach((val)=> {response.push({modelName: val.name, modelParameters: val.details.parameter_size})})  
+    // for updating the local storage
+    localStorage.setItem('modelList', JSON.stringify(response))
     return response
   }
 
@@ -91,8 +93,15 @@ export const useOllama = ():useOllamaReturn => {
       setModelChoice(`${modelName}`)
       // Dismissing the toast
       toast.dismiss(toastId)
+      
       // Success message
-      toast.success(`${modelName} is set as the default model!`)
+      // in the case it's the embedding model
+      if(modelName?.includes('mxbai-embed-large') || modelName?.includes('all-minilm')){
+        toast.success(`${modelName} has been pulled! You can now make use of web-search!`)
+      } else { 
+        // in all other cases
+        toast.success(`${modelName} is set as the default model!`)
+      }
     } catch (error) {
       // Either way need to dismiss the toast
       // The block styling causes an issue with the native styling
