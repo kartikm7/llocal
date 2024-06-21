@@ -35,7 +35,7 @@ export async function duckduckgoSearch(searchQuery: string): Promise<duckduckgoS
   // generating embeddings for the same
   const embeddings = new OllamaEmbeddings({
     baseUrl: 'http://127.0.0.1:11434',
-    model: 'mxbai-embed-large'
+    model: 'all-minilm'
   })
   const vectorStore = await MemoryVectorStore.fromDocuments(allSplits, embeddings)
 

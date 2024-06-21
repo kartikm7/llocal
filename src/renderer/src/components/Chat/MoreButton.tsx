@@ -20,7 +20,7 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
     // checking if the embedding model exists
     let check = false
     for (let i = 0; i < modelList.length; i++) {
-      if (modelList[i].modelName.includes('mxbai-embed-large')) {
+      if (modelList[i].modelName.includes('all-minilm')) {
         check = true
         break
       }

@@ -82,19 +82,19 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
       </div>
       <Card className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
         <CopyToClipboard
-          text={'mxbai-embed-large'}
-          onCopy={() => toast.success(`maxbai-embed-large copied to clipboard!`)}
+          text={'all-minilm'}
+          onCopy={() => toast.success(`all-minilm copied to clipboard!`)}
         >
           <p className='flex justify-center items-center gap-1'>
             <HiMiniSparkles className='text-yellow-500' />
-            mxbai-embed-large ( this is needed for <FaGlobeAsia /> web search )
+            all-minilm ( this is needed for <FaGlobeAsia /> web search )
           </p>
         </CopyToClipboard>
       </Card>
       <Card className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
         <CopyToClipboard
           text={'llava-phi3'}
-          onCopy={() => toast.success(`maxbai-embed-large copied to clipboard!`)}
+          onCopy={() => toast.success(`llava-phi3 copied to clipboard!`)}
         >
           <p className='flex justify-center items-center gap-1'>
             <HiMiniSparkles className='text-yellow-500' />
