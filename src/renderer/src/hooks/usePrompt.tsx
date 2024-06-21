@@ -65,7 +65,6 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
           const searchResponse = await window.api.experimentalSearch(prompt)
           user = { ...user, content: searchResponse.prompt }
           sources = searchResponse.sources
-          setExperimentalSearch(false)
         } catch (error) {
           toast(`${error}`)
           setExperimentalSearch(false)
@@ -111,6 +110,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
         }
         setStream(chunk)
       }
+      setExperimentalSearch(false)
       setLoading(false)
       setImageAttachment('')
     } catch (error) {
