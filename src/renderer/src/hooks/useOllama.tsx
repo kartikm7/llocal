@@ -19,17 +19,13 @@ interface useOllamaReturn {
 export const useOllama = ():useOllamaReturn => {
   // Initializing states for pulling a model
   const [, setPercentage] = useState(0)
-  const { setModelChoice } = useLocal()
-
+  const { setModelChoice, setList } = useLocal()
 
   const listModels = async ():Promise<listModels[]> => {
     const list = await ollama.list()
     const response:listModels[] = []
-    console.log(list);
-    
     list.models.forEach((val)=> {response.push({modelName: val.name, modelParameters: val.details.parameter_size})})  
     // for updating the local storage
-    localStorage.setItem('modelList', JSON.stringify(response))
     return response
   }
 
@@ -90,7 +86,12 @@ export const useOllama = ():useOllamaReturn => {
           }
         }
       }
+      // setting model preference
       setModelChoice(`${modelName}`)
+      // updating model list state 
+      const list = await listModels()
+      setList(list)
+
       // Dismissing the toast
       toast.dismiss(toastId)
       
