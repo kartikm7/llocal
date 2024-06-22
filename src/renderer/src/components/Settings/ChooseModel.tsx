@@ -3,7 +3,7 @@ import { useOllama } from '@renderer/hooks/useOllama'
 import { modelListAtom, prefModelAtom } from '@renderer/store/mocks'
 import { Dropdown } from '@renderer/ui/Dropdown'
 import { DropDownSelector } from '@renderer/ui/DropdownSelector'
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import React, { ChangeEvent, ComponentProps, useEffect } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
 import { twMerge } from 'tailwind-merge'
@@ -12,10 +12,10 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
   const { listModels } = useOllama()
   // deprecated this, atomWithStorage throws type errors for some reason
   // const [listMod, setListMod] = useState<listModels[]>([])
-  const [modelList, setModelList] = useAtom(modelListAtom)
+  const modelList = useAtomValue(modelListAtom)
 
-  const { setModelChoice } = useLocal()
-  const [prefModel] = useAtom(prefModelAtom)
+  const { setModelChoice, setList } = useLocal()
+  const prefModel = useAtomValue(prefModelAtom)
 
   useEffect(() => {
     async function list(): Promise<void> {
@@ -23,10 +23,10 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
       if (!prefModel) {
         setModelChoice(`${response[0].modelName}`)
       }
-      setModelList(response)
+      setList(response)
     }
     list()
-  }, [prefModel, modelList])
+  }, [prefModel])
 
   function handleChange(e: ChangeEvent<HTMLSelectElement>): void {
     const val = e.target.value
