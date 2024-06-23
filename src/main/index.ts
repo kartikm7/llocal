@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { autoUpdater } from 'electron-updater'
-import { binaryPath, checkOllama, downloadBinaries } from './ollama-binaries'
+import { binaryPath, checkOllama, downloadBinaries, installOllamaLinux } from './ollama-binaries'
 import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
@@ -126,6 +126,11 @@ app.whenReady().then(() => {
   async function downloadingOllama(): Promise<string> {
     const check = await checkOllama()
     if (!check) {
+      // in the case where the platform is linux we execute this command and the rest is handled 
+      if(platform == 'linux'){
+        const response = await installOllamaLinux();
+        return response;
+      }
       // ollama is downloading
       const response = await downloadBinaries()
       if (response == 'success') {
@@ -141,6 +146,10 @@ app.whenReady().then(() => {
   async function installingOllama(): Promise<boolean> {
     return new Promise((resolve) => {
       // mac-os has an edge case that needs to be dealt with
+      if(platform == 'linux'){
+        const check = checkingOllama(); // we just check incase
+        resolve(check) // resolve the check
+      }
       if (platform == 'darwin') {
         // the path to the directory where it's extracting
         const extractDirectory = path[1].replace('/ollama-darwin', '')

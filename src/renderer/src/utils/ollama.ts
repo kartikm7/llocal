@@ -38,6 +38,8 @@ export async function ollamaServe(setIsOllamaInstalled): Promise<void> {
           await installOllama()
         }, 1000)
       }
+      // incase the system is linux based, the download and installation takes place in a terminal
+      if(download === 'linux-detected') toast.info('Please wait till the installation completes on the terminal')
       if (download === 'download-failed')
         toast.error('There has been some error while downloading ollama!')
     }

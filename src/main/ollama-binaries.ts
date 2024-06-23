@@ -119,3 +119,14 @@ export async function downloadBinaries(): Promise<string> {
   }
 }
 
+export async function installOllamaLinux(): Promise<string> {
+  return new Promise((resolve)=> {
+    exec('gnome-terminal -- bash -c "curl -fsSL https://ollama.com/install.sh | sh; exec bash"', (error) => {
+      if(error == null){
+        resolve('linux-detected') // edge case handled on the frontend
+      } else{
+        resolve('download-failed')
+      }
+    })
+  }) 
+}
