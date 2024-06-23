@@ -16,8 +16,8 @@ const binaries = {
     url: 'https://github.com/ollama/ollama/releases/download/v0.1.44/OllamaSetup.exe'
   },
   darwin: {
-    name: 'Ollama-darwin',
-    url: 'https://github.com/ollama/ollama/releases/download/v0.1.44/Ollama-darwin.zip'
+    name: 'ollama-darwin',
+    url: 'https://github.com/ollama/ollama/releases/download/v0.1.45/Ollama-darwin.zip'
   },
   linux: {
     name: 'ollama-linux',
