@@ -49,7 +49,7 @@ export async function puppeteerSearch(
 
       // Extract and clean text from relevant tags
       const textElements = $('div, p, span, li, a')
-        .map((i, el) => preprocessText($(el).text()))
+        .map((_i, el) => preprocessText($(el).text()))
         .get()
         .join(' ')
 
