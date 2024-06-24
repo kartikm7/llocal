@@ -15,7 +15,7 @@ declare global {
       downloadingOllama: ()=>Promise<string>,
       installingOllama: ()=>Promise<boolean>,
       checkVersion: ()=>Promise<string>,
-      experimentalSearch: (searchQuery: string)=>Promise<duckduckgoSearchType>,
+      experimentalSearch: (searchQuery: string, links:string[])=>Promise<duckduckgoSearchType>,
     }
   }
 }

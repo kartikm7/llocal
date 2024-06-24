@@ -8,7 +8,8 @@ import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
 import process from 'node:process'
-import { duckduckgoSearch } from './duckduckgo'
+import { duckduckgoSearch, duckduckgoSearchType } from './duckduckgo'
+import { puppeteerSearch } from './puppeteer'
 
 // Handling dynamic imports the shell-path module, provides asynchronous functions
 (async (): Promise<void> => {
@@ -206,8 +207,10 @@ app.whenReady().then(() => {
     })
   })
   
-  ipcMain.handle('experimentalSearch', async (_event, searchQuery) => {
-    const response = await duckduckgoSearch(searchQuery)
+  ipcMain.handle('experimentalSearch', async (_event, searchQuery:string, links:string[]) => {
+    let response:duckduckgoSearchType
+    if(links.length > 0) response = await puppeteerSearch(searchQuery, links)
+    else response = await duckduckgoSearch(searchQuery)
     return response
   })
 

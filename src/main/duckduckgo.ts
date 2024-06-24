@@ -3,7 +3,7 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { OllamaEmbeddings } from '@langchain/community/embeddings/ollama'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 
-interface duckduckgoSearchType {
+export interface duckduckgoSearchType {
   prompt: string
   sources: string
 }

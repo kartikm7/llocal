@@ -13,7 +13,7 @@ const api = {
   downloadingOllama:():Promise<string>=> ipcRenderer.invoke('downloadingOllama'),
   installingOllama:():Promise<boolean>=> ipcRenderer.invoke('installingOllama'),
   checkVersion:():Promise<string>=> ipcRenderer.invoke('checkVersion'),
-  experimentalSearch:(searchQuery:string):Promise<duckduckgoSearchType>=> ipcRenderer.invoke('experimentalSearch', searchQuery),
+  experimentalSearch:(searchQuery:string, links:string[]):Promise<duckduckgoSearchType>=> ipcRenderer.invoke('experimentalSearch', searchQuery, links),
 }
 
 

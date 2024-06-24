@@ -24,6 +24,19 @@ interface userContentType {
   images?: string[]
 }
 
+// to extract urls from string
+function findUrls(text:string):string[] {
+  const urlPattern = new RegExp(
+      // eslint-disable-next-line no-useless-escape
+      /(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))\))+(?:\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’])?/gi
+  );
+  
+  const urls = text.match(urlPattern) ?? [];
+  return urls;
+}
+
+
+
 export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
   // Defining states
   const [isLoading, setLoading] = useState(false)
@@ -52,7 +65,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
       const initialUser = user
 
       let sources = ''
-
+      // this allows to have image attachments
       if (imageAttatchment) {
         user = { images: [imageAttatchment], ...user }
       }
@@ -61,8 +74,11 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
 
       // if the experimental search exists it will perform IPC invoke to the main functino and return the new prompt based on the search
       if (experimentalSearch) {
+        // checking if the prompt contains urls
+        const urls = findUrls(prompt);
+        if(urls.length > 1) toast.warning('Multiple links detected, only the first one is scraped') // edge case where in there are multiple links, we only select the first one
         try {
-          const searchResponse = await window.api.experimentalSearch(prompt)
+          const searchResponse = await window.api.experimentalSearch(prompt, urls)
           user = { ...user, content: searchResponse.prompt }
           sources = searchResponse.sources
         } catch (error) {
@@ -71,8 +87,6 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
           return
         }
       }
-
-      // this allows to have image attachments
 
       // Other way is to use axios, but could not figure out native streaming handling.
       // From what I could gather, axios does not use fetch in the background to make calls
