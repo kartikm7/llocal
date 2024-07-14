@@ -51,6 +51,8 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
     }
     if (selectedChatIndex) {
       getApi()
+    } else {
+      setChat([]) // this required because when the chat is deleted then the state also must clear
     }
   }, [selectedChatIndex])
 
@@ -61,7 +63,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
     >
       {chat &&
         chat.map((val, index) => {
-          console.log(val.content)
+          // console.log(val.content)
 
           return val.role == 'user' ? (
             <Card key={index} className="self-end bg-opacity-10 dark:bg-opacity-10">
@@ -90,7 +92,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
                     const myRef = useRef<SyntaxHighlighter>(null)
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const { children, className, node, ...rest } = props
-                    console.log(children)
+                    // console.log(children)
 
                     const match = /language-(\w+)/.exec(className || '')
                     return match ? (
@@ -141,7 +143,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
                   const myRef = useRef<SyntaxHighlighter>(null)
                   // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   const { children, className, node, ...rest } = props
-                  console.log(children)
+                  // console.log(children)
 
                   const match = /language-(\w+)/.exec(className || '')
                   return match ? (

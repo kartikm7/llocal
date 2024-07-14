@@ -5,31 +5,31 @@
 @font-face {
   font-family: 'Poppins';
   font-weight: 400;
-  src: url(./fonts/Poppins-Regular.ttf) format("truetype");
+  src: url(./fonts/Poppins-Regular.ttf) format('truetype');
 }
 
 @font-face {
   font-family: 'Poppins';
   font-weight: 500;
-  src: url(./fonts/Poppins-Medium.ttf) format("truetype");
+  src: url(./fonts/Poppins-Medium.ttf) format('truetype');
 }
 
 @font-face {
   font-family: 'Poppins';
   font-weight: 300;
-  src: url(./fonts/Poppins-Light.ttf) format("truetype");
+  src: url(./fonts/Poppins-Light.ttf) format('truetype');
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 4px;
   height: 4px;
 }
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 8px;
 }
 
-::-webkit-scrollbar-thumb:hover{
+::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.75);
 }
 
@@ -41,6 +41,13 @@
   background: rgba(0, 0, 0, 0.75);
 }
 
+@layer utilities {
+  .fade {
+    -webkit-mask-image: linear-gradient(180deg, #000 -70%, transparent);
+    mask-image: linear-gradient(90deg, #000 -70%, transparent);
+  }
+}
+
 /* code {
   text-wrap: wrap;
   padding: 2px;
@@ -50,14 +57,14 @@
 } */
 
 @media (prefers-color-scheme: dark) {
-   /* code {
+  /* code {
     background-color: rgba(255, 255, 255, 0.15);
   }  */
-  ::-webkit-scrollbar-thumb{
+  ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.5);
     border-radius: 8px;
   }
-  ::-webkit-scrollbar-thumb:hover{
+  ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.75);
   }
   ::-webkit-progress-value {

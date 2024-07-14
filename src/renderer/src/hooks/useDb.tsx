@@ -1,6 +1,7 @@
 import { db } from '@renderer/utils/db'
 import { Message, selectedChatIndexAtom } from '../store/mocks'
 import { useAtom } from 'jotai'
+import { toast } from 'sonner';
 
 export interface getDbReturn {
   date: string;
@@ -12,6 +13,7 @@ type useDbReturn = {
   getMessageList: () => Promise<getDbReturn[]>
   getChat: () => Promise<Message[]>
   updateDate: (date:string) => Promise<string>
+  deleteChat: (date:string) => Promise<void>
 }
 
 export function useDb(): useDbReturn {
@@ -47,10 +49,19 @@ export function useDb(): useDbReturn {
     return response.chat
   }
 
+  const deleteChat = async (date:string): Promise<void> => {
+    try {
+      await db.collection('chat').doc({ date: date }).delete()
+      setSelectedChatIndex("") // this is incredibly important, because chat/chatlist state updates happen based on selectedChatIndex
+      toast.success('The chat has been deleted')
+    } catch (error) {
+      toast.error(`The chat could not be deleted due to the following error \n + ${error}`)
+    }
+  }
+
   const getMessageList = async (): Promise<getDbReturn[]> => {
     const response = await db.collection('chat').orderBy('date').get()
-    console.log(response);
-    
+    // console.log(response);
     return response.reverse()
   }
 
@@ -61,5 +72,5 @@ export function useDb(): useDbReturn {
     return response.date
   }
 
-  return { addChat, getMessageList, getChat, updateDate }
+  return { addChat, getMessageList, getChat, updateDate, deleteChat }
 }
