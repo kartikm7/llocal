@@ -36,6 +36,17 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 > *At some point: would want to pivot LLocal in a different direction...* (Although would need to discuss this with the users.)
 
 
+## Important Note
+LLocal's builds are unsigned at the moment, meaning there will be an unknown publisher alert on Windows and Mac. But, on mac it does not open because the code is unsigned and to solve this issue you can do either of the following:
+
+1. Running a manual build by cloning the repo and then running the `npm run build:mac:arm` for m series or `npm run build:mac:intel` for intel based macs. When you build it on your own, that time apple does not throw the error. I know this is inconvenient but the build does take at max a few minutes.
+
+2. Incase, you don't want to build it by yourself then you can also try the Universal build that seems to be more stable than the separate builds, but then you'd get the developer is not verified error which can be by passed by following [this video](https://m.youtube.com/watch?v=aQRbftg80kg) .
+
+The link to the mac universal build is [this](https://github.com/kartikm7/llocal/releases/download/v1.0.0-beta.5/LLocal-1.0.0-beta.5-mac.zip).
+
+ 
+
 ## Project Setup
 
 LLocal is an Electron application with React and TypeScript. 
