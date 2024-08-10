@@ -6,15 +6,12 @@ import { PuppeteerWebBaseLoader } from '@langchain/community/document_loaders/we
 // import natural from "natural";
 // import { removeStopwords } from "stopword";
 
-interface puppeteerSearchType {
-  prompt: string
-  sources: string
-}
+
 
 export async function puppeteerSearch(
   searchQuery: string,
   links: string[]
-): Promise<puppeteerSearchType> {
+): Promise<ragReturn> {
   // const tokenizer = new natural.WordTokenizer();
   // const stemmer = natural.PorterStemmer;
   const url = links[0]

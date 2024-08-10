@@ -7,6 +7,11 @@ export interface Message {
   content: string
 }
 
+export interface fileContext {
+  path: string,
+  fileName: string
+}
+
 export const messages = [
   {
     role: 'user',
@@ -28,6 +33,7 @@ export const streamingAtom = atom<string>('') // Handling Streaming
 export const stopGeneratingAtom = atom<boolean>(false) // Handling the option to stop generating
 export const imageAttatchmentAtom = atom<string>('') // Storing the base64 image
 export const experimentalSearchAtom = atom<boolean>(false) // Toggle for websearch
+export const fileContextAtom = atom<fileContext>({path:"", fileName:""}) // Toggle for websearch
 export const modelListAtom = atom<listModels[] >(JSON.parse(localStorage.getItem('modelList') || '[]') as listModels[]) // Storing List of Models in Local Storage
 export const settingsToggleAtom = atom<boolean>(false)
 export const isOllamaInstalledAtom = atom<boolean>(false)

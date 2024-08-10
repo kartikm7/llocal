@@ -10,7 +10,9 @@ import { exec } from 'child_process'
 import process from 'node:process'
 import { duckduckgoSearch, duckduckgoSearchType } from './duckduckgo'
 import { puppeteerSearch } from './puppeteer'
-
+import { getFileName, getSelectedFiles, saveVectorDb, similaritySearch } from './utils/rag-utils'
+import { pdfDocs } from './utils/docs-generator'
+import path from 'path'
 // Handling dynamic imports the shell-path module, provides asynchronous functions
 (async (): Promise<void> => {
   const { shellPathSync } = await import('shell-path')
@@ -66,7 +68,7 @@ function createWindow(): void {
 
 // exporting downloads directory
 export const downloadDirectory = app.getPath('downloads')
-
+export const documentsDirectory = app.getPath('documents')
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -109,12 +111,12 @@ app.whenReady().then(() => {
   }
 
   const platform = os.platform()
-  const path = binaryPath(platform)
+  const downloadPath = binaryPath(platform)
 
   // Checking if binaries already exist
   async function checkingBinaries(): Promise<boolean> {
     return new Promise((resolve) => {
-      if (platform == 'darwin' ? fs.existsSync(path[0] + '.zip') : fs.existsSync(path[0])) {
+      if (platform == 'darwin' ? fs.existsSync(downloadPath[0] + '.zip') : fs.existsSync(downloadPath[0])) {
         resolve(true)
       } else {
         console.log('Checking behavior', false)
@@ -127,10 +129,10 @@ app.whenReady().then(() => {
   async function downloadingOllama(): Promise<string> {
     const check = await checkOllama()
     if (!check) {
-      // in the case where the platform is linux we execute this command and the rest is handled 
-      if(platform == 'linux'){
-        const response = await installOllamaLinux();
-        return response;
+      // in the case where the platform is linux we execute this command and the rest is handled
+      if (platform == 'linux') {
+        const response = await installOllamaLinux()
+        return response
       }
       // ollama is downloading
       const response = await downloadBinaries()
@@ -147,16 +149,16 @@ app.whenReady().then(() => {
   async function installingOllama(): Promise<boolean> {
     return new Promise((resolve) => {
       // mac-os has an edge case that needs to be dealt with
-      if(platform == 'linux'){
-        const check = checkingOllama(); // we just check incase
+      if (platform == 'linux') {
+        const check = checkingOllama() // we just check incase
         resolve(check) // resolve the check
       }
       if (platform == 'darwin') {
         // the path to the directory where it's extracting
-        const extractDirectory = path[1].replace('/ollama-darwin', '')
+        const extractDirectory = downloadPath[1].replace('/ollama-darwin', '')
         // this script ensures, the zip gets extracted and has the required permisions to execute
         exec(
-          `unzip ${path[1]}.zip -d ${extractDirectory} && chmod +x ${extractDirectory}/Ollama.app && ${extractDirectory}/Ollama.app/Contents/MacOS/Ollama`,
+          `unzip ${downloadPath[1]}.zip -d ${extractDirectory} && chmod +x ${extractDirectory}/Ollama.app && ${extractDirectory}/Ollama.app/Contents/MacOS/Ollama`,
           (error) => {
             if (error == null) {
               // ollama has been installed
@@ -168,7 +170,7 @@ app.whenReady().then(() => {
         )
       } else {
         // so much easier on windows, with linux hopefully the logic just needs to be appended with mac
-        exec(path[1], (error) => {
+        exec(downloadPath[1], (error) => {
           if (error == null) {
             // ollama has been installed
             resolve(true)
@@ -206,14 +208,28 @@ app.whenReady().then(() => {
       resolve(app.getVersion())
     })
   })
-  
-  ipcMain.handle('experimentalSearch', async (_event, searchQuery:string, links:string[]) => {
-    let response:duckduckgoSearchType
-    if(links.length > 0) response = await puppeteerSearch(searchQuery, links)
+
+  ipcMain.handle('experimentalSearch', async (_event, searchQuery: string, links: string[]) => {
+    let response: duckduckgoSearchType
+    if (links.length > 0) response = await puppeteerSearch(searchQuery, links)
     else response = await duckduckgoSearch(searchQuery)
     return response
   })
 
+  ipcMain.handle('addKnowledge', async ():Promise<addKnowledgeType>=> {
+      const {filePaths} = await getSelectedFiles()
+      const fileName = getFileName(filePaths[0]);
+      const docs = await pdfDocs(filePaths[0]);
+      const dir = path.join(app.getPath('documents'), 'LLocal', 'Knowledge Base', fileName)
+      await saveVectorDb(docs, dir)
+      return {path: dir, fileName: fileName};    
+    })
+
+  ipcMain.handle('similaritySearch', async (_event, indexPath:string, prompt:string):Promise<ragReturn>=>{
+    const splits = indexPath.split(".")
+    const response = await similaritySearch(indexPath,splits[splits.length-1], prompt)
+    return response
+  })
   createWindow()
 
   app.on('activate', async function () {

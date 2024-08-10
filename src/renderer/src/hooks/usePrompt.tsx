@@ -1,6 +1,7 @@
 import {
   chatAtom,
   experimentalSearchAtom,
+  fileContextAtom,
   imageAttatchmentAtom,
   prefModelAtom,
   stopGeneratingAtom,
@@ -48,7 +49,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
   const stopGeneratingRef = useRef(stopGenerating) // ref to handle the states correctly here, make sure the stop generating works
   const [imageAttatchment, setImageAttachment] = useAtom(imageAttatchmentAtom) // for images
   const [experimentalSearch, setExperimentalSearch] = useAtom(experimentalSearchAtom)
-
+  const [file, setFile] = useAtom(fileContextAtom)
   // To Debug
   // useEffect(()=>{console.log(stream);
   // },[stream])
@@ -84,6 +85,18 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
         } catch (error) {
           toast(`${error}`)
           setExperimentalSearch(false)
+          return
+        }
+      }
+
+      if(file.path){
+        try {
+          const searchResponse = await window.api.similaritySearch(file.path, prompt);
+          user = {...user, content: searchResponse.prompt}
+          sources = searchResponse.sources
+        } catch (error) {
+          toast(`${error}`)
+          setFile({path:"", fileName:""})
           return
         }
       }

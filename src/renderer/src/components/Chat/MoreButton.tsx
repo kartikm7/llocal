@@ -3,11 +3,10 @@ import { Menu, MenuSelector } from '@renderer/ui/Menu'
 import { cn } from '@renderer/utils/utils'
 import { ChangeEvent, ComponentProps, useState } from 'react'
 import { IoIosAddCircle } from 'react-icons/io'
-import { LuImage } from 'react-icons/lu'
+import { LuFile, LuImage } from 'react-icons/lu'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { experimentalSearchAtom, imageAttatchmentAtom, modelListAtom } from '@renderer/store/mocks'
+import { experimentalSearchAtom, fileContextAtom, imageAttatchmentAtom, modelListAtom } from '@renderer/store/mocks'
 import { toast } from 'sonner'
-import { Separator } from '@renderer/ui/Separator'
 import { Checkbox } from '@renderer/ui/Checkbox'
 
 export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
@@ -16,6 +15,7 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
   const setImageAttachment = useSetAtom(imageAttatchmentAtom)
   const [experimentalSearch, setExperimentalSearch] = useAtom(experimentalSearchAtom)
   const modelList = useAtomValue(modelListAtom)
+  const setFile = useSetAtom(fileContextAtom);
   function handleClick(): void {
     // checking if the embedding model exists
     let check = false
@@ -68,10 +68,25 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
     }
   }
 
+  const handleAddFile = async ():Promise<void> => {
+    const toastId = toast.loading(`Adding to the knowledge base`)
+    try {
+      const response = await window.api.addKnowledge()
+      setFile(response)
+      toast.success(`${response.fileName} has been added successfully!`, {id: toastId})
+    } catch (error) {
+      const splits = String(error).split(":")
+      toast.error(`${splits[splits.length-1]}`, {id: toastId})
+    }
+  }
+
   return (
     <div className={cn('relative flex flex-col justify-center items-center', className)} {...props}>
       {showMenu && (
         <Menu className="flex flex-col justify-center items-center gap-2">
+          <MenuSelector onClick={handleAddFile} className='flex items-center gap-2 cursor-pointer'>
+            <LuFile className='text-2xl'/> Add file
+          </MenuSelector>
           <MenuSelector>
             <label htmlFor="images" className="flex items-center gap-2 cursor-pointer">
               <LuImage className="text-2xl" /> Upload an image
@@ -84,7 +99,6 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
               onChange={handleImage}
             />
           </MenuSelector>
-          <Separator />
           <MenuSelector onClick={handleClick} className="cursor-pointer flex items-center gap-2">
             <Checkbox isExternalState={true} externalState={experimentalSearch} /> Web search
           </MenuSelector>

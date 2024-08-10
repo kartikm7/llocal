@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@renderer/ui/Button'
 import { MoreButton } from './MoreButton'
+import { ContextCard } from './ContextCard'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -35,28 +36,31 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
     await promptReq(data.prompt || '')
   }
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={twMerge(`relative w-3/6 h-12`, className)}
-      {...props}
-    >
-      <TextArea
-        name="prompt"
-        register={register}
-        disabled={isLoading}
-        onKeyDown={handleKeyDown}
-        className={`h-full w-full pl-10 pr-8`}
-        placeholder="Enter your prompt"
-      />
-      <MoreButton className="text-2xl absolute left-2 top-1/2 transform -translate-y-1/2" />
-      <Button
-        type="submit"
-        variant={'icon'}
-        disabled={isLoading}
-        className="text-2xl absolute right-2 top-1/2 transform -translate-y-1/2"
+    <div className='w-3/6 flex flex-col '>
+      <ContextCard className='self-end m-1 mr-5'/>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={twMerge(`relative  h-12`, className)}
+        {...props}
       >
-        <PiPaperPlaneRightFill />
-      </Button>
-    </form>
+        <TextArea
+          name="prompt"
+          register={register}
+          disabled={isLoading}
+          onKeyDown={handleKeyDown}
+          className={`h-full w-full pl-10 pr-8`}
+          placeholder="Enter your prompt"
+        />
+        <MoreButton className="text-2xl absolute left-2 top-1/2 transform -translate-y-1/2" />
+        <Button
+          type="submit"
+          variant={'icon'}
+          disabled={isLoading}
+          className="text-2xl absolute right-2 top-1/2 transform -translate-y-1/2"
+        >
+          <PiPaperPlaneRightFill />
+        </Button>
+      </form>
+      </div>
   )
 }
