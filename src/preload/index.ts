@@ -15,7 +15,8 @@ const api = {
   checkVersion:():Promise<string>=> ipcRenderer.invoke('checkVersion'),
   experimentalSearch:(searchQuery:string, links:string[]):Promise<duckduckgoSearchType>=> ipcRenderer.invoke('experimentalSearch', searchQuery, links),
   addKnowledge:():Promise<addKnowledgeType>=> ipcRenderer.invoke('addKnowledge'),
-  similaritySearch:(indexPath:string, prompt:string):Promise<ragReturn>=> ipcRenderer.invoke('similaritySearch',indexPath, prompt)
+  similaritySearch:(indexPath:string, prompt:string):Promise<ragReturn>=> ipcRenderer.invoke('similaritySearch',indexPath, prompt),
+  getVectorDbList:():Promise<addKnowledgeType[]>=> ipcRenderer.invoke('getVectorDbList'),
 }
 
 

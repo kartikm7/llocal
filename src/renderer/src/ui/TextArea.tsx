@@ -1,12 +1,13 @@
-import { ComponentProps } from 'react'
+import { ChangeEvent, ComponentProps } from 'react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 
 interface TextAreaProps extends ComponentProps<'textarea'> {
-  register: UseFormRegister<FieldValues>
+  register: UseFormRegister<FieldValues>,
+  handleChange(e:ChangeEvent<HTMLTextAreaElement>):void
 }
 
-export const TextArea = ({ className, ...props }: TextAreaProps): React.ReactElement => {
+export const TextArea = ({ className, handleChange ,...props }: TextAreaProps): React.ReactElement => {
 
   return (
     <textarea
@@ -18,7 +19,9 @@ export const TextArea = ({ className, ...props }: TextAreaProps): React.ReactEle
       disabled={props.disabled}
       placeholder={props.disabled ? 'Loading...' : props.placeholder}
       onKeyDown={props.onKeyDown}
-      {...props.register(props.name || '')}
+      {...props.register(props.name || '', {onChange(event) {
+        handleChange(event)
+      },})}
     />
   )
 }

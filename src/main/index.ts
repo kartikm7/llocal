@@ -10,7 +10,7 @@ import { exec } from 'child_process'
 import process from 'node:process'
 import { duckduckgoSearch, duckduckgoSearchType } from './duckduckgo'
 import { puppeteerSearch } from './puppeteer'
-import { getFileName, getSelectedFiles, saveVectorDb, similaritySearch } from './utils/rag-utils'
+import { getFileName, getSelectedFiles, getVectorDbList, saveVectorDb, similaritySearch } from './utils/rag-utils'
 import { pdfDocs } from './utils/docs-generator'
 import path from 'path'
 // Handling dynamic imports the shell-path module, provides asynchronous functions
@@ -230,6 +230,13 @@ app.whenReady().then(() => {
     const response = await similaritySearch(indexPath,splits[splits.length-1], prompt)
     return response
   })
+
+  ipcMain.handle('getVectorDbList', async ():Promise<addKnowledgeType[]> => {
+    return new Promise((resolve)=>{
+      resolve(getVectorDbList())
+    })
+  })
+
   createWindow()
 
   app.on('activate', async function () {

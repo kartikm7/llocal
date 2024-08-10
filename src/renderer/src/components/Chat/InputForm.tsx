@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react'
+import React, { ChangeEvent, ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { PiPaperPlaneRightFill } from 'react-icons/pi'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -9,6 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@renderer/ui/Button'
 import { MoreButton } from './MoreButton'
 import { ContextCard } from './ContextCard'
+import { AutoComplete } from './AutoComplete'
+import { useAtom, useAtomValue } from 'jotai'
+import { autoCompleteAtom, fileContextAtom } from '@renderer/store/mocks'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -25,7 +28,8 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
     resolver: zodResolver(FormFieldsSchema)
   })
   const [isLoading, promptReq] = usePrompt()
-
+  const [autoCompleteList, setAutoCompleteList] = useAtom(autoCompleteAtom);
+  const file = useAtomValue(fileContextAtom)
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>): void {
     if (event.key === 'Enter' && !event.shiftKey) {
       handleSubmit(onSubmit)()
@@ -33,10 +37,24 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   }
   const onSubmit: SubmitHandler<FormFieldsType> = async (data) => {
     reset()
+    setAutoCompleteList([])
     await promptReq(data.prompt || '')
   }
+
+  async function handleChange(e:ChangeEvent<HTMLTextAreaElement>):Promise<void>{
+    const input = e.target.value;
+    if(input.trim().startsWith("/")){
+      const list = await window.api.getVectorDbList();
+      const typed = input.replace('/',''); // this is to get whatever the user has typed after the /
+      setAutoCompleteList(list.filter((val)=> val.fileName.includes(typed)))
+    } else {
+      setAutoCompleteList([]) // set it empty when it does not start with /
+    }
+  }
+
   return (
-    <div className='w-3/6 flex flex-col '>
+    <div className='relative w-3/6 h-fit flex flex-col'>
+      {(autoCompleteList.length > 0 && !file.fileName) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
       <ContextCard className='self-end m-1 mr-5'/>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -48,6 +66,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
           register={register}
           disabled={isLoading}
           onKeyDown={handleKeyDown}
+          handleChange={handleChange}
           className={`h-full w-full pl-10 pr-8`}
           placeholder="Enter your prompt"
         />
