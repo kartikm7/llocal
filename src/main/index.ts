@@ -11,7 +11,7 @@ import process from 'node:process'
 import { duckduckgoSearch, duckduckgoSearchType } from './duckduckgo'
 import { puppeteerSearch } from './puppeteer'
 import { getFileName, getSelectedFiles, getVectorDbList, saveVectorDb, similaritySearch } from './utils/rag-utils'
-import { pdfDocs } from './utils/docs-generator'
+import { generateDocs } from './utils/docs-generator'
 import path from 'path'
 // Handling dynamic imports the shell-path module, provides asynchronous functions
 (async (): Promise<void> => {
@@ -219,7 +219,7 @@ app.whenReady().then(() => {
   ipcMain.handle('addKnowledge', async ():Promise<addKnowledgeType>=> {
       const {filePaths} = await getSelectedFiles()
       const fileName = getFileName(filePaths[0]);
-      const docs = await pdfDocs(filePaths[0]);
+      const docs = await generateDocs(filePaths[0]);
       const dir = path.join(app.getPath('documents'), 'LLocal', 'Knowledge Base', fileName)
       await saveVectorDb(docs, dir)
       return {path: dir, fileName: fileName};    

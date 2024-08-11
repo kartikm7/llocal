@@ -23,7 +23,7 @@ export async function getSelectedFiles(): Promise<getFile> {
     dialog
       .showOpenDialog({
         message: 'Choose files to add to the knowledge base',
-        filters: [{ name: 'PDF, DOCX, PPTX, TXT', extensions: ['pdf', 'pptx', 'docx', 'txt'] }],
+        filters: [{ name: 'pdf, pptx, docx, txt, csv', extensions: ['pdf', 'pptx', 'docx', 'txt', 'csv'] }],
       })
       .then((filePath): void => {
         if(filePath.canceled) reject(`The operation has been aborted!`)
@@ -93,9 +93,14 @@ export async function similaritySearch(
   const similaritySearch = await vectorstore.similaritySearch(prompt)
   let sources = "## Sources: \n";
   // for pdf
-  if(fileType == "pdf"){
+  if(fileType != "csv"){
     similaritySearch.forEach((val)=>{      
       sources += `Page number: ${val.metadata.loc.pageNumber}, From Line ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to}`
+      sources += "\n" 
+    })
+  } else {
+    similaritySearch.forEach((val)=>{      
+      sources += `Line number: ${val.metadata.line}`
       sources += "\n" 
     })
   }
