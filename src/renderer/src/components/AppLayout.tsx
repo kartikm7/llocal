@@ -31,17 +31,19 @@ export const Settings = ({
       {settingsToggle && (
         <div
           className={twMerge(
-            `dark:bg-black dark:bg-opacity-50 bg-foreground bg-opacity-50 absolute z-30 flex flex-col justify-center itm w-full h-screen backdrop-blur p-5 overflow-auto`,
+            `dark:bg-black dark:bg-opacity-50 bg-foreground bg-opacity-50 absolute z-30 flex flex-col justify-center items-center w-full h-screen backdrop-blur p-5 overflow-hidden`,
             className
           )}
           {...props}
         >
-          <div
-            onClick={handleClick}
-            className="flex opacity-50 gap-1 sticky top-2 w-full cursor-pointer hover:opacity-100 transition-all "
-          >
-            <AiFillCloseCircle className="text-2xl " />
-            <h1 className="">Close</h1>
+          <div className=" sticky top-5 left-5 w-full  ">
+            <div
+              onClick={handleClick}
+              className="flex opacity-50 gap-1 cursor-pointer hover:opacity-100 transition-all w-fit"
+            >
+              <AiFillCloseCircle className="text-2xl " />
+              <h1 className="">Close</h1>
+            </div>
           </div>
           {children}
         </div>
@@ -71,7 +73,10 @@ export const Sidebar = ({
   return (
     <div className={`flex gap-2 items-center justify-center bg-transparent`}>
       <aside
-        className={twMerge(`transition-transform transform ${open ? 'translate-x-0 w-[250px] h-screen p-5' : '-translate-x-full w-0'} `, className)}
+        className={twMerge(
+          `transition-transform transform ${open ? 'translate-x-0 w-[250px] h-screen p-5' : '-translate-x-full w-0'} `,
+          className
+        )}
         {...props}
       >
         {open && children}

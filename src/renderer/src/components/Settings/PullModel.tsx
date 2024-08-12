@@ -19,7 +19,7 @@ type FormFields = {
 export const PullModel = ({ className, ...props }: ComponentProps<'form'>): React.ReactElement => {
   const { register, handleSubmit, reset } = useForm<FormFields>()
   const [isLoading, setLoading] = useState(false)
-  const breadcrumbs = ['qwen2:1.5b', 'phi3', 'llama3']
+  const breadcrumbs = ['qwen2:1.5b', 'phi3', 'llama3.1']
   const [, setSelectedBreadcrumb] = useState('')
   const { pullModel } = useOllama()
 
@@ -93,12 +93,12 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
       </Card>
       <Card className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
         <CopyToClipboard
-          text={'llava-phi3'}
-          onCopy={() => toast.success(`llava-phi3 copied to clipboard!`)}
+          text={'moondream'}
+          onCopy={() => toast.success(`moondream copied to clipboard!`)}
         >
           <p className='flex justify-center items-center gap-1'>
             <HiMiniSparkles className='text-yellow-500' />
-            llava-phi3 (supports <LuImage /> images )
+            moondream (supports <LuImage /> images )
           </p>
         </CopyToClipboard>
       </Card>

@@ -1,4 +1,5 @@
 import { autoCompleteAtom, fileContextAtom } from "@renderer/store/mocks"
+import { BreadCrumb } from "@renderer/ui/BreadCrumb"
 import { Card } from "@renderer/ui/Card"
 import { cn } from "@renderer/utils/utils"
 import { useAtom, useSetAtom } from "jotai"
@@ -25,7 +26,7 @@ export const AutoComplete = ({className, list, reset,...props}:AutoCompleteProps
   const map = new Map();
   map.set('pdf', <BreadCrumb className="text-red-400">PDF</BreadCrumb> )
   map.set('docx', <BreadCrumb className="text-blue-400">DOCX</BreadCrumb> )
-  map.set('ppt', <BreadCrumb className="text-orange-400">PPT</BreadCrumb> )
+  map.set('pptx', <BreadCrumb className="text-orange-400">PPTX</BreadCrumb> )
   map.set('txt', <BreadCrumb className="">TXT</BreadCrumb> )
   map.set('csv', <BreadCrumb className="text-green-400">CSV</BreadCrumb> )
 
@@ -49,8 +50,3 @@ export const AutoComplete = ({className, list, reset,...props}:AutoCompleteProps
 }
 
 
-const BreadCrumb = ({className,children, ...props}:ComponentProps<'div'>):React.ReactElement => {
-  return <Card className={cn(className, 'w-fit text-xs p-2 rounded-xl cursor-pointer')} {...props}>
-    {children}
-  </Card>
-} 
