@@ -11,7 +11,7 @@ import { MoreButton } from './MoreButton'
 import { ContextCard } from './ContextCard'
 import { AutoComplete } from './AutoComplete'
 import { useAtom, useAtomValue } from 'jotai'
-import { autoCompleteAtom, fileContextAtom } from '@renderer/store/mocks'
+import { fileContextAtom, knowledgeBaseAtom } from '@renderer/store/mocks'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -28,7 +28,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
     resolver: zodResolver(FormFieldsSchema)
   })
   const [isLoading, promptReq] = usePrompt()
-  const [autoCompleteList, setAutoCompleteList] = useAtom(autoCompleteAtom);
+  const [autoCompleteList, setAutoCompleteList] = useAtom(knowledgeBaseAtom);
   const file = useAtomValue(fileContextAtom)
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>): void {
     if (event.key === 'Enter' && !event.shiftKey) {
