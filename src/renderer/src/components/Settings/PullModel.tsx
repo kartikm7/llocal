@@ -87,7 +87,7 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
         >
           <p className='flex justify-center items-center gap-1'>
             <HiMiniSparkles className='text-yellow-500' />
-            all-minilm ( this is needed for <FaGlobeAsia /> web search )
+            all-minilm ( this is needed for <FaGlobeAsia /> web search & file upload )
           </p>
         </CopyToClipboard>
       </Card>

@@ -5,21 +5,43 @@ import { useDb } from '@renderer/hooks/useDb'
 import { MdDeleteForever } from 'react-icons/md'
 import { LuCheckCircle2, LuXCircle } from 'react-icons/lu'
 import { toast } from 'sonner'
+import { useSetAtom } from 'jotai'
+import { knowledgeBaseAtom } from '@renderer/store/mocks'
 
 interface DeleteButtonProps extends ComponentProps<'div'> {
-  date: string
+  date?: string,
+  path?: string,
+  fileName?: string,
+  type: "chat" | "knowledge"
 }
 
 export const DeleteButton = ({
   className,
-  date,
+  date = '',
+  path = '',
+  fileName = '',
+  type,
   ...props
 }: DeleteButtonProps): React.ReactElement => {
   const { deleteChat } = useDb()
   const [showOptions, setShowOptions] = useState(false)
+  const setKnowledgeBase = useSetAtom(knowledgeBaseAtom)
 
   async function handleClick(del = false): Promise<void> {
-    if (del) await deleteChat(date)
+    /*
+    * this component, is shared between chatlist and the knowledge base, 
+    * so here we check whether the call is made from the chatlist component or knowledgeBase  
+    */    
+    if (del && type == 'chat') await deleteChat(date)
+    if (del && type == 'knowledge'){
+      try {
+        await window.api.deleteVectorDb(path);
+        setKnowledgeBase((pre) => pre.filter((val)=> val.path != path)) // filtering the global state
+        toast.success(`${fileName} has been removed from the Knowledge Base.`)
+      } catch (error) {
+        toast.error(`${error}`)
+      }
+    }
     setShowOptions((pre) => !pre)
   }
 
@@ -31,7 +53,7 @@ export const DeleteButton = ({
             type="button"
             variant="icon"
             onClick={() => {
-              toast.info('The chat was not deleted')
+              toast.info(`The ${type} was not deleted`)
               handleClick()
             }}
           >
@@ -48,7 +70,7 @@ export const DeleteButton = ({
           variant="icon"
           onClick={() => {
             handleClick()
-            toast.warning('Once the chat is deleted, it is deleted forever!')
+            toast.warning(`Once the ${type} is deleted, it is deleted forever!`)
           }}
         >
           <MdDeleteForever className={`block text-2xl`} />

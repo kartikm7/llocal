@@ -1,4 +1,4 @@
-import { autoCompleteAtom, fileContextAtom } from "@renderer/store/mocks"
+import { fileContextAtom, knowledgeBaseAtom } from "@renderer/store/mocks"
 import { BreadCrumb } from "@renderer/ui/BreadCrumb"
 import { Card } from "@renderer/ui/Card"
 import { cn } from "@renderer/utils/utils"
@@ -31,7 +31,7 @@ export const AutoComplete = ({className, list, reset,...props}:AutoCompleteProps
   map.set('csv', <BreadCrumb className="text-green-400">CSV</BreadCrumb> )
 
   const [file, setFile] = useAtom(fileContextAtom)
-  const setAutoCompleteList = useSetAtom(autoCompleteAtom)
+  const setAutoCompleteList = useSetAtom(knowledgeBaseAtom)
   function handleClick(val:getVectorDb):void{
     setFile(val)
     setAutoCompleteList([])

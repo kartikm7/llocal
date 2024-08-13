@@ -17,6 +17,7 @@ const api = {
   addKnowledge:():Promise<addKnowledgeType>=> ipcRenderer.invoke('addKnowledge'),
   similaritySearch:(indexPath:string, prompt:string):Promise<ragReturn>=> ipcRenderer.invoke('similaritySearch',indexPath, prompt),
   getVectorDbList:():Promise<addKnowledgeType[]>=> ipcRenderer.invoke('getVectorDbList'),
+  deleteVectorDb:(indexPath:string):Promise<boolean>=> ipcRenderer.invoke('deleteVectorDb',indexPath),
 }
 
 

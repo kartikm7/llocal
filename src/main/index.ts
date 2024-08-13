@@ -10,7 +10,7 @@ import { exec } from 'child_process'
 import process from 'node:process'
 import { duckduckgoSearch, duckduckgoSearchType } from './duckduckgo'
 import { puppeteerSearch } from './puppeteer'
-import { getFileName, getSelectedFiles, getVectorDbList, saveVectorDb, similaritySearch } from './utils/rag-utils'
+import { deleteVectorDb, getFileName, getSelectedFiles, getVectorDbList, saveVectorDb, similaritySearch } from './utils/rag-utils'
 import { generateDocs } from './utils/docs-generator'
 import path from 'path'
 // Handling dynamic imports the shell-path module, provides asynchronous functions
@@ -234,6 +234,12 @@ app.whenReady().then(() => {
   ipcMain.handle('getVectorDbList', async ():Promise<addKnowledgeType[]> => {
     return new Promise((resolve)=>{
       resolve(getVectorDbList())
+    })
+  })
+
+  ipcMain.handle('deleteVectorDb', async (_event, indexPath):Promise<boolean> => {
+    return new Promise ((resolve)=>{
+      resolve(deleteVectorDb(indexPath))
     })
   })
 

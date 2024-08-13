@@ -29,6 +29,7 @@ declare global {
       addKnowledge: ()=>Promise<addKnowledgeType>,
       similaritySearch: (indexPath:string, prompt:string)=>Promise<ragReturn>,
       getVectorDbList:()=>Promise<addKnowledgeType[]>,
+      deleteVectorDb: (indexPath:string)=>Promise<boolean>,
     }
   }
 }
