@@ -27,7 +27,7 @@ function App(): JSX.Element {
 
   return (
     <RootLayout
-      className={`${darkMode && 'dark'} bg-[#DDDDDD] relative font-poppins scrollbar scrollbar-thumb-thin dark:bg-[#2c2c2c] dark:text-foreground w-full bg-cover h-screen`}
+      className={`${darkMode && 'dark'} bg-[#DDDDDD] relative font-poppins scrollbar scrollbar-thumb-thin dark:bg-[#2c2c2c] dark:text-foreground w-full bg-cover h-screen overflow-hidden`}
       style={{ backgroundImage: `url("${backgroundImage}")` }}
     >
       <Toaster className='font-poppins text-base' richColors theme={darkMode ? 'dark' : 'light'} />
