@@ -93,17 +93,17 @@ export async function similaritySearch(
 
   // performing similarity search for getting the context
   const similaritySearch = await vectorstore.similaritySearch(prompt)
-  let sources = '## Sources: \n'
+  let sources = '\n Sources: \n'
   // for pdf
-  if (fileType != 'csv') {
+  if (fileType == 'pdf') {
+    sources += '| Page Number | From Line |\n |-------|-------| \n'
     similaritySearch.forEach((val) => {
-      sources += `Page number: ${val.metadata.loc.pageNumber}, From Line ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to}`
-      sources += '\n'
+      sources += `| ${val.metadata.loc.pageNumber} | ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
     })
   } else {
+    sources += '| Line Number |\n|:-------:|\n'
     similaritySearch.forEach((val) => {
-      sources += `Line number: ${val.metadata.line}`
-      sources += '\n'
+      sources += `| ${val.metadata.line} | \n`
     })
   }
   return {
