@@ -48,6 +48,23 @@
   }
 }
 
+table,
+tr,
+td,
+th {
+  border: 1px solid grey ;
+}
+
+th {
+  font-weight: 400;
+  font-style: italic;
+  background-color: rgb(128, 128, 128, 0.25);
+}
+
+th, tr {
+  padding: 0 5%;
+}
+
 /* code {
   text-wrap: wrap;
   padding: 2px;
