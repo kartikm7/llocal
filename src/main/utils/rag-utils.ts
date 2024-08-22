@@ -94,11 +94,19 @@ export async function similaritySearch(
   // performing similarity search for getting the context
   const similaritySearch = await vectorstore.similaritySearch(prompt)
   let sources = '\n Sources: \n'
+
   // for pdf
   if (fileType == 'pdf') {
     sources += '| Page Number | From Line |\n |-------|-------| \n'
     similaritySearch.forEach((val) => {
       sources += `| ${val.metadata.loc.pageNumber} | ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
+    })
+  } 
+  // for pptx
+  else if (fileType == 'pptx') {
+    sources += '| From Line |\n |-------| \n'
+    similaritySearch.forEach((val) => {
+      sources += `| ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
     })
   } else {
     sources += '| Line Number |\n|:-------:|\n'
@@ -115,10 +123,10 @@ export async function similaritySearch(
 export function deleteVectorDb(indexPath: string): boolean {
   /* This is so interesting, because we don't need to use a try catch here, 
   since where we make a call we can use the try catch there this nuance makes javascript so interesting */
-    rm(indexPath, { recursive: true, force: true }, (err) => {
-      if (err) {
-        throw err
-      }
-    })
+  rm(indexPath, { recursive: true, force: true }, (err) => {
+    if (err) {
+      throw err
+    }
+  })
   return true
 }
