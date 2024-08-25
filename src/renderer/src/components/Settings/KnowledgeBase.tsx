@@ -5,6 +5,7 @@ import React, { ComponentProps, useEffect } from "react";
 import { DeleteButton } from "../Sidebar/DeleteButton";
 import { useAtom } from "jotai";
 import { knowledgeBaseAtom } from "@renderer/store/mocks";
+import { IoIosAddCircle } from 'react-icons/io'
 
 // interface getVectorDb{
 //   path: string,
@@ -32,7 +33,7 @@ export const KnowLedgeBase = ({className, ...props}:ComponentProps<'div'>):React
   map.set('csv', <BreadCrumb className="group-hover:fade line-clamp-1 transition-all text-green-400">CSV</BreadCrumb> )
   return <>
   <Card className={cn('space-y-2 overflow-scroll',className)} {...props}>
-    {knowledgeBase.map((val, index)=> {
+    {knowledgeBase.length > 0 ? knowledgeBase.map((val, index)=> {
       const splits = val.fileName.split('.') // this splits the string at '.' and pushes the parts before and after to an array
       const extension = splits[splits.length-1] // because we know the characters after the final '.' will be the extension this works
       return <Card className="group relative flex justify-between items-center gap-5" key={index}>
@@ -40,7 +41,12 @@ export const KnowLedgeBase = ({className, ...props}:ComponentProps<'div'>):React
         <h1 className="group-hover:fade line-clamp-1 transition-all">{val.fileName}</h1>
         {map.get(extension)}
       </Card>
-    })}
+    }) : <div className="p-3 space-y-2">
+      <h1  >It&apos;s quite empty in here <br /></h1>
+      <h1 className="opacity-50 text-sm">You can add content to the knowledge base using the more button in the the chatbox <br />
+      <span className="flex items-center gap-2">the more button looks like this : <IoIosAddCircle /> </span>
+      </h1>
+      </div>}
   </Card>
   <p className="opacity-50 text-sm">To access the Knowledge Base, you can use the / forward slash at the beginning of your prompt </p>
   </>
