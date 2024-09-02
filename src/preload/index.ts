@@ -10,6 +10,7 @@ interface duckduckgoSearchType {
 const api = {
   checkingOllama:():Promise<boolean>=> ipcRenderer.invoke('checkingOllama'),
   checkingBinaries:():Promise<boolean>=> ipcRenderer.invoke('checkingBinaries'),
+  checkingBinarySize:():Promise<boolean>=> ipcRenderer.invoke('checkingBinarySize'),
   downloadingOllama:():Promise<string>=> ipcRenderer.invoke('downloadingOllama'),
   installingOllama:():Promise<boolean>=> ipcRenderer.invoke('installingOllama'),
   checkVersion:():Promise<string>=> ipcRenderer.invoke('checkVersion'),

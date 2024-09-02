@@ -22,9 +22,20 @@ export async function ollamaServe(setIsOllamaInstalled): Promise<void> {
   const check = await window.api.checkingOllama()
   if (!check) {
     const alreadyDownloaded = await window.api.checkingBinaries()
+    let toastId: string | number = ''
+    let binarySizeCheck; 
+    if(alreadyDownloaded){
+      toastId = toast.info('Ollama setup has already been downloaded. \n Now checking whether it is upto date or not')
+      binarySizeCheck = await window.api.checkingBinarySize()
+      if(!binarySizeCheck){
+        toast.info('The current setup is not upto date, downloading the latest setup', {id: toastId})
+       }
+    }
 
-    if (alreadyDownloaded) {
-      toast.info('Ollama setup has already been downloaded.')
+    console.log('Binary size',binarySizeCheck)
+
+    if (alreadyDownloaded && binarySizeCheck) {
+      toast.success('The current setup is upto date, starting the installation!', {id: toastId})
       await installOllama()
     }
     // if not downloaded

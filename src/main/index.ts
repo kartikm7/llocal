@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { autoUpdater } from 'electron-updater'
-import { binaryPath, checkOllama, downloadBinaries, installOllamaLinux } from './ollama-binaries'
+import { binaryNames, binaryPath, checkOllama, checkSize, downloadBinaries, installOllamaLinux } from './ollama-binaries'
 import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
@@ -125,6 +125,16 @@ app.whenReady().then(() => {
     })
   }
 
+  async function checkingBinarySize(): Promise<boolean>{
+    let currentPath = downloadPath[0]
+    
+    if(platform == 'darwin'){
+      currentPath = downloadPath[0] + '.zip'
+    }
+    const llocalSize:number = fs.statSync(currentPath).size
+    return await checkSize(binaryNames[platform].name, llocalSize)
+  }
+
   //  used when ollama is not downloaded
   async function downloadingOllama(): Promise<string> {
     const check = await checkOllama()
@@ -190,6 +200,11 @@ app.whenReady().then(() => {
 
   ipcMain.handle('checkingBinaries', async () => {
     const response = await checkingBinaries()
+    return response
+  })
+
+  ipcMain.handle('checkingBinarySize', async () => {
+    const response = await checkingBinarySize()
     return response
   })
 

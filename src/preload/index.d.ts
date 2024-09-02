@@ -22,6 +22,7 @@ declare global {
     api: {
       checkingOllama: ()=>Promise<boolean>,
       checkingBinaries: ()=>Promise<boolean>,
+      checkingBinarySize: ()=>Promise<boolean>,
       downloadingOllama: ()=>Promise<string>,
       installingOllama: ()=>Promise<boolean>,
       checkVersion: ()=>Promise<string>,
