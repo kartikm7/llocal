@@ -14,7 +14,7 @@ export const binaryNames = {
     name: 'OllamaSetup.exe',
   },
   darwin: {
-    name: 'ollama-darwin',
+    name: 'Ollama-darwin.zip',
   },
   linux: {
     name: 'ollama-linux',
@@ -82,12 +82,7 @@ export async function downloadBinaries(): Promise<string> {
   const directory = dir()
   // Handling the edge cases for mac and (hopefully) linux
   // mac requires the extension (I think)
-  let binaryDirectory = ''
-  if (operatingSystem == 'darwin' || operatingSystem == 'linux') {
-    binaryDirectory = path.join(directory, `${binary.name}.zip`)
-  } else {
-    binaryDirectory = path.join(directory, binary.name)
-  }
+  const binaryDirectory = path.join(directory, binary.name)
 
   if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true })
 
@@ -100,12 +95,7 @@ export async function downloadBinaries(): Promise<string> {
   }
 
   // mack surely requires .zip extension here otherwise, doesn't download the file correctly
-  let filePath = ''
-  if (operatingSystem == 'darwin' || operatingSystem == 'linux') {
-    filePath = path.resolve(directory, `${binary.name}.zip`)
-  } else {
-    filePath = path.resolve(directory, binary.name)
-  }
+  const filePath = path.resolve(directory, binary.name)
 
   // downloading by writing to the resolved path
   try {
@@ -182,6 +172,5 @@ async function getAssetUrl(fileName:string):Promise<string>{
   const latestRelease = new GetLatestRelease()
   const assets = (await latestRelease.get()).assets
   const response = assets.find(asset => asset.name == fileName)?.browser_download_url
-  console.log(response)
   return response ?? ''
 }

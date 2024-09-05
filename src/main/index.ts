@@ -116,7 +116,7 @@ app.whenReady().then(() => {
   // Checking if binaries already exist
   async function checkingBinaries(): Promise<boolean> {
     return new Promise((resolve) => {
-      if (platform == 'darwin' ? fs.existsSync(downloadPath[0] + '.zip') : fs.existsSync(downloadPath[0])) {
+      if (fs.existsSync(downloadPath[0])) {
         resolve(true)
       } else {
         console.log('Checking behavior', false)
@@ -126,11 +126,7 @@ app.whenReady().then(() => {
   }
 
   async function checkingBinarySize(): Promise<boolean>{
-    let currentPath = downloadPath[0]
-    
-    if(platform == 'darwin'){
-      currentPath = downloadPath[0] + '.zip'
-    }
+    const currentPath = downloadPath[0]
     const llocalSize:number = fs.statSync(currentPath).size
     return await checkSize(binaryNames[platform].name, llocalSize)
   }
@@ -165,10 +161,10 @@ app.whenReady().then(() => {
       }
       if (platform == 'darwin') {
         // the path to the directory where it's extracting
-        const extractDirectory = downloadPath[1].replace('/ollama-darwin', '')
+        const extractDirectory = downloadPath[1].replace('/Ollama-darwin.zip', '')
         // this script ensures, the zip gets extracted and has the required permisions to execute
         exec(
-          `unzip ${downloadPath[1]}.zip -d ${extractDirectory} && chmod +x ${extractDirectory}/Ollama.app && ${extractDirectory}/Ollama.app/Contents/MacOS/Ollama`,
+          `unzip ${downloadPath[1]} -d ${extractDirectory} && chmod +x ${extractDirectory}/Ollama.app && ${extractDirectory}/Ollama.app/Contents/MacOS/Ollama`,
           (error) => {
             if (error == null) {
               // ollama has been installed

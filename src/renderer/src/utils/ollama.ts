@@ -32,8 +32,6 @@ export async function ollamaServe(setIsOllamaInstalled): Promise<void> {
        }
     }
 
-    console.log('Binary size',binarySizeCheck)
-
     if (alreadyDownloaded && binarySizeCheck) {
       toast.success('The current setup is upto date, starting the installation!', {id: toastId})
       await installOllama()
