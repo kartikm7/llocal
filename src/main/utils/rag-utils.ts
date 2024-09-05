@@ -102,18 +102,19 @@ export async function similaritySearch(
       sources += `| ${val.metadata.loc.pageNumber} | ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
     })
   } 
-  // for pptx
-  else if (fileType == 'pptx') {
-    sources += '| From Line |\n |-------| \n'
-    similaritySearch.forEach((val) => {
-      sources += `| ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
-    })
-  } else {
+  else if(fileType == 'csv') {
     sources += '| Line Number |\n|:-------:|\n'
     similaritySearch.forEach((val) => {
       sources += `| ${val.metadata.line} | \n`
     })
   }
+  else {
+    sources += '| From Line |\n |-------| \n'
+    similaritySearch.forEach((val) => {
+      sources += `| ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
+    })
+  } 
+
   return {
     prompt: `this is my question ${prompt},\n answer only from the following context: \n ${JSON.stringify(similaritySearch)}`,
     sources: sources
