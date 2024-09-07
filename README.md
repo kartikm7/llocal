@@ -2,7 +2,7 @@
 
 # LLocal
 
-Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3, Phi-3, Mistral). Focused on ease of use.
+Aiming to provide a seamless and privacy driven chatting experience with open-sourced technologies(Ollama), particularly open sourced LLM's(eg. Llama3.1, Phi-3, Mistral). Focused on ease of use.
 <br />LLocal can be installed on ****Windows****, ****Mac**** and ****Linux****.
 
 <a target="_blank" href="https://discord.gg/ygrrVJA6Th"><img src="https://dcbadge.limes.pink/api/server/ygrrVJA6Th" alt="" /></a>
@@ -16,6 +16,7 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 - Easily pull new models.
 - Image upload for models that support vision.
 - Web search (i.e Website scraper aswell as duckduckgo search inbuilt) for all models.
+- Chat with Files with persistence through vector db's being stored llocally. (Supported file types are PDF, PPTX, DOCX, CSV & TXT)
 - Responses are rendered as markdown (Supporting Code Blocks with syntax highlighting, tabular formats and much more).
 - Multiple themes (5 themes all suporting both light and dark mode)
 - Seamless integration with Ollama, from download to install.
@@ -23,14 +24,15 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 ## What's ahead?
 - Chat with images ✅
 - Web Search ☑️ (purple because, it still can be improved)
-- Retrieval Augmented Generation/RAG (with single PDF's)
+- Retrieval Augmented Generation/RAG (with single PDF's) ✅
 - Multiple PDF chat
-- Text to Speech Models (only if we can get to be similar to a human like response).
+- Code live preview for web based code (Something like what Claude Provides)
+- Text to Speech Models (only if we can get to be similar to a human like response)
 - Community wallpapers
 - Community themes (something like what spicetify does)
 - Lofi Music (this would be optional)
 - Speech to text (Do we really need it?)
-- Conversations like those with ChatGPT (Speech to text input and text to speech output, but the aim would be low-latency).
+- Conversations like those with ChatGPT (Speech to text input and text to speech output, but the aim would be low-latency)
 - Chat with chats ?! (Not sure)
 
 > *At some point: would want to pivot LLocal in a different direction...* (Although would need to discuss this with the users.)
