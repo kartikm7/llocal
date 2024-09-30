@@ -23,6 +23,10 @@ interface RagReturn {
   sources: string
 }
 
+interface ScoredDocument extends Document {
+  score: number;
+}
+
 export const getFileName = (dir: string): string => path.basename(dir)
 
 export const getSelectedFiles = (): Promise<GetFile> => {
@@ -40,10 +44,7 @@ export const saveVectorDb = async (docs: Document[], saveDirectory: string): Pro
     model: 'all-minilm'
   })
 
-  const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 200
-  })
+  const textSplitter = new RecursiveCharacterTextSplitter()
 
   try {
     const splits = await textSplitter.splitDocuments(docs)
@@ -92,27 +93,50 @@ const generateSources = (similaritySearch: any[], fileType: string): string => {
   return sources
 }
 
-// Replace rerankResults with bm25Rerank function
-export const bm25Rerank = (results: any[], query: string, k1 = 1.5, b = 0.75): any[] => {
-  const queryTerms = query.toLowerCase().split(' ');
-  const avgDocLength = results.reduce((sum, r) => sum + r.pageContent.length, 0) / results.length;
+// Optimized reranking function
+export const bm25Rerank = (results: Document[], query: string, k1 = 1.5, b = 0.75): ScoredDocument[] => {
+  const queryTerms = query.toLowerCase().split(/\s+/).filter(term => term.length > 1);
+  const docCount = results.length;
+  const avgDocLength = results.reduce((sum, r) => sum + r.pageContent.length, 0) / docCount;
   
-  return results.map(result => {
+  // Pre-compute IDF scores
+  const idfScores = new Map<string, number>();
+  queryTerms.forEach(term => {
+    const docsWithTerm = results.filter(r => r.pageContent.toLowerCase().includes(term)).length;
+    const idf = Math.log((docCount - docsWithTerm + 0.5) / (docsWithTerm + 0.5));
+    idfScores.set(term, idf);
+  });
+
+  // Create a regular expression for efficient term matching
+  const queryRegex = new RegExp(queryTerms.join('|'), 'gi');
+
+  const scoredResults: ScoredDocument[] = results.map(result => {
     const content = result.pageContent.toLowerCase();
-    let score = 0;
+    const termFrequencies = new Map<string, number>();
     
+    // Count term frequencies
+    let match;
+    while ((match = queryRegex.exec(content)) !== null) {
+      const term = match[0].toLowerCase();
+      termFrequencies.set(term, (termFrequencies.get(term) || 0) + 1);
+    }
+
+    // Calculate BM25 score
+    let score = 0;
     queryTerms.forEach(term => {
-      const tf = (content.match(new RegExp(term, 'g')) || []).length;
-      const idf = Math.log((results.length - results.filter(r => r.pageContent.toLowerCase().includes(term)).length + 0.5) / 
-                           (results.filter(r => r.pageContent.toLowerCase().includes(term)).length + 0.5));
+      const tf = termFrequencies.get(term) || 0;
+      const idf = idfScores.get(term) || 0;
       const numerator = tf * (k1 + 1);
       const denominator = tf + k1 * (1 - b + b * (content.length / avgDocLength));
       score += idf * (numerator / denominator);
     });
-    
+
     return { ...result, score };
-  }).sort((a, b) => b.score - a.score);
-}
+  });
+
+  // Sort by score in descending order
+  return scoredResults.sort((a, b) => b.score - a.score);
+};
 
 export const similaritySearch = async (
   path: string,
@@ -125,7 +149,7 @@ export const similaritySearch = async (
     model: 'all-minilm'
   })
 
-  let allResults: any[];
+  let allResults: Document[];
 
   if (searchAllDbs) {
     const vectorDbList = getVectorDbList()
@@ -146,13 +170,16 @@ export const similaritySearch = async (
     }))
   }
 
-  // Use BM25 reranking instead of cross-encoder reranking
+  // Use the optimized BM25 reranking
   const rerankedResults = bm25Rerank(allResults, prompt)
 
   const sources = generateSources(rerankedResults, fileType)
 
   return {
-    prompt: `This is my question ${prompt},\n answer only from the following context: \n ${JSON.stringify(rerankedResults)}`,
+    prompt: `QUESTION:  ${prompt},\n
+    Answer the question as accurate as possible from the provided context, make sure to provide all the details, if the answer is not in
+    provided context just say, "answer is not available in the context", don't provide the wrong answer: \n 
+    CONTEXT : ${JSON.stringify(rerankedResults)}`,
     sources
   }
 }
