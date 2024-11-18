@@ -5,17 +5,14 @@ import {
   experimentalSearchAtom,
   imageAttatchmentAtom,
   selectedChatIndexAtom,
-  stopGeneratingAtom,
   streamingAtom
 } from '@renderer/store/mocks'
 import { Card } from '@renderer/ui/Card'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import React, { ComponentProps, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import Markdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
-import { Button } from '@renderer/ui/Button'
-import { FaRegCircleStop } from 'react-icons/fa6'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import remarkGfm from 'remark-gfm'
@@ -29,7 +26,6 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
   const [stream] = useAtom(streamingAtom)
   const { getChat } = useDb()
   const scrollRef = useRef<HTMLDivElement>(null)
-  const setStopGenerating = useSetAtom(stopGeneratingAtom)
   const darkMode = useAtomValue(darkModeAtom)
   const imageAttachment = useAtomValue(imageAttatchmentAtom)
   const experimentalSearch = useAtomValue(experimentalSearchAtom)
@@ -38,10 +34,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [stream, chat])
 
-  function handleClick(): void {
-    // to stop streaming on click
-    setStopGenerating(true)
-  }
+
 
   useEffect(() => {
     // Update chatAtom, based on selectedText
@@ -114,13 +107,6 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
         })}
       {stream && (
         <div className="flex flex-col gap-2">
-          <Button
-            variant="link"
-            onClick={handleClick}
-            className="flex justify-center items-center gap-1 text-sm self-start"
-          >
-            <FaRegCircleStop /> Stop generating
-          </Button>
           <Card>
             <Markdown
               className="markdown"
