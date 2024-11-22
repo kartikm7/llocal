@@ -68,15 +68,15 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
     }
   }
 
-  const handleAddFile = async ():Promise<void> => {
+  const handleAddFile = async (): Promise<void> => {
     const toastId = toast.loading(`Adding to the knowledge base`)
     try {
       const response = await window.api.addKnowledge()
-      setFile(response)
-      toast.success(`${response.fileName} has been added successfully!`, {id: toastId})
+      setFile([response])
+      toast.success(`${response.fileName} has been added successfully!`, { id: toastId })
     } catch (error) {
       const splits = String(error).split(":")
-      toast.error(`${splits[splits.length-1]}`, {id: toastId})
+      toast.error(`${splits[splits.length - 1]}`, { id: toastId })
     }
   }
 
@@ -85,7 +85,7 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
       {showMenu && (
         <Menu className="flex flex-col justify-center items-center gap-2">
           <MenuSelector onClick={handleAddFile} className='flex items-center gap-2 cursor-pointer'>
-            <LuFile className='text-2xl'/> Add file
+            <LuFile className='text-2xl' /> Add file
           </MenuSelector>
           <MenuSelector>
             <label htmlFor="images" className="flex items-center gap-2 cursor-pointer">

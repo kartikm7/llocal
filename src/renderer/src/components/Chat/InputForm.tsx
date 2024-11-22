@@ -61,7 +61,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
 
   return (
     <div className='relative w-3/6 h-fit flex flex-col'>
-      {(autoCompleteList.length > 0 && !file.fileName) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
+      {(autoCompleteList.length > 0) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
       <ContextCard className='self-end m-1 mr-5' />
       <form
         onSubmit={handleSubmit(onSubmit)}
