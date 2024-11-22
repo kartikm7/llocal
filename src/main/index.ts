@@ -125,9 +125,9 @@ app.whenReady().then(() => {
     })
   }
 
-  async function checkingBinarySize(): Promise<boolean>{
+  async function checkingBinarySize(): Promise<boolean> {
     const currentPath = downloadPath[0]
-    const llocalSize:number = fs.statSync(currentPath).size
+    const llocalSize: number = fs.statSync(currentPath).size
     return await checkSize(binaryNames[platform].name, llocalSize)
   }
 
@@ -227,36 +227,35 @@ app.whenReady().then(() => {
     return response
   })
 
-  ipcMain.handle('addKnowledge', async ():Promise<addKnowledgeType>=> {
-      const {filePaths} = await getSelectedFiles()
-      const fileName = getFileName(filePaths[0]);
-      const docs = await generateDocs(filePaths[0]);
-      const dir = path.join(app.getPath('documents'), 'LLocal', 'Knowledge Base', fileName)
-      await saveVectorDb(docs, dir)
-      return {path: dir, fileName: fileName};    
-    })
+  ipcMain.handle('addKnowledge', async (): Promise<addKnowledgeType> => {
+    const { filePaths } = await getSelectedFiles()
+    const fileName = getFileName(filePaths[0]);
+    const docs = await generateDocs(filePaths[0]);
+    const dir = path.join(app.getPath('documents'), 'LLocal', 'Knowledge Base', fileName)
+    await saveVectorDb(docs, dir)
+    return { path: dir, fileName: fileName };
+  })
 
-  ipcMain.handle('similaritySearch', async (_event, indexPath:string, prompt:string):Promise<ragReturn>=>{
-    const splits = indexPath.split(".")
-    const response = await similaritySearch(indexPath,splits[splits.length-1], prompt)
+  ipcMain.handle('similaritySearch', async (_event, selectedKnowledge: addKnowledgeType[], prompt: string): Promise<ragReturn> => {
+    const response = await similaritySearch(selectedKnowledge, prompt)
     return response
   })
 
-  ipcMain.handle('getVectorDbList', async ():Promise<addKnowledgeType[]> => {
-    return new Promise((resolve)=>{
+  ipcMain.handle('getVectorDbList', async (): Promise<addKnowledgeType[]> => {
+    return new Promise((resolve) => {
       resolve(getVectorDbList())
     })
   })
 
-  ipcMain.handle('deleteVectorDb', async (_event, indexPath):Promise<boolean> => {
-    return new Promise ((resolve)=>{
+  ipcMain.handle('deleteVectorDb', async (_event, indexPath): Promise<boolean> => {
+    return new Promise((resolve) => {
       resolve(deleteVectorDb(indexPath))
     })
   })
 
   createWindow()
 
-  app.on('activate', async function () {
+  app.on('activate', async function() {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

@@ -26,12 +26,12 @@ interface userContentType {
 }
 
 // to extract urls from string
-function findUrls(text:string):string[] {
+function findUrls(text: string): string[] {
   const urlPattern = new RegExp(
-      // eslint-disable-next-line no-useless-escape
-      /(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))\))+(?:\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’])?/gi
+    // eslint-disable-next-line no-useless-escape
+    /(?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))\))+(?:\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’])?/gi
   );
-  
+
   const urls = text.match(urlPattern) ?? [];
   return urls;
 }
@@ -77,7 +77,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
       if (experimentalSearch) {
         // checking if the prompt contains urls
         const urls = findUrls(prompt);
-        if(urls.length > 1) toast.warning('Multiple links detected, only the first one is scraped') // edge case where in there are multiple links, we only select the first one
+        if (urls.length > 1) toast.warning('Multiple links detected, only the first one is scraped') // edge case where in there are multiple links, we only select the first one
         try {
           const searchResponse = await window.api.experimentalSearch(prompt, urls)
           user = { ...user, content: searchResponse.prompt }
@@ -89,14 +89,14 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
         }
       }
 
-      if(file.path){
+      if (file.length > 0) {
         try {
-          const searchResponse = await window.api.similaritySearch(file.path, prompt);
-          user = {...user, content: searchResponse.prompt}
+          const searchResponse = await window.api.similaritySearch(file, prompt);
+          user = { ...user, content: searchResponse.prompt }
           sources = searchResponse.sources
         } catch (error) {
           toast(`${error}`)
-          setFile({path:"", fileName:""})
+          setFile([])
           return
         }
       }

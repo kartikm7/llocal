@@ -12,7 +12,7 @@ export interface fileContext {
   fileName: string
 }
 
-interface getVectorDb{
+interface getVectorDb {
   path: string,
   fileName: string
 }
@@ -39,14 +39,14 @@ export const streamingAtom = atom<string>('') // Handling Streaming
 export const stopGeneratingAtom = atom<boolean>(false) // Handling the option to stop generating
 export const imageAttatchmentAtom = atom<string>('') // Storing the base64 image
 export const experimentalSearchAtom = atom<boolean>(false) // Toggle for websearch
-export const fileContextAtom = atom<fileContext>({path:"", fileName:""}) // For storing the current file for RAG
+export const fileContextAtom = atom<fileContext[]>([]) // For storing the current file for RAG
 export const knowledgeBaseAtom = atom<getVectorDb[]>([]) // For storing the list of vector db's
-export const modelListAtom = atom<listModels[] >(JSON.parse(localStorage.getItem('modelList') || '[]') as listModels[]) // Storing List of Models in Local Storage
+export const modelListAtom = atom<listModels[]>(JSON.parse(localStorage.getItem('modelList') || '[]') as listModels[]) // Storing List of Models in Local Storage
 export const settingsToggleAtom = atom<boolean>(false)
 export const isOllamaInstalledAtom = atom<boolean>(false)
 
 // User Preferences
 const url = new URL('/src/assets/themes/galaxia.svg', import.meta.url).href
-export const backgroundImageAtom = atom<string>(localStorage.getItem('bg')  ?? url)
+export const backgroundImageAtom = atom<string>(localStorage.getItem('bg') ?? url)
 export const prefModelAtom = atom<string>(localStorage.getItem('prefModel') ?? '')
 export const darkModeAtom = atom<boolean>(true)
