@@ -10,8 +10,8 @@ import { Button } from '@renderer/ui/Button'
 import { MoreButton } from './MoreButton'
 import { ContextCard } from './ContextCard'
 import { AutoComplete } from './AutoComplete'
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { fileContextAtom, knowledgeBaseAtom, stopGeneratingAtom } from '@renderer/store/mocks'
+import { useAtom, useSetAtom } from 'jotai'
+import { knowledgeBaseAtom, stopGeneratingAtom } from '@renderer/store/mocks'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -29,7 +29,6 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   })
   const [isLoading, promptReq] = usePrompt()
   const [autoCompleteList, setAutoCompleteList] = useAtom(knowledgeBaseAtom);
-  const file = useAtomValue(fileContextAtom)
   const setStopGenerating = useSetAtom(stopGeneratingAtom)
 
   function handleClick(): void {
