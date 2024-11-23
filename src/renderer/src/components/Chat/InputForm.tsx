@@ -11,7 +11,7 @@ import { MoreButton } from './MoreButton'
 import { ContextCard } from './ContextCard'
 import { AutoComplete } from './AutoComplete'
 import { useAtom, useSetAtom } from 'jotai'
-import { knowledgeBaseAtom, stopGeneratingAtom } from '@renderer/store/mocks'
+import { knowledgeBaseAtom, stopGeneratingAtom, suggestionsAtom } from '@renderer/store/mocks'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -30,7 +30,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   const [isLoading, promptReq] = usePrompt()
   const [autoCompleteList, setAutoCompleteList] = useAtom(knowledgeBaseAtom);
   const setStopGenerating = useSetAtom(stopGeneratingAtom)
-
+  const setSuggestions = useSetAtom(suggestionsAtom)
   function handleClick(): void {
     setStopGenerating(pre => !pre)
   }
@@ -44,6 +44,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   const onSubmit: SubmitHandler<FormFieldsType> = async (data) => {
     reset()
     setAutoCompleteList([])
+    setSuggestions(pre => ({ ...pre, prompts: [] }))
     await promptReq(data.prompt || '')
   }
 

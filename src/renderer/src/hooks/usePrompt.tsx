@@ -5,7 +5,8 @@ import {
   imageAttatchmentAtom,
   prefModelAtom,
   stopGeneratingAtom,
-  streamingAtom
+  streamingAtom,
+  suggestionsAtom,
 } from '@renderer/store/mocks'
 import { ollama } from '@renderer/utils/ollama'
 // import axios from 'axios'
@@ -50,6 +51,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
   const [imageAttatchment, setImageAttachment] = useAtom(imageAttatchmentAtom) // for images
   const [experimentalSearch, setExperimentalSearch] = useAtom(experimentalSearchAtom)
   const [file, setFile] = useAtom(fileContextAtom)
+  const [suggestions, setSuggestions] = useAtom(suggestionsAtom)
   // To Debug
   // useEffect(()=>{console.log(stream);
   // },[stream])
@@ -137,6 +139,19 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
         }
         setStream(chunk)
       }
+      // incase suggestions are toggled on
+      if (!suggestions.show) {
+        console.log(chunk)
+        // the JSON mode prompt
+        const suggestionsPrompt = `You are a helpful AI agent, you need to output suggested follow up questions
+based on the following context:\n ${chunk}
+and you **NEED** to strictly follow the following output schema:
+{suggestions: string[]}`
+        // making the api call
+        const suggestionsResponse = await ollama.generate({ prompt: suggestionsPrompt, stream: false, model: modelName, format: "json" })
+        setSuggestions((pre) => ({ ...pre, prompts: JSON.parse(suggestionsResponse.response).suggestions }))
+      }
+      // clearing states as required
       setExperimentalSearch(false)
       setLoading(false)
       setImageAttachment('')

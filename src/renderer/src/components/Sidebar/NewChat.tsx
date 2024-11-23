@@ -3,17 +3,18 @@ import Logo from '../../assets/logo.png'
 import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { chatAtom, selectedChatIndexAtom, streamingAtom } from '@renderer/store/mocks'
+import { chatAtom, selectedChatIndexAtom, streamingAtom, suggestionsAtom } from '@renderer/store/mocks'
 
 export const NewChat = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const setChat = useSetAtom(chatAtom)
   const setSelectedChatIndex = useSetAtom(selectedChatIndexAtom)
   const stream = useAtomValue(streamingAtom)
-
+  const setSuggestions = useSetAtom(suggestionsAtom)
   function handleClick(): void {
     if (!stream) {
       setSelectedChatIndex('')
       setChat([])
+      setSuggestions(pre => ({ ...pre, prompts: [] }))
     }
   }
 

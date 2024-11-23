@@ -5,7 +5,8 @@ import {
   experimentalSearchAtom,
   imageAttatchmentAtom,
   selectedChatIndexAtom,
-  streamingAtom
+  streamingAtom,
+  // suggestionsAtom
 } from '@renderer/store/mocks'
 import { Card } from '@renderer/ui/Card'
 import { useAtom, useAtomValue } from 'jotai'
@@ -19,6 +20,7 @@ import remarkGfm from 'remark-gfm'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Code } from '@renderer/ui/Code'
 import reactNodeToString from 'react-node-to-string'
+import Suggestions from './suggestions'
 
 export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const [chat, setChat] = useAtom(chatAtom)
@@ -29,6 +31,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
   const darkMode = useAtomValue(darkModeAtom)
   const imageAttachment = useAtomValue(imageAttatchmentAtom)
   const experimentalSearch = useAtomValue(experimentalSearchAtom)
+  // const suggestions = useAtomValue(suggestionsAtom)
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -163,6 +166,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
             />
           </Card>
         )}
+      {!stream && <Suggestions />}
       <div ref={scrollRef}></div>
     </div>
   )
