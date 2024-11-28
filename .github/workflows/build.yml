@@ -2,7 +2,7 @@ name: Build/release
 
 on:
   release:
-    types: [created, prereleased]
+    types: [created, prereleased, edited]
 
 jobs:
   release_linux:
