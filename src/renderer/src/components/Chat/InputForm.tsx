@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ComponentProps } from 'react'
+import React, { ChangeEvent, ComponentProps, useCallback } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { PiPaperPlaneRightFill, PiStopCircleBold } from 'react-icons/pi'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -10,8 +10,9 @@ import { Button } from '@renderer/ui/Button'
 import { MoreButton } from './MoreButton'
 import { ContextCard } from './ContextCard'
 import { AutoComplete } from './AutoComplete'
-import { useAtom, useSetAtom } from 'jotai'
-import { knowledgeBaseAtom, stopGeneratingAtom, suggestionsAtom } from '@renderer/store/mocks'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { fileContextAtom, knowledgeBaseAtom, stopGeneratingAtom, suggestionsAtom } from '@renderer/store/mocks'
+import ToolTip from '@renderer/ui/ToolTip'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -31,6 +32,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   const [autoCompleteList, setAutoCompleteList] = useAtom(knowledgeBaseAtom);
   const setStopGenerating = useSetAtom(stopGeneratingAtom)
   const setSuggestions = useSetAtom(suggestionsAtom)
+  const context = useAtomValue(fileContextAtom)
   function handleClick(): void {
     setStopGenerating(pre => !pre)
   }
@@ -59,10 +61,20 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
     }
   }
 
+  const handleContext = useCallback(() => {
+    let formattedText = ""
+    for (let i = 0; i < context.length; i++) {
+      formattedText += context[i].fileName + ",\n"
+    }
+    return formattedText
+  }, [context])
+
   return (
     <div className='relative w-3/6 h-fit flex flex-col'>
       {(autoCompleteList.length > 0) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
-      <ContextCard className='self-end m-1 mr-5' />
+      <ToolTip className='self-end w-fit h-full m-1 mr-5' tooltip={handleContext()}>
+        <ContextCard className='' />
+      </ToolTip>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={twMerge(`relative  h-12`, className)}

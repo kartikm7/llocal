@@ -14,8 +14,7 @@ const ButtonVariants = cva('', {
   }
 })
 
-interface ButtonProps extends ComponentProps<'button'>, VariantProps<typeof ButtonVariants>{}
-
+interface ButtonProps extends ComponentProps<'button'>, VariantProps<typeof ButtonVariants> { }
 export const Button = ({
   className,
   variant,
@@ -24,7 +23,7 @@ export const Button = ({
   ...props
 }: ButtonProps): React.ReactElement => {
   return (
-    <button  type={type} className={cn(ButtonVariants({variant, className}))} {...props}>
+    <button type={type} className={cn(ButtonVariants({ variant, className }))} {...props}>
       {children}
     </button>
   )
