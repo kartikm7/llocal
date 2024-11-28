@@ -149,7 +149,10 @@ and you **NEED** to strictly follow the following output schema:
 {suggestions: string[]}`
         // making the api call
         const suggestionsResponse = await ollama.generate({ prompt: suggestionsPrompt, stream: false, model: modelName, format: "json" })
-        setSuggestions((pre) => ({ ...pre, prompts: JSON.parse(suggestionsResponse.response).suggestions }))
+        const prompts = JSON.parse(suggestionsResponse.response).suggestions
+        // this check is actually not perfect since it only checks for an array and not explicity an array of strings
+        if (Array.isArray(prompts)) setSuggestions((pre) => ({ ...pre, prompts: prompts }))
+        else setSuggestions((pre) => ({ ...pre, prompts: [] })) // incase it's not an array we enforce a defualt value
       }
       // clearing states as required
       setExperimentalSearch(false)
