@@ -18,6 +18,10 @@ jobs:
           node-version: 20
           github_token: ${{ secrets.github_token }}
 
+      - name: Setting environment variable (github token)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install Dependencies
         run: npm install
 
@@ -35,7 +39,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 20
-          github_token: ${{ secrets.github_token }}
+
+      - name: Setting environment variable (github token)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Dependencies
         run: npm install
@@ -64,6 +71,10 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+
+      - name: Setting environment variable (github token)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish
         run: npm run build:win:release
