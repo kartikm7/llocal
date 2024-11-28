@@ -87,23 +87,22 @@ export const getVectorDbList = (): AddKnowledgeType[] => {
 
 const generateSources = (similaritySearchResults: Document[]): string => {
   let sources = '\n Sources: \n'
+  sources += '| Database | Location |\n |------|------| \n'
   similaritySearchResults.forEach(val => {
     const splits = val.metadata.dbName.split(".")
     const fileType = splits[splits.length - 1]
     if (fileType === 'pdf') {
-      sources += '| Database | Page Number | From Line |\n |-------|-------|-------| \n'
       const dbName = val.metadata.dbName || 'Unknown'
-      sources += `| ${dbName} | ${val.metadata.loc.pageNumber} | ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
+      sources += `| ${dbName} | Page: ${val.metadata.loc.pageNumber} (${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to}) | \n`
     } else if (fileType === 'csv') {
-      sources += '| Database | Line Number |\n|-------|:-------:|\n'
       const dbName = val.metadata.dbName || 'Unknown'
       sources += `| ${dbName} | ${val.metadata.line} | \n`
     } else {
-      sources += '| Database | From Line |\n |-------|-------| \n'
       const dbName = val.metadata.dbName || 'Unknown'
       sources += `| ${dbName} | ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
     }
   })
+  console.log(sources)
   return sources
 }
 // Optimized reranking function
