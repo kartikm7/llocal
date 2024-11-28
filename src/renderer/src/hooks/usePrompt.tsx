@@ -140,11 +140,12 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
         setStream(chunk)
       }
       // incase suggestions are toggled on
-      if (!suggestions.show) {
-        console.log(chunk)
+      if (suggestions.show) {
         // the JSON mode prompt
         const suggestionsPrompt = `You are a helpful AI agent, you need to output suggested follow up questions
 based on the following context:\n ${chunk}
+The follow up questions, must be on how you as an AI can help but from the perspective of a user asking you the question
+The suggestions you generate must be prompts suitable for querying a Large Language Model (LLM).
 and you **NEED** to strictly follow the following output schema:
 {suggestions: string[]}`
         // making the api call
