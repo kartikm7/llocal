@@ -16,17 +16,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 20
-          github_token: ${{ secrets.github_token }}
-
-      - name: Setting environment variable (github token)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Dependencies
         run: npm install
 
       - name: Publish
         run: npm run build:linux:release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release_mac:
     runs-on: macos-latest
@@ -40,21 +37,18 @@ jobs:
         with:
           node-version: 20
 
-      - name: Setting environment variable (github token)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Install Dependencies
         run: npm install
 
-
       - name: Publish Arm
         run: npm run build:mac:arm:release
-
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish Intel
         run: npm run build:mac:intel:release
-
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release_windows:
     runs-on: windows-latest
@@ -67,16 +61,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 20
-          github_token: ${{ secrets.github_token }}
 
       - name: Install Dependencies
         run: npm install
 
-      - name: Setting environment variable (github token)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Publish
         run: npm run build:win:release
-
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
