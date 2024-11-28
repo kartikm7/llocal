@@ -13,7 +13,7 @@ export const Code = ({
 }: SyntaxHighlighterProps): React.ReactElement => {
   return (
     // match[1]
-    <div className=''>
+    <div className='max-w-xl md:max-w-2xl '>
       <div className='flex justify-between p-1 items-center rounded-t-md bg-foreground dark:bg-background dark:bg-opacity-75'>
         <p className='opacity-75'>{language}</p>
         <CopyToClipboard
@@ -21,11 +21,11 @@ export const Code = ({
           onCopy={() => toast.success(`${language} code has been copied to clipboard!`)}
         >
           <p className='flex justify-center items-center cursor-pointer opacity-75 hover:opacity-100'>
-            <FaClipboard /> Copy Code
+            <FaClipboard />
           </p>
         </CopyToClipboard>
       </div>
-      <Separator/>
+      <Separator />
       <SyntaxHighlighter {...props} PreTag="div" language={language} style={atomOneDarkReasonable}>
         {children}
       </SyntaxHighlighter>
