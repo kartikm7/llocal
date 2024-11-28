@@ -1,4 +1,7 @@
-import React, { ChangeEvent, ComponentProps, useCallback } from 'react'
+import React, {
+  ChangeEvent, ComponentProps,
+  // useCallback
+} from 'react'
 import { twMerge } from 'tailwind-merge'
 import { PiPaperPlaneRightFill, PiStopCircleBold } from 'react-icons/pi'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -60,19 +63,19 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
       setAutoCompleteList([]) // set it empty when it does not start with /
     }
   }
-
-  const handleContext = useCallback(() => {
-    let formattedText = ""
-    for (let i = 0; i < context.length; i++) {
-      formattedText += context[i].fileName + ",\n"
-    }
-    return formattedText
-  }, [context])
-
+  // TODO: Fix the sources to have new lines working (\n)
+  // const handleContext = useCallback(() => {
+  //   let formattedText = ""
+  //   for (let i = 0; i < context.length; i++) {
+  //     formattedText += context[i].fileName + ",\n"
+  //   }
+  //   return formattedText
+  // }, [context])
+  //
   return (
     <div className='relative w-3/6 h-fit flex flex-col'>
       {(autoCompleteList.length > 0) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
-      <ToolTip className='self-end w-fit h-full m-1 mr-5' tooltip={handleContext()}>
+      <ToolTip className='self-end w-fit h-full m-1 mr-5' tooltip={context.length > 1 ? `${context.length} files` : `${context.length} files`}>
         <ContextCard className='' />
       </ToolTip>
       <form
