@@ -96,13 +96,12 @@ const generateSources = (similaritySearchResults: Document[]): string => {
       sources += `| ${dbName} | Page: ${val.metadata.loc.pageNumber} (${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to}) | \n`
     } else if (fileType === 'csv') {
       const dbName = val.metadata.dbName || 'Unknown'
-      sources += `| ${dbName} | ${val.metadata.line} | \n`
+      sources += `| ${dbName} | Line: ${val.metadata.line} | \n`
     } else {
       const dbName = val.metadata.dbName || 'Unknown'
-      sources += `| ${dbName} | ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
+      sources += `| ${dbName} | Line: ${val.metadata.loc.lines.from} to ${val.metadata.loc.lines.to} | \n`
     }
   })
-  console.log(sources)
   return sources
 }
 // Optimized reranking function
@@ -142,7 +141,6 @@ export const bm25Rerank = (results: Document[], query: string, k1 = 1.5, b = 0.7
       const denominator = tf + k1 * (1 - b + b * (content.length / avgDocLength));
       score += idf * (numerator / denominator);
     });
-    console.log(score)
     return { ...result, score };
   });
 
