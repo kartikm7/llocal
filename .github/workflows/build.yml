@@ -17,6 +17,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install Snapcraft
+        uses: samuelmeuli/action-snapcraft@v3
+
       - name: Install Dependencies
         run: npm install
 
