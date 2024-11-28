@@ -1,49 +1,71 @@
 name: Build/release
+
 on:
   release:
-    types:
-      - created
+    types: [created]
 
 jobs:
-
-  publish_on_linux:
+  release_linux:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 20
-    - name: install dependencies
-      run: npm install
-    - name: publish
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+          github_token: ${{ secrets.github_token }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Publish
         run: npm run build:linux:release
 
-  publish_on_mac:
+  release_mac:
     runs-on: macos-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 20
-    - name: install dependencies
-      run: npm install
-    - name: publish
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+          github_token: ${{ secrets.github_token }}
+
+      - name: Install Dependencies
+        run: npm install
+
+
+      - name: Publish Arm
         run: npm run build:mac:arm:release
 
-  publish_on_win:
+
+      - name: Publish Intel
+        run: npm run build:mac:intel:release
+
+
+  release_windows:
     runs-on: windows-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@master
-      with:
-        node-version: 20
-    - name: install dependencies
-      run: npm install
-    - name: publish
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+          github_token: ${{ secrets.github_token }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Publish
         run: npm run build:win:release
+
+
