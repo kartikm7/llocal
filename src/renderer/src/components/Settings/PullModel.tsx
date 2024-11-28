@@ -19,7 +19,7 @@ type FormFields = {
 export const PullModel = ({ className, ...props }: ComponentProps<'form'>): React.ReactElement => {
   const { register, handleSubmit, reset } = useForm<FormFields>()
   const [isLoading, setLoading] = useState(false)
-  const breadcrumbs = ['qwen2:1.5b', 'phi3', 'llama3.1']
+  const breadcrumbs = ['qwen2.5:1.5b', 'phi3', 'llama3.2']
   const [, setSelectedBreadcrumb] = useState('')
   const { pullModel } = useOllama()
 
