@@ -47,11 +47,11 @@ LLocal's builds are unsigned at the moment, meaning there will be an unknown pub
 
 The link to the mac universal build is [this](https://github.com/kartikm7/llocal/releases/download/v1.0.0-beta.5/LLocal-1.0.0-beta.5-mac.zip).
 
- 
+
 
 ## Project Setup
 
-LLocal is an Electron application with React and TypeScript. 
+LLocal is an Electron application with React and TypeScript.
 
 ### Recommended IDE Setup (You do you, honestly)
 
@@ -87,4 +87,4 @@ $ npm run build:mac:intel
 $ npm run build:linux
 ```
 ## How to contribute?
-You can refer to the [Contribute.md](https://github.com/kartikm7/llocal/blob/master/CONTRIBUTE.md)
+You can refer to the [CONTRIBUTING.md](https://github.com/kartikm7/llocal/blob/master/CONTRIBUTING.md)
