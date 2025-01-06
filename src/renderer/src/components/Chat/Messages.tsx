@@ -96,7 +96,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
                         {reactNodeToString(children).trim().replace(/\n$/, '')}
                       </Code>
                     ) : (
-                      <code {...rest} className={className}>
+                      <code {...rest} className={className + " text-wrap"}>
                         {children}
                       </code>
                     )
