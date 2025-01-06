@@ -62,7 +62,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
           // console.log(val.content)
 
           return val.role == 'user' ? (
-            <Card key={index} className="self-end bg-opacity-10 dark:bg-opacity-10">
+            <Card key={index} className="self-end bg-opacity-10 whitespace-pre-line dark:bg-opacity-10">
               <h1 className="">{val.content}</h1>
             </Card>
           ) : (
