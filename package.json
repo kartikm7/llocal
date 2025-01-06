@@ -1,6 +1,6 @@
 {
   "name": "LLocal",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "Llocal is a client application to utilize locally installed LLM's.",
   "main": "./out/main/index.js",
   "author": "Kartikeya Mishra",
@@ -44,7 +44,7 @@
     "clsx": "^2.1.1",
     "d3-dsv": "^2.0.0",
     "duck-duck-scrape": "^2.2.5",
-   "faiss-node": "^0.5.1",
+    "faiss-node": "^0.5.1",
     "install": "^0.13.0",
     "jotai": "^2.8.0",
     "langchain": "^0.2.5",
