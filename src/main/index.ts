@@ -40,6 +40,10 @@ function createWindow(): void {
     height: 670,
     show: false,
     autoHideMenuBar: true,
+    vibrancy: 'under-window',
+    visualEffectState: 'active',
+    frame: false,
+    backgroundMaterial: 'acrylic',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -255,7 +259,7 @@ app.whenReady().then(() => {
 
   createWindow()
 
-  app.on('activate', async function() {
+  app.on('activate', async function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

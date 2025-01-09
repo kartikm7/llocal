@@ -11,8 +11,16 @@ export const ModeSelector = (): React.ReactElement => {
   const [darkMode] = useAtom(darkModeAtom)
   function handleSelection(e: ChangeEvent<HTMLSelectElement>): void {
     const value = e.target.value
-    if (value == 'dark') setMode(true)
-    if (value == 'light') setMode(false)
+    switch (value) {
+      case 'dark':
+        setMode(true)
+        break;
+      case 'light':
+        setMode(false)
+        break;
+      default:
+        break;
+    }
   }
 
   return (

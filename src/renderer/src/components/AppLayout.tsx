@@ -4,6 +4,7 @@ import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { settingsToggleAtom } from '@renderer/store/mocks'
 import { useAtom } from 'jotai'
+import { cn } from '@renderer/utils/utils'
 
 export const RootLayout = ({
   className,
@@ -11,9 +12,11 @@ export const RootLayout = ({
   ...props
 }: ComponentProps<'main'>): React.ReactElement => {
   return (
-    <main className={twMerge('flex flex-row', className)} {...props}>
-      {children}
-    </main>
+    <div className=''>
+      <main className={twMerge('flex flex-row', className)} {...props}>
+        {children}
+      </main>
+    </div>
   )
 }
 
@@ -106,4 +109,10 @@ export const Chat = ({
       {children}
     </aside>
   )
+}
+
+export const TitleBarLayout = ({ className, children, ...props }: ComponentProps<'div'>): React.ReactElement => {
+  return <div className={cn("flex justify-between", className)} {...props}>
+    {children}
+  </div>
 }

@@ -3,7 +3,6 @@ import { ReactNode, Component, ReactElement, ComponentProps } from "react"
 import { toast } from "sonner"
 import { BreadCrumb } from "./BreadCrumb"
 import { domToPng } from 'modern-screenshot'
-import { MdOutlineFileDownload } from "react-icons/md"
 
 mermaid.initialize({
   startOnLoad: true,

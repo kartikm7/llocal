@@ -1,4 +1,4 @@
-import { backgroundImageAtom, darkModeAtom, modelListAtom, prefModelAtom, suggestionsAtom } from '@renderer/store/mocks'
+import { backgroundImageAtom, darkModeAtom, modelListAtom, prefModelAtom, suggestionsAtom, transparencyModeAtom, } from '@renderer/store/mocks'
 import { useSetAtom } from 'jotai'
 import { listModels } from './useOllama'
 interface useLocalReturn {
@@ -7,6 +7,7 @@ interface useLocalReturn {
   setModelChoice: (pref: string) => void
   setList: (list: listModels[]) => void
   setShowSuggestion: (pref: boolean) => void
+  setTransparency: (pref: boolean) => void
 }
 export const useLocal = (): useLocalReturn => {
   const setBackgroundImage = useSetAtom(backgroundImageAtom)
@@ -14,6 +15,7 @@ export const useLocal = (): useLocalReturn => {
   const setPrefModel = useSetAtom(prefModelAtom)
   const setModelList = useSetAtom(modelListAtom)
   const setSuggestions = useSetAtom(suggestionsAtom)
+  const setTransparencyMode = useSetAtom(transparencyModeAtom)
 
   const setBackground = (pref: string): void => {
     if (pref == 'none') {
@@ -49,6 +51,9 @@ export const useLocal = (): useLocalReturn => {
     localStorage.setItem('showSuggestions', String(pref))
     setSuggestions((pre) => ({ ...pre, show: pref }))
   }
-
-  return { setBackground, setMode, setModelChoice, setList, setShowSuggestion }
+  const setTransparency = (pref: boolean): void => {
+    localStorage.setItem('transparencyMode', String(pref))
+    setTransparencyMode(pref)
+  }
+  return { setBackground, setMode, setModelChoice, setList, setShowSuggestion, setTransparency }
 }

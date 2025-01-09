@@ -93,6 +93,10 @@ td {
   }
 }
 
+.draggable {
+  -webkit-app-region: drag;
+}
+
 @keyframes fadeInUp {
   0% {
     transform: translateY(100%);
