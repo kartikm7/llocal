@@ -1,16 +1,16 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self';  connect-src 'self' http://localhost:11434 http://127.0.0.1:11434 ; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval';"
-    />
-  </head>
 
-  <body class="">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self';  connect-src 'self' http://localhost:11434 http://127.0.0.1:11434 ; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;" />
+</head>
+
+<body class="">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
