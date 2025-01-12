@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -33,6 +33,7 @@ import path from 'path'
   fixPath()
 })()
 
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -42,7 +43,8 @@ function createWindow(): void {
     autoHideMenuBar: true,
     vibrancy: 'under-window',
     visualEffectState: 'active',
-    frame: false,
+    titleBarStyle: 'hidden',
+    frame: true,
     backgroundMaterial: 'acrylic',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -263,6 +265,37 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+
+
+  const primaryDisplay = screen.getPrimaryDisplay()
+  const workAreaSize = primaryDisplay.workAreaSize
+  let previousBounds = { width: 900, height: 670 }
+  const [mainWindow] = BrowserWindow.getAllWindows()
+  ipcMain.on('titleBar', (_, event: string): void => {
+    switch (event) {
+      case 'minimize':
+        mainWindow.minimize()
+        break;
+      case 'maximize':
+        // this checks if the browser windows current size is less than (<) the max bounds of space left or not
+        // incase it is less, then it emulates a maximize although it is not a true maximize.
+        // But it does a pretty good job in my opinion.
+        // Also, since there is a previousBounds variable keeping track of the previous bounds when the browser window and the maximum size available
+        // are equal and the maximize event is triggered we simply set the bounds to the previous bounds.
+        if (mainWindow.getBounds().width < workAreaSize.width && mainWindow.getBounds().height < workAreaSize.height) {
+          previousBounds = mainWindow.getBounds()
+          mainWindow.setBounds({ x: 0, y: 0, width: workAreaSize.width, height: workAreaSize.height })
+        } else {
+          mainWindow.setBounds(previousBounds)
+        }
+        break;
+      case 'close':
+        app.quit()
+        break;
+      default:
+        break;
+    }
   })
 })
 

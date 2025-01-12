@@ -31,6 +31,7 @@ declare global {
       similaritySearch: (selectedKnowledge: addKnowledgeType[], prompt: string) => Promise<ragReturn>,
       getVectorDbList: () => Promise<addKnowledgeType[]>,
       deleteVectorDb: (indexPath: string) => Promise<boolean>,
+      titleBar: (event: string) => void
     }
   }
 }
