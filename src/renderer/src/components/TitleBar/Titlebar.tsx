@@ -10,7 +10,7 @@ export const TitleBar = ({ className, ...props }: ComponentProps<'div'>): ReactE
   }
   return <TitleBarLayout className={cn("fixed w-full z-50 p-4", className)} {...props}>
     <div></div>
-    <div className="flex justify-center items-center gap-3">
+    <div className="flex justify-center items-center gap-3 invert">
       <Button onClick={() => handleClick('minimize')}><FaRegWindowMinimize /></Button>
       <Button onClick={() => handleClick('maximize')}><FaRegWindowMaximize /></Button>
       <Button onClick={() => handleClick('close')}><FaRegWindowClose /></Button>

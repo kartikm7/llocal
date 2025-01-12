@@ -19,7 +19,7 @@ export default function Preferences({ className, ...props }: ComponentProps<'div
     toast.info(!state ? `${preference} have been turned on` : `${preference} have been turned off`)
     setState(!state)
   }
-  return <div className={cn('', className)} {...props}>
+  return <div className={cn('flex gap-2', className)} {...props}>
     <BreadCrumb className="flex justify-center items-center gap-2" onClick={() => handleClick(suggestions.show, setShowSuggestion, 'Suggestions')}>
       <Checkbox isExternalState={true} externalState={suggestions.show} className="text-sm" />
       Suggestions ( Experimental )
