@@ -26,6 +26,7 @@ declare global {
       downloadingOllama: () => Promise<string>,
       installingOllama: () => Promise<boolean>,
       checkVersion: () => Promise<string>,
+      checkPlatform: () => Promise<string>,
       experimentalSearch: (searchQuery: string, links: string[]) => Promise<duckduckgoSearchType>,
       addKnowledge: () => Promise<addKnowledgeType>,
       similaritySearch: (selectedKnowledge: addKnowledgeType[], prompt: string) => Promise<ragReturn>,

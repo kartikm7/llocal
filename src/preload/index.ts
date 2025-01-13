@@ -14,6 +14,7 @@ const api = {
   downloadingOllama: (): Promise<string> => ipcRenderer.invoke('downloadingOllama'),
   installingOllama: (): Promise<boolean> => ipcRenderer.invoke('installingOllama'),
   checkVersion: (): Promise<string> => ipcRenderer.invoke('checkVersion'),
+  checkPlatform: (): Promise<string> => ipcRenderer.invoke('checkPlatform'),
   experimentalSearch: (searchQuery: string, links: string[]): Promise<duckduckgoSearchType> => ipcRenderer.invoke('experimentalSearch', searchQuery, links),
   addKnowledge: (): Promise<addKnowledgeType> => ipcRenderer.invoke('addKnowledge'),
   similaritySearch: (chosenVectorDbsPath: addKnowledgeType[], prompt: string): Promise<ragReturn> => ipcRenderer.invoke('similaritySearch', chosenVectorDbsPath, prompt),

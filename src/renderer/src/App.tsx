@@ -8,13 +8,14 @@ import { CommandCentre } from './components/Sidebar/CommandCentre'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai/react'
 import { backgroundImageAtom, darkModeAtom, isOllamaInstalledAtom, transparencyModeAtom } from './store/mocks'
 import { Toaster } from 'sonner'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ollamaServe } from './utils/ollama'
 import { Categories } from './components/Settings/Categories'
 import { GetVersion } from './components/Settings/GetVersion'
 import { TitleBar } from './components/TitleBar/Titlebar'
 
 function App(): JSX.Element {
+  const [platform, setPlatform] = useState("")
   const [backgroundImage] = useAtom(backgroundImageAtom)
   const setIsOllamaInstalled = useSetAtom(isOllamaInstalledAtom)
   // Ensuring the state update according to preference
@@ -26,6 +27,10 @@ function App(): JSX.Element {
   const transparencyMode = useAtomValue(transparencyModeAtom)
   // Serving ollama, if not present, then downloading ollama
   useEffect(() => {
+    async function getPlatform(): Promise<void> {
+      setPlatform(await window.api.checkPlatform())
+    }
+    getPlatform()
     ollamaServe(setIsOllamaInstalled)
   }, [])
 
@@ -34,7 +39,7 @@ function App(): JSX.Element {
       className={`${darkMode && 'dark'} ${transparencyMode ? 'bg-transparent' : 'bg-[#DDDDDD] dark:bg-[#2c2c2c]'} relative font-poppins scrollbar scrollbar-thumb-thin  dark:text-foreground bg-cover w-full h-screen overflow-hidden`}
       style={{ backgroundImage: `url("${backgroundImage}")` }}
     >
-      <TitleBar />
+      {platform == "win32" && <TitleBar />}
       <Toaster className='font-poppins text-base' richColors theme={darkMode ? 'dark' : 'light'} />
       <Settings className="justify-between items-center gap-14 overflow-y-scroll">
         <Categories />

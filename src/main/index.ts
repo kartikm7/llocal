@@ -45,6 +45,7 @@ function createWindow(): void {
     visualEffectState: 'active',
     titleBarStyle: 'hidden',
     frame: true,
+    roundedCorners: true,
     backgroundMaterial: 'acrylic',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
@@ -223,6 +224,12 @@ app.whenReady().then(() => {
   ipcMain.handle('checkVersion', async () => {
     return new Promise((resolve) => {
       resolve(app.getVersion())
+    })
+  })
+
+  ipcMain.handle('checkPlatform', async () => {
+    return new Promise((resolve) => {
+      resolve(platform)
     })
   })
 
