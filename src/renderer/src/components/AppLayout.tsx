@@ -12,11 +12,9 @@ export const RootLayout = ({
   ...props
 }: ComponentProps<'main'>): React.ReactElement => {
   return (
-    <div className=''>
-      <main className={twMerge('flex flex-row', className)} {...props}>
-        {children}
-      </main>
-    </div>
+    <main className={twMerge('flex flex-row', className)} {...props}>
+      {children}
+    </main>
   )
 }
 
@@ -112,7 +110,7 @@ export const Chat = ({
 }
 
 export const TitleBarLayout = ({ className, children, ...props }: ComponentProps<'div'>): React.ReactElement => {
-  return <div className={cn("flex justify-between", className)} {...props}>
+  return <div className={cn("", className)} {...props}>
     {children}
   </div>
 }

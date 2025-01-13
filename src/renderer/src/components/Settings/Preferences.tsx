@@ -13,7 +13,7 @@ export default function Preferences({ className, ...props }: ComponentProps<'div
   const transparencyMode = useAtomValue(transparencyModeAtom)
   const { setShowSuggestion, setTransparency } = useLocal()
 
-  // TODO: Handle multiple preferences
+  // Handles multiple preferences
   function handleClick(state: boolean, setState: (pref: boolean) => void, preference: string): void {
     // this shit is so hard to read, because this is the toggle AAAAAAAH
     toast.info(!state ? `${preference} have been turned on` : `${preference} have been turned off`)
