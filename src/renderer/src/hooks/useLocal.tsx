@@ -44,7 +44,6 @@ export const useLocal = (): useLocalReturn => {
   const setList = (list: listModels[]): void => {
     setModelList(list)
     localStorage.setItem('modelList', JSON.stringify(list))
-
   }
 
   const setShowSuggestion = (pref: boolean): void => {

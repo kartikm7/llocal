@@ -20,7 +20,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
   useEffect(() => {
     async function list(): Promise<void> {
       const response = await listModels()
-      if (!prefModel) {
+      if (!prefModel && response.length > 0) {
         setModelChoice(`${response[0].modelName}`)
       }
       setList(response)
@@ -30,7 +30,6 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
 
   function handleChange(e: ChangeEvent<HTMLSelectElement>): void {
     const val = e.target.value
-    console.log(val)
     setModelChoice(val)
   }
 
