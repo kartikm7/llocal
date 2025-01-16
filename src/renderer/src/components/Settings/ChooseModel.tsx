@@ -37,7 +37,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
     <div className={twMerge('flex flex-col gap-2 justify-center ', className)} {...props}>
       <h1 className="font-thin">Choose a model :</h1>
       <div className="relative">
-        <Dropdown onChange={handleChange} className="w-96">
+        <Dropdown defaultValue={prefModel && prefModel} onChange={handleChange} className="w-96">
           {modelList &&
             modelList.map((val, index) => {
               return (
