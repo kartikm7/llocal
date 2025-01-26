@@ -25,7 +25,7 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 - Chat with images ✅
 - Web Search ☑️ (purple because, it still can be improved)
 - Retrieval Augmented Generation/RAG (with single PDF's) ✅
-- Multiple PDF chat
+- Multiple PDF chat ✅
 - Code live preview for web based code (Something like what Claude Provides)
 - Text to Speech Models (only if we can get to be similar to a human like response)
 - Community wallpapers
