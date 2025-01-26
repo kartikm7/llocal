@@ -5,7 +5,6 @@ import { getDbReturn, useDb } from '@renderer/hooks/useDb'
 import { useAtom } from 'jotai'
 import { selectedChatIndexAtom, streamingAtom } from '@renderer/store/mocks'
 import { DeleteButton } from './DeleteButton'
-import ToolTip from '@renderer/ui/ToolTip'
 
 export const ChatList = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const { getMessageList } = useDb()
