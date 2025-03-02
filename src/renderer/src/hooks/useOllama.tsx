@@ -1,8 +1,9 @@
-import { ollama } from "@renderer/utils/ollama"
+import { helperOllama } from "@renderer/utils/ollama"
 import { StatusResponse } from "ollama"
 import { useLocal } from "./useLocal"
 import { toast } from "sonner"
 import { CustomToast } from "@renderer/ui/CustomToast"
+import { Button } from "@renderer/ui/Button"
 
 export interface listModels {
   modelName: string
@@ -20,7 +21,7 @@ export const useOllama = (): useOllamaReturn => {
   const { setModelChoice, setList } = useLocal()
 
   const listModels = async (): Promise<listModels[]> => {
-    const list = await ollama.list()
+    const list = await helperOllama.list()
     const response: listModels[] = []
     list.models.forEach((val) => { response.push({ modelName: val.name, modelParameters: val.details.parameter_size }) })
     // for updating the local storage
@@ -28,13 +29,14 @@ export const useOllama = (): useOllamaReturn => {
   }
 
   const deleteModel = async (modelName: string): Promise<StatusResponse> => {
-    const response = await ollama.delete({ model: modelName })
+    const response = await helperOllama.delete({ model: modelName })
     return response
   }
 
   const pullModel = async (modelName: string | undefined): Promise<void> => {
     let toastId: string | number | undefined = undefined
 
+    let abort = false
     try {
       let currentDigestDone = false
       // Setting the toast Id
@@ -45,8 +47,7 @@ export const useOllama = (): useOllamaReturn => {
           </CustomToast>
         </div>
       )
-      const response = await ollama.pull({ model: `${modelName}`, stream: true })
-      console.log(response)
+      const response = await helperOllama.pull({ model: `${modelName}`, stream: true })
       // this helps update it within the if condition for the first time
       let preValue: number | undefined
       // reading the streamed response
@@ -55,18 +56,26 @@ export const useOllama = (): useOllamaReturn => {
           let percent = 0
           if (part.completed && part.total) {
             percent = Math.round((part.completed / part.total) * 100)
-            console.log(percent)
             // Updating the toast value on when the preValue is not equal to the percent
             // Same thought process behind the state I mean it's inside a state updation function
             if (preValue != percent) {
               preValue = percent
               toast.loading(
-                <CustomToast progressValue={percent}>
-                  {`${percent}% has been pulled!`}
-                </CustomToast>,
+                <div className="w-full flex">
+                  <CustomToast className="w-5/6" progressValue={percent}>
+                    {`${percent}% has been pulled!`}
+                  </CustomToast>
+                  <Button
+                    className="text-red-400"
+                    onClick={() => {
+                      abort = true
+                      // This is just to close the async generator
+                      helperOllama.abort()
+                    }} >Cancel</Button>
+                </div >,
                 {
                   style: {
-                    display: 'block',
+                    // display: 'block',
                   },
                   id: toastId
                 }
@@ -85,6 +94,7 @@ export const useOllama = (): useOllamaReturn => {
           }
         }
       }
+      if (abort) throw new Error("Model pull has been aborted")
       // setting model preference
       setModelChoice(`${modelName}`)
       // updating model list state
@@ -106,8 +116,10 @@ export const useOllama = (): useOllamaReturn => {
       // Either way need to dismiss the toast
       // The block styling causes an issue with the native styling
       toast.dismiss(toastId)
+
       // so we launch a new toast
-      toast.error(`${error}`)
+      if (abort) toast.info(`${modelName} pull has been cancelled.`)
+      else toast.error(`${error}`)
     }
   }
 
