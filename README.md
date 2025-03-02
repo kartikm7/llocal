@@ -26,6 +26,9 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 - Web Search ☑️ (purple because, it still can be improved)
 - Retrieval Augmented Generation/RAG (with single PDF's) ✅
 - Multiple PDF chat ✅
+- Ollama Model Catalogue (Information about all models)
+- Support for `<think />` code blocks
+- Agents, the first two would be `DeepResearch` and `Reasoning`
 - Code live preview for web based code (Something like what Claude Provides)
 - Text to Speech Models (only if we can get to be similar to a human like response)
 - Community wallpapers
