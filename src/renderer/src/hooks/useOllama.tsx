@@ -1,7 +1,6 @@
 import { ollama } from "@renderer/utils/ollama"
 import { StatusResponse } from "ollama"
 import { useLocal } from "./useLocal"
-import { useState } from "react"
 import { toast } from "sonner"
 import { CustomToast } from "@renderer/ui/CustomToast"
 
@@ -11,75 +10,75 @@ export interface listModels {
 }
 
 interface useOllamaReturn {
-  listModels: ()=>Promise<listModels[]>
-  deleteModel: (modelName: string)=>Promise<StatusResponse>
-  pullModel: (modelName: string | undefined)=>Promise<void>
+  listModels: () => Promise<listModels[]>
+  deleteModel: (modelName: string) => Promise<StatusResponse>
+  pullModel: (modelName: string | undefined) => Promise<void>
 }
 
-export const useOllama = ():useOllamaReturn => {
+export const useOllama = (): useOllamaReturn => {
   // Initializing states for pulling a model
-  const [, setPercentage] = useState(0)
   const { setModelChoice, setList } = useLocal()
 
-  const listModels = async ():Promise<listModels[]> => {
+  const listModels = async (): Promise<listModels[]> => {
     const list = await ollama.list()
-    const response:listModels[] = []
-    list.models.forEach((val)=> {response.push({modelName: val.name, modelParameters: val.details.parameter_size})})  
+    const response: listModels[] = []
+    list.models.forEach((val) => { response.push({ modelName: val.name, modelParameters: val.details.parameter_size }) })
     // for updating the local storage
     return response
   }
 
-  const deleteModel = async (modelName: string):Promise<StatusResponse> => {
-    const response = await ollama.delete({model: modelName})
+  const deleteModel = async (modelName: string): Promise<StatusResponse> => {
+    const response = await ollama.delete({ model: modelName })
     return response
   }
 
-  const pullModel = async (modelName: string | undefined):Promise<void> =>{
+  const pullModel = async (modelName: string | undefined): Promise<void> => {
     let toastId: string | number | undefined = undefined
-    
+
     try {
       let currentDigestDone = false
       // Setting the toast Id
       toastId = toast.loading(
         <div className="w-full">
           <CustomToast>
-            {`Do not leave the settings page until 100% has been reached. The ${modelName} is about to be pulled!`}
+            {`${modelName} is about to be pulled. Feel free to close the settings page!`}
           </CustomToast>
         </div>
       )
       const response = await ollama.pull({ model: `${modelName}`, stream: true })
+      console.log(response)
+      // this helps update it within the if condition for the first time
+      let preValue: number | undefined
       // reading the streamed response
       for await (const part of response) {
         if (part.digest) {
           let percent = 0
           if (part.completed && part.total) {
             percent = Math.round((part.completed / part.total) * 100)
-            setPercentage((preValue) => {
-              // Updating the toast value on when the preValue is not equal to the percent
-              // Same thought process behind the state I mean it's inside a state updation function
-              if (preValue != percent) {
-                toast.loading(
-                  <CustomToast progressValue={percent}>
-                    {`${percent}% has been pulled!`}
-                  </CustomToast>,
-                  {
-                    style: {
-                      display: 'block',
-                    },
-                    id: toastId
-                  }
-                )
-                return percent
-              }
-              return preValue
-            })
+            console.log(percent)
+            // Updating the toast value on when the preValue is not equal to the percent
+            // Same thought process behind the state I mean it's inside a state updation function
+            if (preValue != percent) {
+              preValue = percent
+              toast.loading(
+                <CustomToast progressValue={percent}>
+                  {`${percent}% has been pulled!`}
+                </CustomToast>,
+                {
+                  style: {
+                    display: 'block',
+                  },
+                  id: toastId
+                }
+              )
+            }
           }
           if (percent === 100 && !currentDigestDone) {
             // Once, done updating the toast message and color
             toast.loading(
-                <CustomToast className="!text-yellow-600">
-                  {`${percent}% has been pulled! Just performing some extra checks.`}
-                </CustomToast>,
+              <CustomToast className="!text-yellow-600">
+                {`${percent}% has been pulled! Just performing some extra checks.`}
+              </CustomToast>,
               { id: toastId }
             )
             currentDigestDone = true
@@ -88,18 +87,18 @@ export const useOllama = ():useOllamaReturn => {
       }
       // setting model preference
       setModelChoice(`${modelName}`)
-      // updating model list state 
+      // updating model list state
       const list = await listModels()
       setList(list)
 
       // Dismissing the toast
       toast.dismiss(toastId)
-      
+
       // Success message
       // in the case it's the embedding model
-      if(modelName?.includes('mxbai-embed-large') || modelName?.includes('all-minilm')){
+      if (modelName?.includes('mxbai-embed-large') || modelName?.includes('all-minilm')) {
         toast.success(`${modelName} has been pulled! You can now make use of web-search!`)
-      } else { 
+      } else {
         // in all other cases
         toast.success(`${modelName} is set as the default model!`)
       }
@@ -112,5 +111,5 @@ export const useOllama = ():useOllamaReturn => {
     }
   }
 
-  return {listModels , deleteModel, pullModel}
-  }
+  return { listModels, deleteModel, pullModel }
+}
