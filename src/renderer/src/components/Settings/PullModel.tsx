@@ -1,11 +1,9 @@
 import { Card } from '@renderer/ui/Card'
 import { Button } from '@renderer/ui/Button'
 import { Input } from '@renderer/ui/Input'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { ComponentProps, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { PiMagnifyingGlassFill } from 'react-icons/pi'
-import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 import { useOllama } from '@renderer/hooks/useOllama'
 import { HiMiniSparkles } from "react-icons/hi2";
@@ -19,11 +17,15 @@ type FormFields = {
 export const PullModel = ({ className, ...props }: ComponentProps<'form'>): React.ReactElement => {
   const { register, handleSubmit, reset } = useForm<FormFields>()
   const [isLoading, setLoading] = useState(false)
-  const breadcrumbs = ['qwen2.5:1.5b', 'phi3', 'llama3.2']
+  const breadcrumbs = ['deepscaler', 'phi3', 'llama3.2']
   const [, setSelectedBreadcrumb] = useState('')
   const { pullModel } = useOllama()
 
   function handleClick(choice: string): void {
+    // first resetting the form with the data
+    reset({ model: choice })
+    // we can manually invoke the submit function
+    handleSubmit(onSubmit)()
     setSelectedBreadcrumb(choice)
   }
 
@@ -59,18 +61,14 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
       <div className="flex gap-2">
         {breadcrumbs.map((val, index) => {
           return (
-            <CopyToClipboard
-              text={val}
-              onCopy={() => toast.success(`${val} copied to clipboard!`)}
+
+            <Card
               key={index}
+              onClick={() => handleClick(val)}
+              className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all"
             >
-              <Card
-                onClick={() => handleClick(val)}
-                className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all"
-              >
-                <p>{val}</p>
-              </Card>
-            </CopyToClipboard>
+              <p>{val}</p>
+            </Card>
           )
         })}
         <Card
@@ -80,27 +78,21 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
           Check <span className="underline">LLocal.in</span> for more!
         </Card>
       </div>
-      <Card className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
-        <CopyToClipboard
-          text={'all-minilm'}
-          onCopy={() => toast.success(`all-minilm copied to clipboard!`)}
-        >
-          <p className='flex justify-center items-center gap-1'>
-            <HiMiniSparkles className='text-yellow-500' />
-            all-minilm ( this is needed for <FaGlobeAsia /> web search & file upload )
-          </p>
-        </CopyToClipboard>
+      <Card
+        onClick={() => handleClick('all-minilm')}
+        className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
+        <p className='flex justify-center items-center gap-1'>
+          <HiMiniSparkles className='text-yellow-500' />
+          all-minilm ( this is needed for <FaGlobeAsia /> web search & file upload )
+        </p>
       </Card>
-      <Card className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
-        <CopyToClipboard
-          text={'moondream'}
-          onCopy={() => toast.success(`moondream copied to clipboard!`)}
-        >
-          <p className='flex justify-center items-center gap-1'>
-            <HiMiniSparkles className='text-yellow-500' />
-            moondream (supports <LuImage /> images )
-          </p>
-        </CopyToClipboard>
+      <Card
+        onClick={() => handleClick('moondream')}
+        className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
+        <p className='flex justify-center items-center gap-1'>
+          <HiMiniSparkles className='text-yellow-500' />
+          moondream (supports <LuImage /> images )
+        </p>
       </Card>
     </div>
   )
