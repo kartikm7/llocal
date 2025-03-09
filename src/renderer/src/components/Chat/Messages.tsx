@@ -12,15 +12,10 @@ import { Card } from '@renderer/ui/Card'
 import { useAtom, useAtomValue } from 'jotai'
 import React, { ComponentProps, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import Markdown from 'react-markdown'
-import rehypeHighlight from 'rehype-highlight'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import remarkGfm from 'remark-gfm'
-import SyntaxHighlighter from 'react-syntax-highlighter'
-import { Code } from '@renderer/ui/Code'
-import reactNodeToString from 'react-node-to-string'
 import Suggestions from './suggestions'
+import { AiMessage } from '@renderer/ui/Message'
 
 export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const [chat, setChat] = useAtom(chatAtom)
@@ -65,91 +60,11 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
             <Card key={index} className="self-end bg-opacity-10 whitespace-pre-line dark:bg-opacity-10">
               <h1 className="">{val.content}</h1>
             </Card>
-          ) : (
-            <Card key={index}>
-              <Markdown
-                className="markdown"
-                rehypePlugins={[rehypeHighlight]}
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  a: (props) => {
-                    return (
-                      <a
-                        href={props.href}
-                        className="bg-foreground bg-opacity-20 opacity-70 px-1 hover:opacity-100 hover:underline transition-all"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {props.children}
-                      </a>
-                    )
-                  },
-                  code(props) {
-                    const myRef = useRef<SyntaxHighlighter>(null)
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    const { children, className, node, ...rest } = props
-                    // console.log(children)
-
-                    const match = /language-(\w+)/.exec(className || '')
-                    return match ? (
-                      <Code language={match[1]} ref={myRef}>
-                        {reactNodeToString(children).trim().replace(/\n$/, '')}
-                      </Code>
-                    ) : (
-                      <code {...rest} className={className + " text-wrap"}>
-                        {children}
-                      </code>
-                    )
-                  }
-                }}
-              >
-                {val.content}
-              </Markdown>
-            </Card>
-          )
+          ) : <AiMessage key={index} message={val.content} />
         })}
       {stream && (
         <div className="flex flex-col gap-2">
-          <Card>
-            <Markdown
-              className="markdown"
-              rehypePlugins={[rehypeHighlight]}
-              remarkPlugins={[remarkGfm]}
-              components={{
-                a: (props) => {
-                  return (
-                    <a
-                      href={props.href}
-                      className="bg-foreground bg-opacity-20 opacity-70 px-1 hover:opacity-100 hover:underline transition-all"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {props.children}
-                    </a>
-                  )
-                },
-                code(props) {
-                  const myRef = useRef<SyntaxHighlighter>(null)
-                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                  const { children, className, node, ...rest } = props
-                  // console.log(children)
-
-                  const match = /language-(\w+)/.exec(className || '')
-                  return match ? (
-                    <Code language={match[1]} ref={myRef}>
-                      {reactNodeToString(children).trim().replace(/\n$/, '')}
-                    </Code>
-                  ) : (
-                    <code {...rest} className={className}>
-                      {children}
-                    </code>
-                  )
-                }
-              }}
-            >
-              {stream}
-            </Markdown>
-          </Card>
+          <AiMessage message={stream} />
         </div>
       )}
       {chat.length > 0 &&
