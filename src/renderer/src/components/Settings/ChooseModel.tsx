@@ -23,7 +23,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
       if (!prefModel && response.length > 0) {
         setModelChoice(`${response[0].modelName}`)
       }
-      setList(response)
+      setList(response.filter(val => !val.modelName.includes('all-minilm')))
     }
     list()
   }, [prefModel])
