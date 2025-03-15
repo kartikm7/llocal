@@ -64,7 +64,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
         })}
       {stream && (
         <div className="flex flex-col gap-2">
-          <AiMessage message={stream} />
+          <AiMessage message={stream} stream={!!stream} />
         </div>
       )}
       {chat.length > 0 &&

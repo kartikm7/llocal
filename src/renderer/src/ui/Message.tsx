@@ -1,28 +1,44 @@
 import { ComponentProps, useRef } from "react";
 import { Card } from "./Card";
 import Markdown from 'react-markdown'
-// import rehypeRaw from 'rehype-raw'
+import rehypeRaw from 'rehype-raw'
 import rehypeHighlight from 'rehype-highlight'
 import remarkGfm from 'remark-gfm'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Code } from "./Code";
 import reactNodeToString from 'react-node-to-string'
+import { Accordion } from "./Accordion";
+import { customTagValidator, formatCustomBlock } from "@renderer/utils/utils";
 
 interface Message extends ComponentProps<'div'> {
-  message: string
+  message: string,
+  stream?: boolean,
 }
 
-export const AiMessage = ({ key, message }: Message): React.ReactElement => {
-  return <Card key={key}>
+export const AiMessage = ({ message, stream, ...props }: Message): React.ReactElement => {
+  // TODO: Expand this to support multiple custom tags, at the moment it only supports <think></think>
+  //
+  // this is crucial, since during streaming we need to see the custom tag irrespective.
+  // the validation, invalidate's it which is technically correct, but UX wise incorrect.
+  let validation = true // optimistic validation
+  console.log("stream", stream)
+  if (!stream) {
+    validation = customTagValidator(message, 'think')
+    if (validation) message = formatCustomBlock(message, 'think')
+  }
+
+  console.log(message)
+
+  return <Card {...props}>
     <Markdown
       className="markdown"
-      rehypePlugins={[rehypeHighlight]}
+      rehypePlugins={validation ? [rehypeHighlight, rehypeRaw] : [rehypeHighlight]}
       remarkPlugins={[remarkGfm]}
       components={{
         // @ts-ignore because
-        // think: (d) => {
-        //   return <div>{d.children}</div>
-        // },
+        think: (data) => {
+          return data.children?.constructor == Array ? <Accordion title={stream ? "Thinking" : "Chain of thought"} content={data.children} loading={stream} initialOpen={stream} /> : <></>
+        },
         a: (props) => {
           return (
             <a
