@@ -21,13 +21,10 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
   // this is crucial, since during streaming we need to see the custom tag irrespective.
   // the validation, invalidate's it which is technically correct, but UX wise incorrect.
   let validation = true // optimistic validation
-  console.log("stream", stream)
   if (!stream) {
     validation = customTagValidator(message, 'think')
     if (validation) message = formatCustomBlock(message, 'think')
   }
-
-  console.log(message)
 
   return <Card {...props}>
     <Markdown
