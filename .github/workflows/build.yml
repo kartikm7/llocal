@@ -7,6 +7,7 @@ on:
 jobs:
   release_linux:
     runs-on: ubuntu-latest
+    environment: build
 
     steps:
       - name: Check out Git repository
@@ -27,6 +28,7 @@ jobs:
         run: npm run build:linux:release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
 
   release_mac:
     runs-on: macos-latest
