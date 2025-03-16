@@ -1,38 +1,25 @@
 import { useDb } from '@renderer/hooks/useDb'
 import {
   chatAtom,
-  darkModeAtom,
-  experimentalSearchAtom,
-  imageAttatchmentAtom,
   selectedChatIndexAtom,
-  streamingAtom,
-  // suggestionsAtom
 } from '@renderer/store/mocks'
 import { Card } from '@renderer/ui/Card'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
 import React, { ComponentProps, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import Suggestions from './suggestions'
 import { AiMessage } from '@renderer/ui/Message'
+import { StreamingMessage } from './Messages/StreamingMessage'
 
 export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const [chat, setChat] = useAtom(chatAtom)
   const [selectedChatIndex] = useAtom(selectedChatIndexAtom)
-  const [stream] = useAtom(streamingAtom)
   const { getChat } = useDb()
   const scrollRef = useRef<HTMLDivElement>(null)
-  const darkMode = useAtomValue(darkModeAtom)
-  const imageAttachment = useAtomValue(imageAttatchmentAtom)
-  const experimentalSearch = useAtomValue(experimentalSearchAtom)
-  // const suggestions = useAtomValue(suggestionsAtom)
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [stream, chat])
-
-
+  }, [chat])
 
   useEffect(() => {
     // Update chatAtom, based on selectedText
@@ -62,26 +49,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
             </Card>
           ) : <AiMessage key={index} message={val.content} />
         })}
-      {stream && (
-        <div className="flex flex-col gap-2">
-          <AiMessage message={stream} stream={!!stream} />
-        </div>
-      )}
-      {chat.length > 0 &&
-        chat[chat.length - 1].role == 'user' &&
-        !stream &&
-        (experimentalSearch || imageAttachment) && (
-          <Card className="w-4/5">
-            <Skeleton
-              className="opacity-50"
-              baseColor={darkMode ? '#FFFFFF' : '#202020'}
-              highlightColor={darkMode ? '#bfbfbf' : ' #b3b3b3'}
-              borderRadius={5}
-              count={4}
-            />
-          </Card>
-        )}
-      {!stream && <Suggestions />}
+      <StreamingMessage />
       <div ref={scrollRef}></div>
     </div>
   )
