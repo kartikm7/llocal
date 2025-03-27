@@ -10,7 +10,8 @@ import { twMerge } from 'tailwind-merge'
 
 export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const { listModels } = useOllama()
-  // deprecated this, atomWithStorage throws type errors for some reason
+  // TODO: Need to figure out a way, to not show all-minilm here and still populate the main-list
+  // most probably just making a new state like the one below should work.
   // const [listMod, setListMod] = useState<listModels[]>([])
   const modelList = useAtomValue(modelListAtom)
 
@@ -23,7 +24,7 @@ export const ChooseModel = ({ className, ...props }: ComponentProps<'div'>): Rea
       if (!prefModel && response.length > 0) {
         setModelChoice(`${response[0].modelName}`)
       }
-      setList(response.filter(val => !val.modelName.includes('all-minilm')))
+      setList(response)
     }
     list()
   }, [prefModel])
