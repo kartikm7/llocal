@@ -1,6 +1,6 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 
-interface duckduckgoSearchType {
+interface webSearchType {
   prompt: string
   sources: string
 }
@@ -27,7 +27,7 @@ declare global {
       installingOllama: () => Promise<boolean>,
       checkVersion: () => Promise<string>,
       checkPlatform: () => Promise<string>,
-      experimentalSearch: (searchQuery: string, links: string[]) => Promise<duckduckgoSearchType>,
+      experimentalSearch: (searchQuery: string, links: string[]) => Promise<webSearchType>,
       addKnowledge: () => Promise<addKnowledgeType>,
       similaritySearch: (selectedKnowledge: addKnowledgeType[], prompt: string) => Promise<ragReturn>,
       getVectorDbList: () => Promise<addKnowledgeType[]>,

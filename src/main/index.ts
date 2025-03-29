@@ -8,7 +8,7 @@ import os from 'os'
 import fs from 'fs'
 import { exec } from 'child_process'
 import process from 'node:process'
-import { duckduckgoSearch, duckduckgoSearchType } from './duckduckgo'
+import { webSearch, webSearchType } from './websearch'
 import { puppeteerSearch } from './puppeteer'
 import { deleteVectorDb, getFileName, getSelectedFiles, getVectorDbList, saveVectorDb, similaritySearch } from './utils/rag-utils'
 import { generateDocs } from './utils/docs-generator'
@@ -234,9 +234,9 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('experimentalSearch', async (_event, searchQuery: string, links: string[]) => {
-    let response: duckduckgoSearchType
+    let response: webSearchType
     if (links.length > 0) response = await puppeteerSearch(searchQuery, links)
-    else response = await duckduckgoSearch(searchQuery)
+    else response = await webSearch(searchQuery)
     return response
   })
 

@@ -46,6 +46,7 @@
     "d3-dsv": "^2.0.0",
     "duck-duck-scrape": "^2.2.5",
     "faiss-node": "^0.5.1",
+    "google-sr": "^5.0.0",
     "install": "^0.13.0",
     "jotai": "^2.8.0",
     "langchain": "^0.3.19",

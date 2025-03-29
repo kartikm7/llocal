@@ -9,6 +9,8 @@ import { Code } from "./Code";
 import reactNodeToString from 'react-node-to-string'
 import { Accordion } from "./Accordion";
 import { customTagValidator, formatCustomBlock } from "@renderer/utils/utils";
+import { BreadCrumb } from "./BreadCrumb";
+import { BsGlobeCentralSouthAsia } from "react-icons/bs";
 
 interface Message extends ComponentProps<'div'> {
   message: string,
@@ -40,11 +42,15 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
           return (
             <a
               href={props.href}
-              className="bg-foreground bg-opacity-20 opacity-70 px-1 hover:opacity-100 hover:underline transition-all"
+              className=""
               target="_blank"
               rel="noreferrer"
             >
-              {props.children}
+
+              <BreadCrumb className=" w-2/6 max-w-fit truncate inline-block">
+                <BsGlobeCentralSouthAsia className="inline-flex mr-1" />
+                {props.children}
+              </BreadCrumb>
             </a>
           )
         },
