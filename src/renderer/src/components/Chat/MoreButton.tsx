@@ -8,10 +8,12 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { experimentalSearchAtom, fileContextAtom, imageAttatchmentAtom, modelListAtom } from '@renderer/store/mocks'
 import { toast } from 'sonner'
 import { Checkbox } from '@renderer/ui/Checkbox'
+import { useClickOutside } from '@renderer/hooks/useClickOutside'
 
 export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   // initializing state to show menu
   const [showMenu, setShowMenu] = useState(false)
+  const ref = useClickOutside<HTMLDivElement>(() => setShowMenu(false))
   const setImageAttachment = useSetAtom(imageAttatchmentAtom)
   const [experimentalSearch, setExperimentalSearch] = useAtom(experimentalSearchAtom)
   const modelList = useAtomValue(modelListAtom)
@@ -81,7 +83,7 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
   }
 
   return (
-    <div className={cn('relative flex flex-col justify-center items-center', className)} {...props}>
+    <div ref={ref} className={cn('relative flex flex-col justify-center items-center', className)} {...props}>
       {showMenu && (
         <Menu className="flex flex-col justify-center items-center gap-2">
           <MenuSelector onClick={handleAddFile} className='flex items-center gap-2 cursor-pointer'>
