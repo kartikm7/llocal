@@ -38,6 +38,7 @@
     "@langchain/core": "^0.3.43",
     "@swc/core": "^1.5.7",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/turndown": "^5.0.5",
     "axios": "^1.6.8",
     "cheerio": "^1.0.0-rc.12",
     "cheminfo-types": "^1.7.3",
@@ -61,7 +62,8 @@
     "open": "^10.1.0",
     "pdf-parse": "^1.1.1",
     "pickleparser": "^0.2.1",
-    "puppeteer": "^24.4.0",
+    "puppeteer-core": "^24.4.0",
+    "puppeteer-in-electron": "^3.0.5",
     "react-copy-to-clipboard": "^5.1.0",
     "react-hook-form": "^7.51.4",
     "react-icons": "^5.2.1",
@@ -75,6 +77,7 @@
     "shell-path": "^3.0.0",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
+    "turndown": "^7.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

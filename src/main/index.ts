@@ -13,6 +13,8 @@ import { puppeteerSearch } from './puppeteer'
 import { deleteVectorDb, getFileName, getSelectedFiles, getVectorDbList, saveVectorDb, similaritySearch } from './utils/rag-utils'
 import { generateDocs } from './utils/docs-generator'
 import path from 'path'
+import pie from "puppeteer-in-electron"
+import puppeteer from "puppeteer-core";
 // Handling dynamic imports the shell-path module, provides asynchronous functions
 (async (): Promise<void> => {
   const { shellPathSync } = await import('shell-path')
@@ -305,6 +307,20 @@ app.whenReady().then(() => {
     }
   })
 })
+
+// TODO: It might be that, because it's loading directly in the window sometimes on JS driven sites that use the virtualDom,
+// the scraping might fail. This can be patch through a hot fix await page.goto('https://www.llocal.in', waituntilsomething: {something})
+// but this will load the site twice (would increase inference time)
+export const loadWebsite = async (url: string): Promise<string> => {
+  // @ts-ignore I think there is a type issue because of versions
+  const browser = await pie.connect(app, puppeteer);
+  const window = new BrowserWindow({ show: false })
+  await window.loadURL(url);
+  const page = await pie.getPage(browser, window);
+  const content = await page.content()
+  return content
+}
+pie.initialize(app)
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
