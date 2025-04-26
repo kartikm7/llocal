@@ -19,13 +19,13 @@ export const useClickOutside = <T extends HTMLElement>(callbackFn: () => void): 
 
   useEffect(() => {
     function handleOutsideClick(event: MouseEvent): void {
-      if (ref.current && !ref.current.contains(event.target as Node))
-        callbackFn()
+      if (ref.current && !ref.current.contains(event.target as Node)) callbackFn()
     }
 
     document.addEventListener("mousedown", handleOutsideClick)
 
-    return document.removeEventListener("mousedown", handleOutsideClick)
+    // In useEffect to pass a cleanup function, we need to pass a function and not call a method
+    return () => document.removeEventListener("mousedown", handleOutsideClick)
   }, [])
 
   return ref
