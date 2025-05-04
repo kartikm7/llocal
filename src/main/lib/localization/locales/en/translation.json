@@ -1,0 +1,19 @@
+{
+  "Start a chat": "Start a chat",
+  "Settings": "Settings",
+  "file": "file",
+  "Enter your prompt": "Enter your prompt",
+  "Close": "Close",
+  "Knowledge Base": "Knowledge Base",
+  "LLocal version: ": "LLocal version: ",
+  "preferenceOn": "{{preference}} has been turned on",
+  "preferenceOff": "{{preference}} has been turned off",
+  "modelPulled": "{{modelName}} has been pulled! You can now make use of web-search!",
+  "modelSetDefault": "{{modelName}} is set as the default model!",
+  "modelPullCancelled": "{{modelName}} pull has been cancelled.",
+  "codeCopied": "{{language}} code has been copied!",
+  "fileAdded": "{{fileName}} has been added successfully!",
+  "fileDeleteWarning": "Once the {{type}} is deleted, it is deleted forever!",
+  "fileDeleted": "{{fileName}} has been removed from the Knowledge Base.",
+  "fileNotDeleted": "The {{type}} was not deleted"
+}

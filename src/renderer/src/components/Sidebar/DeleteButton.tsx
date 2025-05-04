@@ -7,6 +7,7 @@ import { LuCheckCircle2, LuXCircle } from 'react-icons/lu'
 import { toast } from 'sonner'
 import { useSetAtom } from 'jotai'
 import { knowledgeBaseAtom } from '@renderer/store/mocks'
+import { t } from '@renderer/utils/utils'
 
 interface DeleteButtonProps extends ComponentProps<'div'> {
   date?: string,
@@ -29,15 +30,15 @@ export const DeleteButton = ({
 
   async function handleClick(del = false): Promise<void> {
     /*
-    * this component, is shared between chatlist and the knowledge base, 
-    * so here we check whether the call is made from the chatlist component or knowledgeBase  
-    */    
+    * this component, is shared between chatlist and the knowledge base,
+    * so here we check whether the call is made from the chatlist component or knowledgeBase
+    */
     if (del && type == 'chat') await deleteChat(date)
-    if (del && type == 'knowledge'){
+    if (del && type == 'knowledge') {
       try {
         await window.api.deleteVectorDb(path);
-        setKnowledgeBase((pre) => pre.filter((val)=> val.path != path)) // filtering the global state
-        toast.success(`${fileName} has been removed from the Knowledge Base.`)
+        setKnowledgeBase((pre) => pre.filter((val) => val.path != path)) // filtering the global state
+        toast.success(t('fileDeleted', { fileName }))
       } catch (error) {
         toast.error(`${error}`)
       }
@@ -53,7 +54,7 @@ export const DeleteButton = ({
             type="button"
             variant="icon"
             onClick={() => {
-              toast.info(`The ${type} was not deleted`)
+              toast.info(t('fileNotDeleted', { type }))
               handleClick()
             }}
           >
@@ -70,7 +71,7 @@ export const DeleteButton = ({
           variant="icon"
           onClick={() => {
             handleClick()
-            toast.warning(`Once the ${type} is deleted, it is deleted forever!`)
+            toast.warning(t("fileDeleteWarning", { type }))
           }}
         >
           <MdDeleteForever className={`block text-2xl`} />

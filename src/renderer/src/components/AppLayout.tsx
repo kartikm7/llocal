@@ -4,7 +4,7 @@ import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { settingsToggleAtom } from '@renderer/store/mocks'
 import { useAtom } from 'jotai'
-import { cn } from '@renderer/utils/utils'
+import { cn, t } from '@renderer/utils/utils'
 
 export const RootLayout = ({
   className,
@@ -43,7 +43,7 @@ export const Settings = ({
               className="flex opacity-50 gap-1 cursor-pointer hover:opacity-100 transition-all w-fit"
             >
               <AiFillCloseCircle className="text-2xl " />
-              <h1 className="">Close</h1>
+              <h1 className="">{t("Close")}</h1>
             </div>
           </div>
           {children}

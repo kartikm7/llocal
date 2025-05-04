@@ -8,6 +8,7 @@ import { BackgroundSelector } from './BackgroundSelector'
 import { ModeSelector } from './ModeSelector'
 import { KnowLedgeBase } from './KnowledgeBase'
 import Preferences from './Preferences'
+import { t } from '@renderer/utils/utils'
 
 export const Categories = (): React.ReactElement => {
   // to maintain state of what is selected, this helps with choosing what to render
@@ -38,8 +39,8 @@ export const Categories = (): React.ReactElement => {
   return (
     <>
       <Navbar className='sticky'>
-        <NavbarItem className={`${selected == 'settings' && 'opacity-100'}`} onClick={() => setSelected('settings')}>Settings</NavbarItem>
-        <NavbarItem className={`${selected == 'knowledgeBase' && 'opacity-100'}`} onClick={() => setSelected('knowledgeBase')}>Knowledge Base</NavbarItem>
+        <NavbarItem className={`${selected == 'settings' && 'opacity-100'}`} onClick={() => setSelected('settings')}>{t("Settings")}</NavbarItem>
+        <NavbarItem className={`${selected == 'knowledgeBase' && 'opacity-100'}`} onClick={() => setSelected('knowledgeBase')}>{t("Knowledge Base")}</NavbarItem>
         {/* <NavbarItem className={`${selected == 'experimental' && 'opacity-100'}`} onClick={() => setSelected('experimental')}>Experimental</NavbarItem> */}
       </Navbar>
       {map.get(selected)}

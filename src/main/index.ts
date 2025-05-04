@@ -15,6 +15,7 @@ import { generateDocs } from './utils/docs-generator'
 import path from 'path'
 import pie from "puppeteer-in-electron"
 import puppeteer from "puppeteer-core";
+import i18next from './lib/localization/i18n'
 // Handling dynamic imports the shell-path module, provides asynchronous functions
 (async (): Promise<void> => {
   const { shellPathSync } = await import('shell-path')
@@ -266,6 +267,11 @@ app.whenReady().then(() => {
     return new Promise((resolve) => {
       resolve(deleteVectorDb(indexPath))
     })
+  })
+
+  // this type declaration makes no sense, because the type of getResource is any itself
+  ipcMain.on('translate', (event, key, options = {}) => {
+    event.returnValue = i18next.t(key, options)
   })
 
   createWindow()

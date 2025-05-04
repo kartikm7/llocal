@@ -7,6 +7,7 @@ import { FaClipboard } from 'react-icons/fa6'
 import { Separator } from './Separator'
 import { HiMiniSparkles } from 'react-icons/hi2'
 import Artifacts from './Artifacts'
+import { t } from '@renderer/utils/utils'
 
 // list of supportedArtifacts
 const supportedArtifacts = ['mermaid']
@@ -25,7 +26,7 @@ export const Code = ({
         <div className='flex justify-center items-center gap-3'>
           <CopyToClipboard
             text={children}
-            onCopy={() => toast.success(`${language} code has been copied to clipboard!`)}
+            onCopy={() => toast.success(t('codeCopied', { language }))}
           >
             <p className='flex justify-center items-center cursor-pointer opacity-75 hover:opacity-100'>
               <FaClipboard />
@@ -35,10 +36,11 @@ export const Code = ({
         </div>
       </div>
       <Separator />
-      {isArtifact ? <Artifacts code={String(children)} language={language ?? ''} /> : <SyntaxHighlighter {...props} PreTag="div" language={language} style={atomOneDarkReasonable}>
-        {children}
-      </SyntaxHighlighter>
+      {
+        isArtifact ? <Artifacts code={String(children)} language={language ?? ''} /> : <SyntaxHighlighter {...props} PreTag="div" language={language} style={atomOneDarkReasonable}>
+          {children}
+        </SyntaxHighlighter>
       }
-    </div>
+    </div >
   )
 }

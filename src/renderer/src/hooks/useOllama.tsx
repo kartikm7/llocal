@@ -4,6 +4,7 @@ import { useLocal } from "./useLocal"
 import { toast } from "sonner"
 import { CustomToast } from "@renderer/ui/CustomToast"
 import { Button } from "@renderer/ui/Button"
+import { t } from "@renderer/utils/utils"
 
 export interface listModels {
   modelName: string
@@ -107,10 +108,10 @@ export const useOllama = (): useOllamaReturn => {
       // Success message
       // in the case it's the embedding model
       if (modelName?.includes('mxbai-embed-large') || modelName?.includes('all-minilm')) {
-        toast.success(`${modelName} has been pulled! You can now make use of web-search!`)
+        toast.success(t('modelPulled', { modelName }))
       } else {
         // in all other cases
-        toast.success(`${modelName} is set as the default model!`)
+        toast.success(t("modelSetDefault", { modelName }))
       }
     } catch (error) {
       // Either way need to dismiss the toast
@@ -118,7 +119,7 @@ export const useOllama = (): useOllamaReturn => {
       toast.dismiss(toastId)
 
       // so we launch a new toast
-      if (abort) toast.info(`${modelName} pull has been cancelled.`)
+      if (abort) toast.info(t('modelPullCancelled', { modelName }))
       else toast.error(`${error}`)
     }
   }

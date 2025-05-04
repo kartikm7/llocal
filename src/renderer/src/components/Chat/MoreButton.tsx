@@ -1,6 +1,6 @@
 import { Button } from '@renderer/ui/Button'
 import { Menu, MenuSelector } from '@renderer/ui/Menu'
-import { cn } from '@renderer/utils/utils'
+import { cn, t } from '@renderer/utils/utils'
 import { ChangeEvent, ComponentProps, useState } from 'react'
 import { IoIosAddCircle } from 'react-icons/io'
 import { LuFile, LuImage } from 'react-icons/lu'
@@ -32,7 +32,7 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
     if (!check) {
       // it throws a warning toast
       toast.warning(
-        'Embedding model has not been pulled yet, you must do that through settings to use web-search!'
+        t('Embedding model has not been pulled yet, you must do that through settings to use web-search!')
       )
       // also updating the search, just incase
       setExperimentalSearch(false)
@@ -43,9 +43,9 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
     setExperimentalSearch((prev) => !prev)
     // I got no explanation for why this works
     if (!experimentalSearch) {
-      toast.success('Web search is on! (This feature is experimental)')
+      toast.success(t('Web search is on! (This feature is experimental)'))
     } else {
-      toast.info('Web search is off now! (This feature is experimental)')
+      toast.info(t('Web search is off now! (This feature is experimental)'))
     }
   }
 
@@ -65,17 +65,17 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
           setImageAttachment(`${base64[1]}`)
           // console.log(base64[1]);
         }
-        toast.success('The image has been processed! Please make sure a vision model is selected')
+        toast.success(t('The image has been processed! Please make sure a vision model is selected'))
       }
     }
   }
 
   const handleAddFile = async (): Promise<void> => {
-    const toastId = toast.loading(`Adding to the knowledge base`)
+    const toastId = toast.loading(t(`Adding to the knowledge base`))
     try {
       const response = await window.api.addKnowledge()
       setFile([response])
-      toast.success(`${response.fileName} has been added successfully!`, { id: toastId })
+      toast.success(t('fileAdded', { fileName: response.fileName }), { id: toastId })
     } catch (error) {
       const splits = String(error).split(":")
       toast.error(`${splits[splits.length - 1]}`, { id: toastId })

@@ -14,6 +14,7 @@ import { useAtom, useSetAtom } from 'jotai'
 import { useEffect, useRef, useState } from 'react'
 import { useDb } from './useDb'
 import { toast } from 'sonner'
+import { t } from '@renderer/utils/utils'
 
 // interface experimentalSearchType {
 //   output: string,
@@ -79,7 +80,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
       if (experimentalSearch) {
         // checking if the prompt contains urls
         const urls = findUrls(prompt);
-        if (urls.length > 1) toast.warning('Multiple links detected, only the first one is scraped') // edge case where in there are multiple links, we only select the first one
+        if (urls.length > 1) toast.warning(t('Multiple links detected, only the first one is scraped')) // edge case where in there are multiple links, we only select the first one
         try {
           const searchResponse = await window.api.experimentalSearch(prompt, urls)
           user = { ...user, content: searchResponse.prompt }

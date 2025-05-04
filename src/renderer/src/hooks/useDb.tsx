@@ -2,6 +2,7 @@ import { db } from '@renderer/utils/db'
 import { Message, selectedChatIndexAtom } from '../store/mocks'
 import { useAtom } from 'jotai'
 import { toast } from 'sonner';
+import { t } from '@renderer/utils/utils';
 
 export interface getDbReturn {
   date: string;
@@ -12,8 +13,8 @@ type useDbReturn = {
   addChat: (messages: Message[]) => Promise<string>
   getMessageList: () => Promise<getDbReturn[]>
   getChat: () => Promise<Message[]>
-  updateDate: (date:string) => Promise<string>
-  deleteChat: (date:string) => Promise<void>
+  updateDate: (date: string) => Promise<string>
+  deleteChat: (date: string) => Promise<void>
 }
 
 export function useDb(): useDbReturn {
@@ -45,17 +46,17 @@ export function useDb(): useDbReturn {
   }
 
   const getChat = async (): Promise<Message[]> => {
-    const response:getDbReturn = await db.collection('chat').doc({ date: selectedChatIndex }).get()
+    const response: getDbReturn = await db.collection('chat').doc({ date: selectedChatIndex }).get()
     return response.chat
   }
 
-  const deleteChat = async (date:string): Promise<void> => {
+  const deleteChat = async (date: string): Promise<void> => {
     try {
       await db.collection('chat').doc({ date: date }).delete()
       setSelectedChatIndex("") // this is incredibly important, because chat/chatlist state updates happen based on selectedChatIndex
-      toast.success('The chat has been deleted')
+      toast.success(t('The chat has been deleted'))
     } catch (error) {
-      toast.error(`The chat could not be deleted due to the following error \n + ${error}`)
+      toast.error(t(`The chat could not be deleted due to the following error`) + `\n ${error}`)
     }
   }
 
@@ -65,10 +66,10 @@ export function useDb(): useDbReturn {
     return response.reverse()
   }
 
-  const updateDate = async (date:string): Promise<string> => {
+  const updateDate = async (date: string): Promise<string> => {
     const currentDate = new Date()
     const isoDateString = currentDate.toISOString()
-    const response:getDbReturn = await db.collection('chat').doc({date: date}).set({date: isoDateString})
+    const response: getDbReturn = await db.collection('chat').doc({ date: date }).set({ date: isoDateString })
     return response.date
   }
 

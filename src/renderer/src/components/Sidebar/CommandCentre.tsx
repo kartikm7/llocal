@@ -7,7 +7,7 @@ import { ComponentProps, useEffect } from 'react'
 import { IoIosSettings } from 'react-icons/io'
 import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
-
+import { t } from '@renderer/utils/utils'
 
 export const CommandCentre = ({
   className,
@@ -35,7 +35,7 @@ export const CommandCentre = ({
       // Not sure if this works (Update: IT DOES WORK HAHAHA)
       if (!prefModel && isOllamaInstalled) {
         setTimeout(() => {
-          toast.info('Download a LLM through settings!')
+          toast.info(t('Download a LLM through settings!'))
         }, 3000)
       }
     }
@@ -54,7 +54,7 @@ export const CommandCentre = ({
           className="flex gap-2 items-start cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
         >
           <IoIosSettings className="text-2xl" />
-          <h1>Settings</h1>
+          <h1>{t("Settings")}</h1>
         </div>
       </Card>
     </div>

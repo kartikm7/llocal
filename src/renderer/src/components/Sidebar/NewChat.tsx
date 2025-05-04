@@ -4,6 +4,7 @@ import { ComponentProps } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { chatAtom, selectedChatIndexAtom, streamingAtom, suggestionsAtom } from '@renderer/store/mocks'
+import { t } from '@renderer/utils/utils'
 
 export const NewChat = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   const setChat = useSetAtom(chatAtom)
@@ -22,7 +23,7 @@ export const NewChat = ({ className, ...props }: ComponentProps<'div'>): React.R
     <div onClick={handleClick} className={twMerge('', className)} {...props}>
       <Card className="flex items-center gap-3 p-3 bg-opacity-10 dark:bg-opacity-10 hover:bg-opacity-50 transition-opacity cursor-pointer">
         <img src={Logo} alt="" className="size-12 dark:invert" />
-        <h1>Start a chat</h1>
+        <h1>{t("Start a chat")}</h1>
       </Card>
     </div>
   )

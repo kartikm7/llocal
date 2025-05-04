@@ -16,6 +16,7 @@ import { AutoComplete } from './AutoComplete'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { fileContextAtom, knowledgeBaseAtom, stopGeneratingAtom, suggestionsAtom } from '@renderer/store/mocks'
 import ToolTip from '@renderer/ui/ToolTip'
+import { t } from '@renderer/utils/utils'
 
 // Ensuring there is atleast one valid character, and no whitespaces this helps eradicate the white space as a message edge case
 const FormFieldsSchema = z.object({
@@ -75,7 +76,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   return (
     <div className='relative w-3/6 h-fit flex flex-col'>
       {(autoCompleteList.length > 0) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
-      <ToolTip className='self-end w-fit h-full m-1 mr-5' tooltip={context.length > 1 ? `${context.length} files` : `${context.length} file`}>
+      <ToolTip className='self-end w-fit h-full m-1 mr-5' tooltip={context.length > 1 ? `${context.length} ${t("files")}` : `${context.length} ${t("file")}`}>
         <ContextCard className='' />
       </ToolTip>
       <form
@@ -90,7 +91,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
           onKeyDown={handleKeyDown}
           handleChange={handleChange}
           className={`h-full w-full pl-10 pr-8`}
-          placeholder="Enter your prompt"
+          placeholder={t("Enter your prompt")}
         />
         <MoreButton className="text-2xl absolute left-2 top-1/2 transform -translate-y-1/2" />
 

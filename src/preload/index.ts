@@ -20,6 +20,7 @@ const api = {
   similaritySearch: (chosenVectorDbsPath: addKnowledgeType[], prompt: string): Promise<ragReturn> => ipcRenderer.invoke('similaritySearch', chosenVectorDbsPath, prompt),
   getVectorDbList: (): Promise<addKnowledgeType[]> => ipcRenderer.invoke('getVectorDbList'),
   deleteVectorDb: (indexPath: string): Promise<boolean> => ipcRenderer.invoke('deleteVectorDb', indexPath),
+  translate: (key: string, options: object): string => ipcRenderer.sendSync('translate', key, options),
   titleBar: (event: string): void => ipcRenderer.send('titleBar', event)
 }
 

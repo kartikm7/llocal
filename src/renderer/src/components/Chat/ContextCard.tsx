@@ -1,6 +1,6 @@
 import { fileContextAtom } from '@renderer/store/mocks'
 import { Card } from '@renderer/ui/Card'
-import { cn } from '@renderer/utils/utils'
+import { cn, t } from '@renderer/utils/utils'
 import { useAtom } from 'jotai'
 import React, { ComponentProps } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
@@ -11,7 +11,7 @@ export const ContextCard = ({ className, ...props }: ComponentProps<'div'>): Rea
   const [file, setFile] = useAtom(fileContextAtom)
   function handleClick(): void {
     setFile([])
-    toast.info(`The context has been cleared!`)
+    toast.info(t(`The context has been cleared!`))
   }
   return (
     <>
