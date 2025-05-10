@@ -33,6 +33,8 @@ declare global {
       getVectorDbList: () => Promise<addKnowledgeType[]>,
       deleteVectorDb: (indexPath: string) => Promise<boolean>,
       translate: (key: string, options: object) => string,
+      changeLanguage: (language: string) => Promise<boolean>,
+      getLanguages: () => Promise<readonly string[]>,
       titleBar: (event: string) => void
     }
   }

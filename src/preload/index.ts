@@ -21,6 +21,8 @@ const api = {
   getVectorDbList: (): Promise<addKnowledgeType[]> => ipcRenderer.invoke('getVectorDbList'),
   deleteVectorDb: (indexPath: string): Promise<boolean> => ipcRenderer.invoke('deleteVectorDb', indexPath),
   translate: (key: string, options: object): string => ipcRenderer.sendSync('translate', key, options),
+  changeLanguage: (language: string): Promise<boolean> => ipcRenderer.invoke('changeLanguage', language),
+  getLanguages: (): Promise<readonly string[]> => ipcRenderer.invoke('getLanguages'),
   titleBar: (event: string): void => ipcRenderer.send('titleBar', event)
 }
 

@@ -6,6 +6,7 @@ import { FaissStore } from '@langchain/community/vectorstores/faiss'
 import { readdirSync, rm } from 'fs'
 import path from 'path'
 import { documentsDirectory } from '..'
+import i18n from '../lib/localization/i18n'
 // import { AutoModel } from '@huggingface/transformers'
 
 interface GetFile {
@@ -28,19 +29,19 @@ interface ScoredDocument extends Document {
 }
 
 export const getFileName = (dir: string): string => path.basename(dir)
-
+const { t } = i18n
 
 export async function getSelectedFiles(): Promise<GetFile> {
   return new Promise((resolve, reject) => {
     dialog
       .showOpenDialog({
-        message: 'Choose files to add to the knowledge base',
+        message: t('Choose files to add to the knowledge base'),
         filters: [
           { name: 'pdf, pptx, docx, txt, csv', extensions: ['pdf', 'pptx', 'docx', 'txt', 'csv'] }
         ]
       })
       .then((filePath): void => {
-        if (filePath.canceled) reject(`The operation has been aborted!`)
+        if (filePath.canceled) reject(t('The operation has been aborted!'))
         resolve(filePath)
       })
   })

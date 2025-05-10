@@ -22,11 +22,11 @@ export default function Preferences({ className, ...props }: ComponentProps<'div
   return <div className={cn('flex gap-2', className)} {...props}>
     <BreadCrumb className="flex justify-center items-center gap-2" onClick={() => handleClick(suggestions.show, setShowSuggestion, 'Suggestions')}>
       <Checkbox isExternalState={true} externalState={suggestions.show} className="text-sm" />
-      Suggestions ( Experimental )
+      {t("Suggestions ( Experimental )")}
     </BreadCrumb>
     <BreadCrumb className="flex justify-center items-center gap-2" onClick={() => handleClick(transparencyMode, setTransparency, 'Transparency Mode')}>
       <Checkbox isExternalState={true} externalState={transparencyMode} className="text-sm" />
-      Transparency Mode
+      {t("Transparency Mode")}
     </BreadCrumb>
   </div>
 }

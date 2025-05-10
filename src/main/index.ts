@@ -15,7 +15,9 @@ import { generateDocs } from './utils/docs-generator'
 import path from 'path'
 import pie from "puppeteer-in-electron"
 import puppeteer from "puppeteer-core";
-import i18next from './lib/localization/i18n'
+import i18next, { i18nConfig } from './lib/localization/i18n'
+import i18n from './lib/localization/i18n'
+
 // Handling dynamic imports the shell-path module, provides asynchronous functions
 (async (): Promise<void> => {
   const { shellPathSync } = await import('shell-path')
@@ -79,6 +81,7 @@ function createWindow(): void {
 // exporting downloads directory
 export const downloadDirectory = app.getPath('downloads')
 export const documentsDirectory = app.getPath('documents')
+const { t } = i18n
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -98,10 +101,10 @@ app.whenReady().then(() => {
   autoUpdater.on('update-downloaded', () => {
     dialog
       .showMessageBox({
-        title: 'Update Downloaded!',
-        message: 'A new version has been downloaded!',
-        buttons: ['Go Ahead', 'Release Notes', 'Later'],
-        detail: 'LLocal will be closed and the update will be installed!'
+        title: t('Update Downloaded!'),
+        message: t('A new version has been downloaded!'),
+        buttons: [t('Go Ahead'), t('Release Notes'), t('Later')],
+        detail: t('LLocal will be closed and the update will be installed!')
       })
       .then((click) => {
         if (click.response === 0) {
@@ -269,10 +272,54 @@ app.whenReady().then(() => {
     })
   })
 
+  ipcMain.handle('getLanguages', async (): Promise<readonly string[]> => {
+    // building the config path, since we need to give an absolute path here to read this
+    const configPath = path.join(app.getAppPath(), "src/main/lib/localization/i18n.config.json")
+
+    // reading the config
+    const i18nConfig = JSON.parse(await fs.promises.readFile(configPath, { encoding: "utf-8" })) as i18nConfig
+
+    return new Promise((resolve) => {
+      // this is super cool, since i18next.languages is a readonly string[] but we can typecast it using the "as" keyword
+      const languages = i18next.languages as string[]
+      // reading the preferred language from the config
+      const preferredLanguage = i18nConfig.preferredLanguage
+      // here putting the preferredLanguage at the first index, so it's the default value in the ui aswell.
+      let idx = -1
+      for (idx = 0; idx < languages.length; idx++) {
+        const value = languages[idx]
+        if (value == preferredLanguage) {
+          break
+        }
+      }
+
+      // this swap is also super cool, because instead of making a "temp" variable we already have our temp variable in the form of the preferredLanguage
+      languages[idx] = languages[0]
+      languages[0] = preferredLanguage
+      resolve(languages)
+    })
+  })
   // this type declaration makes no sense, because the type of getResource is any itself
   ipcMain.on('translate', (event, key, options = {}) => {
     event.returnValue = i18next.t(key, options)
   })
+
+  ipcMain.handle('changeLanguage', async (_event, language: string): Promise<boolean> => {
+    // what makes this so cool is that, we can manage preference from the backend itself
+    return new Promise((resolve) => {
+      i18next.changeLanguage(language).then(() => {
+        console.log(language)
+        // Putting it in the format required by the file
+        const config = { preferredLanguage: language }
+        // Overwriting the file
+        fs.writeFile('src/main/lib/localization/i18n.config.json', JSON.stringify(config), { encoding: "utf-8" }, (err) => {
+          if (err) resolve(false)
+          resolve(true)
+        })
+      })
+    })
+  })
+
 
   createWindow()
 

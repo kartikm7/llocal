@@ -9,6 +9,7 @@ import { useOllama } from '@renderer/hooks/useOllama'
 import { HiMiniSparkles } from "react-icons/hi2";
 import { FaGlobeAsia } from "react-icons/fa";
 import { LuImage } from 'react-icons/lu'
+import { t } from '@renderer/utils/utils'
 
 type FormFields = {
   model?: string
@@ -75,7 +76,7 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
           onClick={() => window.open('https://llocal.in/guide', '_blank')}
           className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all"
         >
-          Check <span className="underline">LLocal.in</span> for more!
+          {t("Check")} <span className="underline">LLocal.in</span> {t("for more!")}
         </Card>
       </div>
       <Card
@@ -83,7 +84,7 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
         className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
         <p className='flex justify-center items-center gap-1'>
           <HiMiniSparkles className='text-yellow-500' />
-          all-minilm ( this is needed for <FaGlobeAsia /> web search & file upload )
+          all-minilm ({t("this is needed for")} <FaGlobeAsia /> {t("web search & file upload")})
         </p>
       </Card>
       <Card
@@ -91,7 +92,7 @@ export const PullModel = ({ className, ...props }: ComponentProps<'form'>): Reac
         className="w-fit text-xs p-2 rounded-xl cursor-pointer opacity-50 hover:opacity-100 transition-all">
         <p className='flex justify-center items-center gap-1'>
           <HiMiniSparkles className='text-yellow-500' />
-          moondream (supports <LuImage /> images )
+          moondream ({t("supports")} <LuImage /> {t("images")})
         </p>
       </Card>
     </div>

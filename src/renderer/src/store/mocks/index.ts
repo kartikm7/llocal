@@ -1,6 +1,5 @@
 import { listModels } from '@renderer/hooks/useOllama'
 import { atom } from 'jotai'
-// import { atomWithStorage } from 'jotai/utils'
 
 export interface Message {
   role: string
@@ -57,3 +56,4 @@ export const backgroundImageAtom = atom<string>(localStorage.getItem('bg') ?? ur
 export const prefModelAtom = atom<string>(localStorage.getItem('prefModel') ?? '')
 export const darkModeAtom = atom<boolean>(true)
 export const transparencyModeAtom = atom<boolean>(String(localStorage.getItem('transparencyMode')) === 'true')
+export const languageAtom = atom<string>("") // this is more of just a notifier, and the default value does not matter since the re-render happens on change

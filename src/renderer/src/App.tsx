@@ -6,7 +6,7 @@ import { NewChat } from './components/Sidebar/NewChat'
 import { Separator } from './ui/Separator'
 import { CommandCentre } from './components/Sidebar/CommandCentre'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai/react'
-import { backgroundImageAtom, darkModeAtom, isOllamaInstalledAtom, transparencyModeAtom } from './store/mocks'
+import { backgroundImageAtom, darkModeAtom, isOllamaInstalledAtom, languageAtom, transparencyModeAtom } from './store/mocks'
 import { Toaster } from 'sonner'
 import { useEffect, useState } from 'react'
 import { ollamaServe } from './utils/ollama'
@@ -18,10 +18,13 @@ function App(): JSX.Element {
   const [platform, setPlatform] = useState("")
   const [backgroundImage] = useAtom(backgroundImageAtom)
   const setIsOllamaInstalled = useSetAtom(isOllamaInstalledAtom)
+
   // Ensuring the state update according to preference
   const [darkMode, setDarkMode] = useAtom(darkModeAtom)
   const mode = localStorage.getItem('darkMode') === 'false' ? false : true
   setDarkMode(mode ?? true)
+
+  const language = useAtomValue(languageAtom)
 
   // Ensuring transparency mode preference
   const transparencyMode = useAtomValue(transparencyModeAtom)
@@ -33,6 +36,11 @@ function App(): JSX.Element {
     getPlatform()
     ollamaServe(setIsOllamaInstalled)
   }, [])
+
+
+  // need to re-renderer all the children whenever the langauge changes
+  useEffect(() => {
+  }, [language])
 
   return (
     <RootLayout

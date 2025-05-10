@@ -9,6 +9,7 @@ import { ModeSelector } from './ModeSelector'
 import { KnowLedgeBase } from './KnowledgeBase'
 import Preferences from './Preferences'
 import { t } from '@renderer/utils/utils'
+import { ChooseLanguage } from './ChooseLanguage'
 
 export const Categories = (): React.ReactElement => {
   // to maintain state of what is selected, this helps with choosing what to render
@@ -22,6 +23,7 @@ export const Categories = (): React.ReactElement => {
         <ModelConfiguration className="flex flex-col gap-5">
           <ChooseModel />
           <PullModel />
+          <ChooseLanguage />
         </ModelConfiguration>
         <div className='flex flex-col gap-2 '>
           <div className="flex flex-col gap-5">
