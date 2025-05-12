@@ -33,3 +33,6 @@ Code snippet of the same:
       fallbackLng: ['en'], // i18n.languages returns this instead of supportedLngs, which is pretty cool
     }
 ```
+
+### Test your changes
+You can follow [this readme](https://github.com/kartikm7/llocal/tree/master#project-setup) to setup LLocal
