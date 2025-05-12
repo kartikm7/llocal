@@ -1,5 +1,5 @@
 # Internationalization
-First things first, thank you for evening making it to this page. It makes me super happy and surprised to know that there are people who would want to translate LLocal in there own local (haha) language. So a massive thank you from the bottom of my heart.
+First things first, thank you for even making it to this page. It makes me super happy and surprised to know that there are people who would want to translate LLocal in there own llocal (haha) language. So a massive thank you from the bottom of my heart.
 
 ## How to add translations?
 
@@ -26,8 +26,8 @@ cp src/main/lib/localization/locales/en/translations.json src/main/lib/localizat
 ### Finally update the i18n.ts
 - This file resides in `src/main/lib/localization/i18n.ts`
 - Add the `locale-code` to the `fallbackLng` array.
-Code snippet of the same
 
+Code snippet of the same:
 ```typescript
     {
       fallbackLng: ['en'], // i18n.languages returns this instead of supportedLngs, which is pretty cool
