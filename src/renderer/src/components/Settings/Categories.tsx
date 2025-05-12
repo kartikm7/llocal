@@ -17,23 +17,20 @@ export const Categories = (): React.ReactElement => {
   const map = new Map() // this is to store the component in key value pairs
   map.set(
     'settings',
-    <>
-      {/* <h1 className="mt-10 text-4xl">Settings</h1> */}
-      <div className="flex flex-col gap-10 lg:flex-row lg:gap-24 h-full">
-        <ModelConfiguration className="flex flex-col gap-5">
-          <ChooseModel />
-          <PullModel />
-          <ChooseLanguage />
-        </ModelConfiguration>
-        <div className='flex flex-col gap-2 '>
-          <div className="flex flex-col gap-5">
-            <BackgroundSelector />
-            <ModeSelector />
-          </div>
-          <Preferences />
+    <div className="flex flex-col gap-10 lg:flex-row lg:gap-24 h-full">
+      <ModelConfiguration className="flex flex-col gap-5">
+        <ChooseModel />
+        <PullModel />
+        <ChooseLanguage />
+      </ModelConfiguration>
+      <div className='flex flex-col gap-2 '>
+        <div className="flex flex-col gap-5">
+          <BackgroundSelector />
+          <ModeSelector />
         </div>
+        <Preferences />
       </div>
-    </>
+    </div>
   )
 
   map.set('knowledgeBase', <KnowLedgeBase />)

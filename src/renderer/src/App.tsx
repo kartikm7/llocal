@@ -51,9 +51,7 @@ function App(): JSX.Element {
       <Toaster className='font-poppins text-base' richColors theme={darkMode ? 'dark' : 'light'} />
       <Settings className="justify-between items-center gap-14 overflow-y-scroll">
         <Categories />
-        <div>
-          <GetVersion />
-        </div>
+        <GetVersion className='pt-20 lg:p-0' />
       </Settings>
       <Sidebar className="bg-foreground bg-opacity-20 dark:bg-background dark:bg-opacity-20 backdrop-blur-lg flex flex-col gap-5">
         <NewChat />
