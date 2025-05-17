@@ -15,7 +15,7 @@
         "src/renderer/src/*"
       ]
     },
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "moduleResolution": "Bundler"
   }
 }
