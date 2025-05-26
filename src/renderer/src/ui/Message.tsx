@@ -2,15 +2,14 @@ import { ComponentProps, useRef } from "react";
 import { Card } from "./Card";
 import Markdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
-import rehypeHighlight from 'rehype-highlight'
 import remarkGfm from 'remark-gfm'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { Code } from "./Code";
-import reactNodeToString from 'react-node-to-string'
 import { Accordion } from "./Accordion";
 import { customTagValidator, formatCustomBlock } from "@renderer/utils/utils";
 import { BreadCrumb } from "./BreadCrumb";
 import { BsGlobeCentralSouthAsia } from "react-icons/bs";
+import "highlight.js/styles/github.css";
 
 interface Message extends ComponentProps<'div'> {
   message: string,
@@ -31,7 +30,7 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
   return <Card {...props}>
     <Markdown
       className="markdown"
-      rehypePlugins={validation ? [rehypeHighlight, rehypeRaw] : [rehypeHighlight]}
+      rehypePlugins={validation ? [rehypeRaw] : []}
       remarkPlugins={[remarkGfm]}
       components={{
         // @ts-ignore because
@@ -58,12 +57,12 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
           const myRef = useRef<SyntaxHighlighter>(null)
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { children, className, node, ...rest } = props
-          // console.log(children)
+          console.log(String(children).replace(/\n$/, ''))
 
           const match = /language-(\w+)/.exec(className || '')
           return match ? (
             <Code language={match[1]} ref={myRef}>
-              {reactNodeToString(children).trim().replace(/\n$/, '')}
+              {String(children).replace(/\n$/, '')}
             </Code>
           ) : (
             <code {...rest} className={className + " text-wrap"}>
