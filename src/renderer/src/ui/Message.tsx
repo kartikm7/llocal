@@ -9,7 +9,6 @@ import { Accordion } from "./Accordion";
 import { customTagValidator, formatCustomBlock } from "@renderer/utils/utils";
 import { BreadCrumb } from "./BreadCrumb";
 import { BsGlobeCentralSouthAsia } from "react-icons/bs";
-import "highlight.js/styles/github.css";
 
 interface Message extends ComponentProps<'div'> {
   message: string,
