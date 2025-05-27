@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import backend from "i18next-fs-backend"
-import config from "@resources/i18n.config.json"
+import config from "../../../../resources/i18n.config.json"
 
 export interface i18nConfig {
   preferredLanguage: string

@@ -11,12 +11,6 @@
       "electron-vite/node"
     ],
     "skipLibCheck": true,
-    "moduleResolution": "Bundler",
-    "baseUrl": ".",
-    "paths": {
-      "@resources/*": [
-        "resources/*"
-      ]
-    }
+    "moduleResolution": "Bundler"
   }
 }
