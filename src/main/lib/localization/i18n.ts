@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import backend from "i18next-fs-backend"
-import config from "./i18n.config.json"
+import config from "@resources/i18n.config.json"
 
 export interface i18nConfig {
   preferredLanguage: string
@@ -11,8 +11,8 @@ i18n
   .use(backend)
   .init({
     backend: {
-      loadPath: "src/main/lib/localization/locales/{{lng}}/{{ns}}.json",
-      addPath: "src/main/lib/localization/locales/{{lng}}/{{ns}}.missing.json",
+      loadPath: "resources/locales/{{lng}}/{{ns}}.json",
+      addPath: "resources/locales/{{lng}}/{{ns}}.missing.json",
     },
     // other options you might configure
     debug: false,

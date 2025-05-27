@@ -274,7 +274,7 @@ app.whenReady().then(() => {
 
   ipcMain.handle('getLanguages', async (): Promise<readonly string[]> => {
     // building the config path, since we need to give an absolute path here to read this
-    const configPath = path.join(app.getAppPath(), "src/main/lib/localization/i18n.config.json")
+    const configPath = path.join(app.getAppPath(), "resources/i18n.config.json")
 
     // reading the config
     const i18nConfig = JSON.parse(await fs.promises.readFile(configPath, { encoding: "utf-8" })) as i18nConfig
@@ -312,7 +312,7 @@ app.whenReady().then(() => {
         // Putting it in the format required by the file
         const config = { preferredLanguage: language }
         // Overwriting the file
-        fs.writeFile('src/main/lib/localization/i18n.config.json', JSON.stringify(config), { encoding: "utf-8" }, (err) => {
+        fs.writeFile('resources/i18n.config.json', JSON.stringify(config), { encoding: "utf-8" }, (err) => {
           if (err) resolve(false)
           resolve(true)
         })
