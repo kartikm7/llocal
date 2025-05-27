@@ -1,17 +1,14 @@
 import { BreadCrumb } from "@renderer/ui/BreadCrumb";
 import { Card } from "@renderer/ui/Card";
 import { cn } from "@renderer/utils/utils";
-import React, { ComponentProps, useEffect, useState } from "react";
+import React, { ComponentProps, useEffect } from "react";
 import { DeleteButton } from "../Sidebar/DeleteButton";
 import { IoIosAddCircle } from 'react-icons/io'
-
-interface getVectorDb {
-  path: string,
-  fileName: string
-}
+import { knowledgeBaseAtom } from "@renderer/store/mocks";
+import { useAtom } from "jotai";
 
 export const KnowLedgeBase = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
-  const [knowledgeBase, setKnowledgeBase] = useState<getVectorDb[]>([])
+  const [knowledgeBase, setKnowledgeBase] = useAtom(knowledgeBaseAtom)
 
   useEffect(() => {
     async function getVectorDb(): Promise<void> {
@@ -19,7 +16,8 @@ export const KnowLedgeBase = ({ className, ...props }: ComponentProps<'div'>): R
       setKnowledgeBase(response);
     }
     getVectorDb()
-  }, [knowledgeBase])
+  }, [])
+
 
   /* god bless my dsa prep, that's the only reason I have been able to use a map here
     just so handy, since we can store a key value pair of Components! */
