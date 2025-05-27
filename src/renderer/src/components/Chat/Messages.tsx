@@ -36,7 +36,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
 
   return (
     <div
-      className={twMerge('flex flex-col gap-5 w-1/3 mb-5 overflow-y-auto', className)}
+      className={twMerge('flex flex-col gap-5 w-full md:max-w-3xl mb-5 overflow-y-auto', className)}
       {...props}
     >
       {chat &&

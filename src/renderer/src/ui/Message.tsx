@@ -26,7 +26,7 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
     if (validation) message = formatCustomBlock(message, 'think')
   }
 
-  return <Card {...props}>
+  return <Card className="w-fit" {...props}>
     <Markdown
       className="markdown"
       rehypePlugins={validation ? [rehypeRaw] : []}

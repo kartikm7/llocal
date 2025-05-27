@@ -74,14 +74,14 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   // }, [context])
   //
   return (
-    <div className='relative w-3/6 h-fit flex flex-col'>
+    <div className='relative w-full md:max-w-[48rem] flex flex-col'>
       {(autoCompleteList.length > 0) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
       <ToolTip className='self-end w-fit h-full m-1 mr-5' tooltip={context.length > 1 ? `${context.length} ${t("files")}` : `${context.length} ${t("file")}`}>
         <ContextCard className='' />
       </ToolTip>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={twMerge(`relative  h-12`, className)}
+        className={twMerge(`relative w-full h-12`, className)}
         {...props}
       >
         <TextArea

@@ -12,7 +12,7 @@ export const RootLayout = ({
   ...props
 }: ComponentProps<'main'>): React.ReactElement => {
   return (
-    <main className={twMerge('flex flex-row', className)} {...props}>
+    <main className={twMerge('h-full w-full flex flex-row', className)} {...props}>
       {children}
     </main>
   )
@@ -32,7 +32,7 @@ export const Settings = ({
       {settingsToggle && (
         <div
           className={twMerge(
-            `dark:bg-black dark:bg-opacity-50 bg-foreground bg-opacity-50 absolute z-30 flex flex-col justify-center items-center w-full h-screen backdrop-blur p-5 overflow-hidden`,
+            `dark:bg-black dark:bg-opacity-50 bg-foreground bg-opacity-50 absolute z-30 flex flex-col justify-center items-center w-full h-screen backdrop-blur p-5 overflow-y-scroll overflow-x-hidden`,
             className
           )}
           {...props}
@@ -103,7 +103,7 @@ export const Chat = ({
   ...props
 }: ComponentProps<'div'>): React.ReactElement => {
   return (
-    <aside className={twMerge('flex-1 h-screen p-5', className)} {...props}>
+    <aside className={twMerge('flex-1 overflow-hidden pt-10 pb-6 px-8 lg:pt-8', className)} {...props}>
       {children}
     </aside>
   )
