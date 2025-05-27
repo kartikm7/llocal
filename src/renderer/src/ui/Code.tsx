@@ -20,7 +20,7 @@ export const Code = ({
   const [isArtifact, setArtifact] = useState(false)
   return (
     // match[1]
-    <div className='max-w-xl max-h-xl md:max-w-2xl md:max-h-2xl'>
+    <div className='max-w-full max-h-full'>
       <div className='flex justify-between p-1 items-center rounded-t-md bg-foreground dark:bg-background dark:bg-opacity-75'>
         <p className='opacity-75'>{language}</p>
         <div className='flex justify-center items-center gap-3'>
