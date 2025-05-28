@@ -1,19 +1,15 @@
-import { Button } from '@renderer/ui/Button'
-import { Menu, MenuSelector } from '@renderer/ui/Menu'
+import { Menu, MenuContent, MenuItem, MenuTrigger } from '@renderer/ui/Menu'
 import { cn, t } from '@renderer/utils/utils'
-import { ChangeEvent, ComponentProps, useState } from 'react'
+import { ChangeEvent, ComponentProps } from 'react'
 import { IoIosAddCircle } from 'react-icons/io'
 import { LuFile, LuImage } from 'react-icons/lu'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { experimentalSearchAtom, fileContextAtom, imageAttatchmentAtom, modelListAtom } from '@renderer/store/mocks'
 import { toast } from 'sonner'
 import { Checkbox } from '@renderer/ui/Checkbox'
-import { useClickOutside } from '@renderer/hooks/useClickOutside'
 
 export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
   // initializing state to show menu
-  const [showMenu, setShowMenu] = useState(false)
-  const ref = useClickOutside<HTMLDivElement>(() => setShowMenu(false))
   const setImageAttachment = useSetAtom(imageAttatchmentAtom)
   const [experimentalSearch, setExperimentalSearch] = useAtom(experimentalSearchAtom)
   const modelList = useAtomValue(modelListAtom)
@@ -83,13 +79,17 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
   }
 
   return (
-    <div ref={ref} className={cn('relative flex flex-col justify-center items-center', className)} {...props}>
-      {showMenu && (
-        <Menu className="flex flex-col justify-center items-center gap-2">
-          <MenuSelector onClick={handleAddFile} className='flex items-center gap-2 cursor-pointer'>
+    <div className={cn('flex flex-col justify-center items-center ', className)} {...props}>
+      <Menu modal={false}>
+        <MenuTrigger className='data-[state=open]:rotate-45 transition-all'>
+
+          <IoIosAddCircle className=' ' />
+        </MenuTrigger>
+        <MenuContent className="flex flex-col justify-center items-center gap-2">
+          <MenuItem onClick={handleAddFile} className='flex items-center w-full gap-2 cursor-pointer'>
             <LuFile className='text-2xl' /> Add file
-          </MenuSelector>
-          <MenuSelector>
+          </MenuItem>
+          <MenuItem className='w-full'>
             <label htmlFor="images" className="flex items-center gap-2 cursor-pointer">
               <LuImage className="text-2xl" /> Upload an image
             </label>
@@ -100,21 +100,12 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
               accept="image/*"
               onChange={handleImage}
             />
-          </MenuSelector>
-          <MenuSelector onClick={handleClick} className="cursor-pointer flex items-center gap-2">
+          </MenuItem>
+          <MenuItem onSelect={(e) => e.preventDefault()} onClick={handleClick} className="w-full cursor-pointer flex items-center gap-2">
             <Checkbox isExternalState={true} externalState={experimentalSearch} /> Web search
-          </MenuSelector>
-        </Menu>
-      )}
-      <Button
-        type="button"
-        onClick={() => {
-          setShowMenu((prev) => !prev)
-        }}
-        variant="icon"
-      >
-        <IoIosAddCircle className={`${showMenu && 'rotate-45'} transition-all`} />
-      </Button>
+          </MenuItem>
+        </MenuContent>
+      </Menu >
     </div>
   )
 }

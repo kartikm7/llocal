@@ -1,29 +1,39 @@
 import { cn } from '@renderer/utils/utils'
+import * as MenuProvider from '@radix-ui/react-dropdown-menu'
 import { VariantProps, cva } from 'class-variance-authority'
-import { ComponentProps } from 'react'
-import { Button } from './Button'
 
-export const MenuSelector = ({className,children, ...props}:ComponentProps<'button'>): React.ReactElement => {
-  return <Button type='button' className={cn('w-full', className)}  variant='link' {...props}>{children}</Button>
+const Menu = MenuProvider.Root
+const MenuTrigger = MenuProvider.Trigger
+
+const MenuContent = ({ className, children, align = "center", ...props }: MenuProvider.DropdownMenuContentProps): React.ReactElement => {
+  return <MenuProvider.Portal>
+    <MenuProvider.Content className={cn('w-44 m-2 bg-foreground bg-opacity-30 dark:bg-background dark:bg-opacity-30 dark:text-foreground text-sm p-2 rounded-2xl backdrop-blur-xl transition-all', className)} align={align} {...props}>
+      {children}
+    </MenuProvider.Content>
+  </MenuProvider.Portal>
 }
 
-const MenuVariants = cva('', {
+
+const MenuItemVariants = cva('w-full font-poppins', {
   variants: {
     variant: {
-      top: 'bottom-10'
+      base: '',
+      interactable: 'w-full data-[highlighted]:underline data-[highlighted]:scale-[0.98] data-[highlighted]:opacity-100 outline-none hover:underline hover:scale-[0.98] opacity-60 hover:opacity-100 transition-all',
     }
   },
   defaultVariants: {
-    variant: 'top'
+    variant: 'interactable'
   }
 })
 
-interface MenuProps extends ComponentProps<'div'>, VariantProps<typeof MenuVariants> {}
 
-export const Menu = ({ className, variant, children, ...props }: MenuProps): React.ReactElement => {
-  return (
-    <div className={cn( 'absolute w-44 flex flex-col justify-center items-center bg-foreground bg-opacity-30 dark:bg-background dark:bg-opacity-30 text-sm p-2 rounded-2xl backdrop-blur-xl transition-all',MenuVariants({variant, className}))} {...props}>
-      {children}
-    </div>
-  )
+interface MenuItemProps extends MenuProvider.DropdownMenuItemProps, VariantProps<typeof MenuItemVariants> { }
+
+const MenuItem = ({ className, variant, children, ...props }: MenuItemProps): React.ReactElement => {
+  return <MenuProvider.DropdownMenuItem className={cn(MenuItemVariants({ variant, className }))} {...props}>
+    {children}
+  </MenuProvider.DropdownMenuItem>
 }
+
+
+export { Menu, MenuTrigger, MenuContent, MenuItem }

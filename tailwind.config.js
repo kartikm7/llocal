@@ -60,6 +60,7 @@ export const theme = {
           variants: ['responsive']
         }
       )
-    })
+    }),
+    require('tailwindcss-animate')
   ]
 }
