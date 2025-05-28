@@ -1,25 +1,26 @@
-import { useLocal } from '@renderer/hooks/useLocal'
-import { darkModeAtom } from '@renderer/store/mocks'
 import { Dropdown } from '@renderer/ui/Dropdown'
 import { DropDownSelector } from '@renderer/ui/DropdownSelector'
+import { useTheme } from '@renderer/ui/ThemeProvider'
 import { t } from '@renderer/utils/utils'
-import { useAtom } from 'jotai'
 import { ChangeEvent } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
 
 export const ModeSelector = (): React.ReactElement => {
-  const { setMode } = useLocal()
-  const [darkMode] = useAtom(darkModeAtom)
+  const { theme, setTheme } = useTheme()
   function handleSelection(e: ChangeEvent<HTMLSelectElement>): void {
     const value = e.target.value
     switch (value) {
       case 'dark':
-        setMode(true)
+        setTheme('dark')
         break;
       case 'light':
-        setMode(false)
+        setTheme('light')
+        break;
+      case 'system':
+        setTheme('system')
         break;
       default:
+        setTheme('dark')
         break;
     }
   }
@@ -30,9 +31,12 @@ export const ModeSelector = (): React.ReactElement => {
       <div className="relative">
         <Dropdown
           onChange={handleSelection}
-          defaultValue={darkMode ? 'dark' : 'light'}
+          defaultValue={theme}
           className="w-96"
         >
+          <DropDownSelector key={3} value={'system'}>
+            {t("System")}
+          </DropDownSelector>
           <DropDownSelector key={1} value={'dark'}>
             {t("Dark")}
           </DropDownSelector>

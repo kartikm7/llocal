@@ -54,6 +54,5 @@ export const suggestionsAtom = atom<suggestions>({ show: JSON.parse(localStorage
 const url = new URL('/src/assets/themes/galaxia.svg', import.meta.url).href
 export const backgroundImageAtom = atom<string>(localStorage.getItem('bg') ?? url)
 export const prefModelAtom = atom<string>(localStorage.getItem('prefModel') ?? '')
-export const darkModeAtom = atom<boolean>(true)
 export const transparencyModeAtom = atom<boolean>(String(localStorage.getItem('transparencyMode')) === 'true')
 export const languageAtom = atom<string>("") // this is more of just a notifier, and the default value does not matter since the re-render happens on change

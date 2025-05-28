@@ -1,9 +1,8 @@
-import { backgroundImageAtom, darkModeAtom, modelListAtom, prefModelAtom, suggestionsAtom, transparencyModeAtom, } from '@renderer/store/mocks'
+import { backgroundImageAtom, modelListAtom, prefModelAtom, suggestionsAtom, transparencyModeAtom, } from '@renderer/store/mocks'
 import { useSetAtom } from 'jotai'
 import { listModels } from './useOllama'
 interface useLocalReturn {
   setBackground: (pref: string) => void
-  setMode: (pref: boolean) => void
   setModelChoice: (pref: string) => void
   setList: (list: listModels[]) => void
   setShowSuggestion: (pref: boolean) => void
@@ -11,7 +10,6 @@ interface useLocalReturn {
 }
 export const useLocal = (): useLocalReturn => {
   const setBackgroundImage = useSetAtom(backgroundImageAtom)
-  const setDarkMode = useSetAtom(darkModeAtom)
   const setPrefModel = useSetAtom(prefModelAtom)
   const setModelList = useSetAtom(modelListAtom)
   const setSuggestions = useSetAtom(suggestionsAtom)
@@ -29,10 +27,14 @@ export const useLocal = (): useLocalReturn => {
     localStorage.setItem('settingsState', pref)
   }
 
-  const setMode = (pref: boolean): void => {
-    localStorage.setItem('darkMode', `${pref}`)
-    setDarkMode(pref)
-  }
+
+  /*
+   * Deprecated
+   * */
+  // const setMode = (pref: string): void => {
+  //   localStorage.setItem('darkMode', `${pref}`)
+  //   setDarkMode(pref)
+  // }
 
   const setModelChoice = (pref: string): void => {
     // the embed model should not be set as model choice
@@ -54,5 +56,5 @@ export const useLocal = (): useLocalReturn => {
     localStorage.setItem('transparencyMode', String(pref))
     setTransparencyMode(pref)
   }
-  return { setBackground, setMode, setModelChoice, setList, setShowSuggestion, setTransparency }
+  return { setBackground, setModelChoice, setList, setShowSuggestion, setTransparency }
 }

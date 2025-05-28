@@ -1,4 +1,4 @@
-import { chatAtom, darkModeAtom, experimentalSearchAtom, imageAttatchmentAtom, streamingAtom } from "@renderer/store/mocks"
+import { chatAtom, experimentalSearchAtom, imageAttatchmentAtom, streamingAtom } from "@renderer/store/mocks"
 import { Card } from "@renderer/ui/Card"
 import { AiMessage } from "@renderer/ui/Message"
 import { cn } from "@renderer/utils/utils"
@@ -6,12 +6,13 @@ import { useAtom, useAtomValue } from "jotai"
 import { ComponentProps } from "react"
 import Skeleton from "react-loading-skeleton"
 import Suggestions from "../suggestions"
+import { useTheme } from "@renderer/ui/ThemeProvider"
 
 export const StreamingMessage = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
 
   const chat = useAtomValue(chatAtom)
   const [stream] = useAtom(streamingAtom)
-  const darkMode = useAtomValue(darkModeAtom)
+  const { theme } = useTheme()
   const imageAttachment = useAtomValue(imageAttatchmentAtom)
   const experimentalSearch = useAtomValue(experimentalSearchAtom)
   return <div className={cn("", className)} {...props}>
@@ -27,8 +28,8 @@ export const StreamingMessage = ({ className, ...props }: ComponentProps<'div'>)
         <Card className="w-4/5">
           <Skeleton
             className="opacity-50"
-            baseColor={darkMode ? '#FFFFFF' : '#202020'}
-            highlightColor={darkMode ? '#bfbfbf' : ' #b3b3b3'}
+            baseColor={theme == 'dark' ? '#FFFFFF' : '#202020'}
+            highlightColor={theme == 'dark' ? '#bfbfbf' : ' #b3b3b3'}
             borderRadius={5}
             count={4}
           />
