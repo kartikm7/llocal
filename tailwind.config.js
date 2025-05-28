@@ -61,6 +61,5 @@ export const theme = {
         }
       )
     }),
-    require('tailwindcss-animate')
   ]
 }
