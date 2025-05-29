@@ -6,10 +6,13 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 <br />LLocal can be installed on ****Windows****, ****Mac**** and ****Linux****.
 
 <a target="_blank" href="https://discord.gg/ygrrVJA6Th"><img src="https://dcbadge.limes.pink/api/server/ygrrVJA6Th" alt="" /></a>
-## Demo
-<img src="https://github.com/kartikm7/llocal/assets/108652656/62904ac1-c165-45de-9b53-219dddb0dac0" alt="llocal-demo" height=400 />
+
+https://github.com/user-attachments/assets/bdfefd5d-8a55-46cf-8c63-5a7ba5e093c7
 
 ## What can LLocal do?
+
+
+
 - Llocaly store chats.
 - Llocal utilizes Ollama which ensures that from processing to utilizing everything happens on your machine LLocally.
 - Seamlessly switch between models.
@@ -27,7 +30,7 @@ Aiming to provide a seamless and privacy driven chatting experience with open-so
 - Retrieval Augmented Generation/RAG (with single PDF's) ✅
 - Multiple PDF chat ✅
 - Ollama Model Catalogue (Information about all models)
-- Support for `<think />` code blocks
+- Support for `<think />` code blocks ✅
 - Agents, the first two would be `DeepResearch` and `Reasoning`
 - Code live preview for web based code (Something like what Claude Provides)
 - Text to Speech Models (only if we can get to be similar to a human like response)
