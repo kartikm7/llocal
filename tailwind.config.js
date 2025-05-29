@@ -9,7 +9,9 @@ export const theme = {
       poppins: ['Poppins', 'sans-serif']
     },
     animation: {
-      shimmer: 'shimmer 8s infinite'
+      shimmer: 'shimmer 8s infinite',
+      fadeIn: 'fadeIn 0.3s',
+      fadeOut: 'fadeOut 0.2s',
     },
     colors: {
       foreground: '#FFFFFF',
@@ -22,6 +24,22 @@ export const theme = {
         },
         '30%, 60%': {
           'background-position': 'calc(100% + var(--shimmer-width)) 0'
+        }
+      },
+      fadeIn: {
+        '0%': {
+          'opacity': '0%'
+        },
+        '100%': {
+          'opacity': '100%'
+        }
+      },
+      fadeOut: {
+        '0%': {
+          'opacity': '100%'
+        },
+        '100%': {
+          'opacity': '0%'
         }
       }
     }

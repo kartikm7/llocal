@@ -7,14 +7,14 @@ const MenuTrigger = MenuProvider.Trigger
 
 const MenuContent = ({ className, children, align = "center", ...props }: MenuProvider.DropdownMenuContentProps): React.ReactElement => {
   return <MenuProvider.Portal>
-    <MenuProvider.Content className={cn('w-44 m-2 bg-foreground bg-opacity-30 dark:bg-background dark:bg-opacity-30 dark:text-foreground text-sm p-2 rounded-2xl backdrop-blur-xl transition-all', className)} align={align} {...props}>
+    <MenuProvider.Content className={cn('w-44 data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut m-2 bg-foreground bg-opacity-30 dark:bg-background dark:bg-opacity-30 dark:text-foreground text-sm p-2 rounded-2xl backdrop-blur-xl transition-all', className)} align={align} {...props}>
       {children}
     </MenuProvider.Content>
   </MenuProvider.Portal>
 }
 
 
-const MenuItemVariants = cva('w-full font-poppins', {
+const MenuItemVariants = cva('font-poppins w-full ', {
   variants: {
     variant: {
       base: '',
