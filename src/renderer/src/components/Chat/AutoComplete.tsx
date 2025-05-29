@@ -48,7 +48,6 @@ export const AutoComplete = ({ className, list, reset, ...props }: AutoCompleteP
     if (file.length == 0) handleGetList()
   }, [file])
 
-  console.log(file)
   return <Card className={cn(className, 'flex flex-col gap-1 w-fit h-32 max-w-72 p-4 overflow-x-visible overflow-y-scroll')} {...props}>
     {list.length > 0 && list.map((val, index) => {
       const splits = val.fileName.split('.');

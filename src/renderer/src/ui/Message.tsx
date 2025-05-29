@@ -44,8 +44,7 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
               target="_blank"
               rel="noreferrer"
             >
-
-              <BreadCrumb className=" w-2/6 max-w-fit truncate inline-block">
+              <BreadCrumb className=" w-1/6 max-w-fit truncate inline-block">
                 <BsGlobeCentralSouthAsia className="inline-flex mr-1" />
                 {props.children}
               </BreadCrumb>
@@ -56,7 +55,6 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
           const myRef = useRef<SyntaxHighlighter>(null)
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { children, className, node, ...rest } = props
-          console.log(String(children).replace(/\n$/, ''))
 
           const match = /language-(\w+)/.exec(className || '')
           return match ? (

@@ -1,5 +1,6 @@
 import React, {
   ChangeEvent, ComponentProps,
+  useState,
   // useCallback
 } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -37,6 +38,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   const setStopGenerating = useSetAtom(stopGeneratingAtom)
   const setSuggestions = useSetAtom(suggestionsAtom)
   const context = useAtomValue(fileContextAtom)
+  const [isAutoComplete, setIsAutoComplete] = useState(false)
   function handleClick(): void {
     setStopGenerating(pre => !pre)
   }
@@ -60,8 +62,11 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
       const list = await window.api.getVectorDbList();
       const typed = input.replace('/', ''); // this is to get whatever the user has typed after the /
       setAutoCompleteList(list.filter((val) => val.fileName.includes(typed)))
+      setIsAutoComplete(true)
+      setIsAutoComplete
     } else {
       setAutoCompleteList([]) // set it empty when it does not start with /
+      setIsAutoComplete(false)
     }
   }
   // TODO: Fix the sources to have new lines working (\n)
@@ -75,7 +80,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   //
   return (
     <div className='relative w-full md:max-w-[48rem] flex flex-col'>
-      {(autoCompleteList.length > 0) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
+      {(isAutoComplete && autoCompleteList.length > 0) && <AutoComplete className='absolute -bottom-3 transform -translate-y-1/2' list={autoCompleteList} reset={reset} />}
       <ToolTip className='self-end w-fit h-full m-1 mr-5' tooltip={context.length > 1 ? `${context.length} ${t("files")}` : `${context.length} ${t("file")}`}>
         <ContextCard className='' />
       </ToolTip>
