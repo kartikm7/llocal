@@ -1,6 +1,6 @@
 {
   "name": "LLocal",
-  "version": "1.0.0-beta.10",
+  "version": "1.0.0-beta.11",
   "description": "Llocal is a client application to utilize locally installed LLM's.",
   "main": "./out/main/index.js",
   "author": "Kartikeya Mishra",
