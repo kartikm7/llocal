@@ -68,29 +68,29 @@ LLocal is an Electron application with React and TypeScript.
 #### Install dependencies
 
 ```bash
-$ npm install
+npm install
 ```
 
 #### Development
 
 ```bash
-$ npm run dev
+npm run dev
 ```
 
 #### Build
 
 ```bash
 # For windows
-$ npm run build:win
+npm run build:win
 
 # For macOS (m-series)
-$ npm run build:mac:arm
+npm run build:mac:arm
 
 # For macOS (intel-chips)
-$ npm run build:mac:intel
+npm run build:mac:intel
 
 # For Linux (Supported now!)
-$ npm run build:linux
+npm run build:linux
 ```
 ## How to contribute?
 You can refer to the [CONTRIBUTING.md](https://github.com/kartikm7/llocal/blob/master/CONTRIBUTING.md)
