@@ -33,6 +33,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "@guyplusplus/turndown-plugin-gfm": "^1.0.7",
     "@hookform/resolvers": "^3.6.0",
     "@langchain/community": "^0.3.37",
     "@langchain/core": "^0.3.43",

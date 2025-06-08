@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import SyntaxHighlighter, { SyntaxHighlighterProps } from 'react-syntax-highlighter'
 import { atomOneDarkReasonable } from 'react-syntax-highlighter/dist/esm/styles/hljs'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { toast } from 'sonner'
 import { FaClipboard } from 'react-icons/fa6'
 import { Separator } from './Separator'
 import { HiMiniSparkles } from 'react-icons/hi2'
 import Artifacts from './Artifacts'
 import { t } from '@renderer/utils/utils'
+import { CopyButton } from './CopyButton'
 
 // list of supportedArtifacts
 const supportedArtifacts = ['mermaid']
@@ -24,14 +24,7 @@ export const Code = ({
       <div className='flex justify-between p-1 items-center rounded-t-md bg-foreground dark:bg-background dark:bg-opacity-75'>
         <p className='opacity-75'>{language}</p>
         <div className='flex justify-center items-center gap-3'>
-          <CopyToClipboard
-            text={children}
-            onCopy={() => toast.success(t('codeCopied', { language }))}
-          >
-            <p className='flex justify-center items-center cursor-pointer opacity-75 hover:opacity-100'>
-              <FaClipboard />
-            </p>
-          </CopyToClipboard>
+          <CopyButton text={children} />
           {supportedArtifacts.includes(language ?? '') && < HiMiniSparkles onClick={() => setArtifact(pre => !pre)} className='cursor-pointer opacity-75 hover:opacity-100' />}
         </div>
       </div>
