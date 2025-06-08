@@ -82,14 +82,13 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
     <div className={cn('flex flex-col justify-center items-center ', className)} {...props}>
       <Menu modal={false}>
         <MenuTrigger className='data-[state=open]:rotate-45 transition-all'>
-
           <IoIosAddCircle className=' ' />
         </MenuTrigger>
         <MenuContent className="flex flex-col justify-center items-center gap-2">
           <MenuItem onClick={handleAddFile} className='flex items-center w-full gap-2 cursor-pointer'>
             <LuFile className='text-2xl' /> Add file
           </MenuItem>
-          <MenuItem className='w-full'>
+          <MenuItem onSelect={(e) => e.preventDefault()} onInput={handleImage} className='w-full'>
             <label htmlFor="images" className="flex items-center gap-2 cursor-pointer">
               <LuImage className="text-2xl" /> Upload an image
             </label>
@@ -98,7 +97,6 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
               className="hidden"
               id="images"
               accept="image/*"
-              onChange={handleImage}
             />
           </MenuItem>
           <MenuItem onSelect={(e) => e.preventDefault()} onClick={handleClick} className="w-full cursor-pointer flex items-center gap-2">
