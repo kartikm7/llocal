@@ -63,7 +63,7 @@ th {
 }
 
 td {
-  text-wrap-style: balance;
+  text-wrap: balance;
   overflow: hidden;
   /* text-overflow: ellipsis; */
   border-bottom: 1px solid;
