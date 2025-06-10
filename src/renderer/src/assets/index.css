@@ -52,6 +52,7 @@
 table {
   width: 100%;
   table-layout: fixed;
+  margin: 2% 0;
 }
 
 th {
@@ -62,9 +63,9 @@ th {
 }
 
 td {
-  text-wrap: nowrap;
+  text-wrap-style: balance;
   overflow: hidden;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   border-bottom: 1px solid;
   border-bottom-color: rgba(0, 0, 0, 0.1);
   padding: 1% 0%;
