@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+
+    <script src="https://unpkg.com/react-scan/dist/auto.global.js"></script>
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self';  connect-src 'self' http://localhost:11434 http://127.0.0.1:11434 ; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; img-src 'self' data:;" />
+    content="default-src 'self';  connect-src 'self' http://localhost:11434 http://127.0.0.1:11434; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; img-src 'self' data:; media-src blob:" />
 </head>
 
 <body class="">

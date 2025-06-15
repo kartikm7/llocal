@@ -15,7 +15,7 @@ const ButtonVariants = cva('', {
   }
 })
 
-interface ButtonProps extends ComponentProps<'button'>, VariantProps<typeof ButtonVariants> { }
+export interface ButtonProps extends ComponentProps<'button'>, VariantProps<typeof ButtonVariants> { }
 export const Button = ({
   className,
   variant,

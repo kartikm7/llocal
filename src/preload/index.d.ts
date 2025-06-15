@@ -35,7 +35,8 @@ declare global {
       translate: (key: string, options: object) => string,
       changeLanguage: (language: string) => Promise<boolean>,
       getLanguages: () => Promise<readonly string[]>,
-      titleBar: (event: string) => void
+      titleBar: (event: string) => void,
+      textToSpeech: (text: string) => Promise<ArrayBuffer>
     }
   }
 }

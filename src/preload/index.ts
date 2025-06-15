@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { protocol } from 'electron/main'
 // import { electronAPI } from '@electron-toolkit/preload'
 
 interface webSearchType {
@@ -23,10 +24,9 @@ const api = {
   translate: (key: string, options: object): string => ipcRenderer.sendSync('translate', key, options),
   changeLanguage: (language: string): Promise<boolean> => ipcRenderer.invoke('changeLanguage', language),
   getLanguages: (): Promise<readonly string[]> => ipcRenderer.invoke('getLanguages'),
-  titleBar: (event: string): void => ipcRenderer.send('titleBar', event)
+  titleBar: (event: string): void => ipcRenderer.send('titleBar', event),
+  textToSpeech: (text: string): Promise<ArrayBuffer> => ipcRenderer.invoke('textToSpeech', text)
 }
-
-
 
 
 // Use `contextBridge` APIs to expose Electron APIs to

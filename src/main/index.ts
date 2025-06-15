@@ -17,6 +17,8 @@ import pie from "puppeteer-in-electron"
 import puppeteer from "puppeteer-core";
 import i18next, { i18nConfig } from './lib/localization/i18n'
 import i18n from './lib/localization/i18n'
+import { fork } from 'child_process'
+import ttsPath from "./workers/tts.ts?modulePath"
 
 // Handling dynamic imports the shell-path module, provides asynchronous functions
 (async (): Promise<void> => {
@@ -201,6 +203,7 @@ app.whenReady().then(() => {
     })
   }
 
+
   // the handlers are for interprocess communication
   ipcMain.handle('checkingOllama', async () => {
     const response = await checkingOllama()
@@ -320,9 +323,28 @@ app.whenReady().then(() => {
     })
   })
 
+  ipcMain.handle('textToSpeech', async (_event, text: string): Promise<ArrayBuffer> => {
+    function runService(): Promise<ArrayBuffer> {
+      return new Promise((resolve, reject) => {
+        const tts = fork(ttsPath, [text])
+        tts.send(text)
+        tts.on('message', (data) => {
+          // @ts-ignore this is because, .data does exist on the buffer
+          const arr = new Uint8Array(data.data)
+          const { buffer } = arr
+          resolve(buffer)
+        });
+        tts.on('exit', (code) => {
+          reject(new Error(
+            `Stopped the Worker Thread with the exit code: ${code}`));
+        })
+      })
+    }
+    return await runService()
+  })
+
 
   createWindow()
-
   app.on('activate', async function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.

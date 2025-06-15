@@ -54,6 +54,7 @@
     "i18next-fs-backend": "^2.6.0",
     "install": "^0.13.0",
     "jotai": "^2.8.0",
+    "kokoro-js": "^1.2.1",
     "langchain": "^0.3.19",
     "localbase": "https://github.com/kartikm7/localbase",
     "mammoth": "^1.8.0",
