@@ -8,7 +8,7 @@ import { useAtom } from 'jotai'
 import React, { ComponentProps, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { AiMessage } from '@renderer/ui/Message'
+import { AiMessage, UserMessage } from '@renderer/ui/Message'
 import { StreamingMessage } from './Messages/StreamingMessage'
 
 export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.ReactElement => {
@@ -44,10 +44,7 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
           // console.log(val.content)
 
           return val.role == 'user' ? (
-            <Card key={index} className="self-end bg-opacity-10 whitespace-pre-line dark:bg-opacity-10 ">
-              <p className="break-words">{val.content}</p>
-            </Card>
-          ) : <AiMessage key={index} message={val.content} />
+            <UserMessage message={val.content} />) : <AiMessage key={index} message={val.content} />
         })}
       <StreamingMessage />
       <div ref={scrollRef}></div>

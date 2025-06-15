@@ -79,9 +79,21 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
         {message}
       </Markdown>
     </Card >
-    <div className="ml-5 animate-fadeIn hidden group-hover:flex gap-1">
-      <CopyButton text={message} />
+    <div className="mx-5 group-hover:animate-fadeIn opacity-0 group-hover:opacity-100 flex gap-2">
+      <CopyButton className="opacity-75" text={message} />
       <TextToSpeech text={message} />
     </div>
   </div>
+}
+
+export const UserMessage = ({ message, ...props }: Message): React.ReactElement => {
+  return <div className="group flex flex-col self-end space-y-2 transition-all">
+    <Card className="w-fit bg-opacity-10 whitespace-pre-line dark:bg-opacity-10 " {...props}>
+      <p className="break-words">{message}</p>
+    </Card>
+    <div className="mx-5 group-hover:animate-fadeIn opacity-0 group-hover:opacity-100 flex gap-2 self-end">
+      <CopyButton className="opacity-75" text={message} />
+    </div>
+  </div>
+
 }
