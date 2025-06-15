@@ -19,6 +19,9 @@ const speak = async (text) => {
 }
 
 speak(input).then(result => {
+  // the coolest part of this is the serializing logic, it just was not working, using nodes inbuilt serializer kept adding a few abritrary bytes,
+  // probably for a handshake of sorts while deserializing, but when it struck that maybe just maybe converting the ArrayBuffer to a node Buffer might
+  // just fix things, it did and gosh am I glad.
   const arr = new Uint8Array(result)
   const buffer = Buffer.from(arr)
   if (process.send) process.send(buffer)

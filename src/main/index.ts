@@ -323,6 +323,10 @@ app.whenReady().then(() => {
     })
   })
 
+  //  TODO: The issue, here is that we have to use fork, we actually spins up a new node instance so an addtional 50mb of sorts for the ram
+  //  this would be a quick and clean fix with worker threads, but that's not an option at the moment since the kokoro-js npm package depends on
+  //  onnxruntime-node version 1.21.1 and this got fixed  in 1.22.0 so what we can do is that we fork transformers.js and kokoro-js and update both
+  //  of the packages to use our forks of the outdated dependencies or heck just wait.
   ipcMain.handle('textToSpeech', async (_event, text: string): Promise<ArrayBuffer> => {
     function runService(): Promise<ArrayBuffer> {
       return new Promise((resolve, reject) => {
