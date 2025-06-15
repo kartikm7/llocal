@@ -18,7 +18,7 @@ interface Message extends ComponentProps<'div'> {
   stream?: boolean,
 }
 
-export const AiMessage = ({ message, stream, key, ...props }: Message): React.ReactElement => {
+export const AiMessage = ({ message, stream, ...props }: Message): React.ReactElement => {
   // TODO: Expand this to support multiple custom tags, at the moment it only supports <think></think>
 
   // this is crucial, since during streaming we need to see the custom tag irrespective.
@@ -81,7 +81,7 @@ export const AiMessage = ({ message, stream, key, ...props }: Message): React.Re
     </Card >
     <div className="ml-5 animate-fadeIn hidden group-hover:flex gap-1">
       <CopyButton text={message} />
-      <TextToSpeech key={key} text={message} />
+      <TextToSpeech text={message} />
     </div>
   </div>
 }

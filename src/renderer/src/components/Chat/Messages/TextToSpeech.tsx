@@ -52,13 +52,13 @@ export const TextToSpeech = ({ text, key }: TextToSpeechProps): React.ReactEleme
       if (audio) {
         audio.pause()
         audio.remove()
+        setAudio(undefined)
       }
     }
   }, [isPlaying, audio])
 
   return (
     <>
-      <audio id={text}></audio>
       {isLoading ? <Button variant="icon" >
         <LuLoader2 className="animate-spin" />
       </Button> :
