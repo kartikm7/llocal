@@ -41,10 +41,10 @@ export const Messages = ({ className, ...props }: ComponentProps<'div'>): React.
     >
       {chat &&
         chat.map((val, index) => {
-          // console.log(val.content)
 
+          // console.log(val.content)
           return val.role == 'user' ? (
-            <UserMessage message={val.content} />) : <AiMessage key={index} message={val.content} />
+            <UserMessage message={val.content} key={index} />) : <AiMessage key={index} index={index} message={val.content} />
         })}
       <StreamingMessage />
       <div ref={scrollRef}></div>

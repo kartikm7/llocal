@@ -10,17 +10,23 @@ export interface getDbReturn {
 }
 
 type useDbReturn = {
-  addChat: (messages: Message[]) => Promise<string>
+  addChat: (messages: Message[], force?: boolean) => Promise<string>
   getMessageList: () => Promise<getDbReturn[]>
   getChat: () => Promise<Message[]>
   updateDate: (date: string) => Promise<string>
   deleteChat: (date: string) => Promise<void>
 }
 
+
 export function useDb(): useDbReturn {
   const [selectedChatIndex, setSelectedChatIndex] = useAtom(selectedChatIndexAtom)
-  const addChat = async (messages: Message[]): Promise<string> => {
+
+  /* Force is to throw an error, so we can force fully add a new chat.
+   * God bless coding, it so much fun
+   * */
+  const addChat = async (messages: Message[], force = false): Promise<string> => {
     try {
+      if (force) throw new Error("Forcefully add a new chat")
       const response = await db
         .collection('chat')
         .doc({ date: selectedChatIndex })

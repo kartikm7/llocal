@@ -12,13 +12,15 @@ import { BsGlobeCentralSouthAsia } from "react-icons/bs";
 import { Table } from "./Table";
 import { CopyButton } from "./CopyButton";
 import { TextToSpeech } from "@renderer/components/Chat/Messages/TextToSpeech";
+import { Branch } from "@renderer/components/Chat/Messages/Branch";
 
 interface Message extends ComponentProps<'div'> {
   message: string,
   stream?: boolean,
+  index?: number
 }
 
-export const AiMessage = ({ message, stream, ...props }: Message): React.ReactElement => {
+export const AiMessage = ({ message, stream, index = 0, ...props }: Message): React.ReactElement => {
   // TODO: Expand this to support multiple custom tags, at the moment it only supports <think></think>
 
   // this is crucial, since during streaming we need to see the custom tag irrespective.
@@ -82,6 +84,7 @@ export const AiMessage = ({ message, stream, ...props }: Message): React.ReactEl
     <div className="mx-5 group-hover:animate-fadeIn opacity-0 group-hover:opacity-100 flex gap-2">
       <CopyButton className="opacity-75" text={message} />
       <TextToSpeech text={message} />
+      <Branch index={index} />
     </div>
   </div>
 }
