@@ -81,8 +81,8 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
   return (
     <div className={cn('flex flex-col justify-center items-center ', className)} {...props}>
       <Menu modal={false}>
-        <MenuTrigger className='data-[state=open]:rotate-45 transition-all'>
-          <IoIosAddCircle className=' ' />
+        <MenuTrigger className='data-[state=open]:rotate-45 opacity-50 hover:opacity-100 transition-all'>
+          <IoIosAddCircle className='' />
         </MenuTrigger>
         <MenuContent className="flex flex-col justify-center items-center gap-2">
           <MenuItem onClick={handleAddFile} className='flex items-center w-full gap-2 cursor-pointer'>
