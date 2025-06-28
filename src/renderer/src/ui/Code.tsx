@@ -18,7 +18,7 @@ export const Code = ({
   const [isArtifact, setArtifact] = useState(false)
   return (
     // match[1]
-    <Card className='max-w-full max-h-full p-2 my-2'>
+    <Card className='max-w-full max-h-full p-2 my-2' {...props}>
       <div className='flex justify-between p-1 items-center rounded-t-md '>
         <p className='opacity-50 text-xs'>{language}</p>
         <div className='flex justify-center items-center gap-3'>

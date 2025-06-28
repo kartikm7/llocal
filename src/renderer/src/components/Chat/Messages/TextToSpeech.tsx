@@ -11,7 +11,7 @@ interface TextToSpeechProps extends ButtonProps {
  *  wave buffer. ISN'T THAT INFURIATING. Haven't been able to figure it out yet. The issue, is that when we don't clear the audio state it
  *  some how persists across multiple messages which makes no sense since it should be local to the component could be something to do with id I think,
  *  since the reference to all audios should not be the same*/
-export const TextToSpeech = ({ text, key }: TextToSpeechProps): React.ReactElement => {
+export const TextToSpeech = ({ text }: TextToSpeechProps): React.ReactElement => {
   const [audio, setAudio] = useState<HTMLAudioElement>()
   const [isLoading, setLoading] = useState(false)
   const [isPlaying, setPlaying] = useState(false)

@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { protocol } from 'electron/main'
 // import { electronAPI } from '@electron-toolkit/preload'
 
 interface webSearchType {

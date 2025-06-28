@@ -3,7 +3,6 @@ import {
   chatAtom,
   selectedChatIndexAtom,
 } from '@renderer/store/mocks'
-import { Card } from '@renderer/ui/Card'
 import { useAtom } from 'jotai'
 import React, { ComponentProps, useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'

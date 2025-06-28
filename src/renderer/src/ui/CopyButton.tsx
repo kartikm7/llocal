@@ -1,7 +1,7 @@
 import { ComponentProps, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { LuCopy, LuCopyCheck } from 'react-icons/lu'
-import { renderToStaticMarkup, renderToString } from 'react-dom/server'
+import { renderToStaticMarkup } from 'react-dom/server'
 import TurndownService from 'turndown'
 import { gfm } from "@guyplusplus/turndown-plugin-gfm"
 import { cn } from '@renderer/utils/utils'
