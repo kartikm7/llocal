@@ -19,6 +19,7 @@ import i18next, { i18nConfig } from './lib/localization/i18n'
 import i18n from './lib/localization/i18n'
 import { fork } from 'child_process'
 import ttsPath from "./workers/tts.ts?modulePath"
+import { createPath } from './utils/utils'
 
 // Handling dynamic imports the shell-path module, provides asynchronous functions
 (async (): Promise<void> => {
@@ -328,9 +329,13 @@ app.whenReady().then(() => {
   //  onnxruntime-node version 1.21.1 and this got fixed  in 1.22.0 so what we can do is that we fork transformers.js and kokoro-js and update both
   //  of the packages to use our forks of the outdated dependencies or heck just wait.
   ipcMain.handle('textToSpeech', async (_event, text: string): Promise<ArrayBuffer> => {
+    // Gosh I LOVE PROGRAMMING
+    const cacheDir = createPath("HuggingFaceCache")
+    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true })
+
     function runService(): Promise<ArrayBuffer> {
       return new Promise((resolve, reject) => {
-        const tts = fork(ttsPath, [text])
+        const tts = fork(ttsPath, [text, cacheDir])
         tts.send(text)
         tts.on('message', (data) => {
           // @ts-ignore this is because, .data does exist on the buffer

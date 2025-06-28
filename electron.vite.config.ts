@@ -6,6 +6,14 @@ export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
     worker: { format: "es" },
+    build: {
+      rollupOptions: {
+        input: {
+          index: resolve(__dirname, 'src/main/index.ts'),
+          child: resolve(__dirname, 'src/main/workers/tts.ts')
+        }
+      }
+    }
   },
   preload: {
     plugins: [externalizeDepsPlugin()]

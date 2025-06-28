@@ -1,6 +1,14 @@
-import { KokoroTTS } from "kokoro-js";
+import { KokoroTTS, env } from "kokoro-js"
 
+// getitng cli agruments passed
 const input = process.argv[2]
+const cacheDir = process.argv[3]
+
+
+// console.log(cacheDir)
+
+// setting the cacheDir
+// env.cacheDir = cacheDir
 
 const speak = async (text) => {
   const model_id = "onnx-community/Kokoro-82M-v1.0-ONNX";
