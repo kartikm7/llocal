@@ -5,10 +5,10 @@ const input = process.argv[2]
 const cacheDir = process.argv[3]
 
 
-// console.log(cacheDir)
+console.log("cacheDirectory", cacheDir)
 
 // setting the cacheDir
-// env.cacheDir = cacheDir
+env.cacheDir = cacheDir
 
 const speak = async (text) => {
   const model_id = "onnx-community/Kokoro-82M-v1.0-ONNX";
