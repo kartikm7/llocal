@@ -70,7 +70,8 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
     const toastId = toast.loading(t(`Adding to the knowledge base`))
     try {
       const response = await window.api.addKnowledge()
-      setFile([response])
+      // this is super cool, since it adds the file to the context
+      setFile(pre => Array.isArray(pre) ? [response, ...pre] : [response])
       toast.success(t('fileAdded', { fileName: response.fileName }), { id: toastId })
     } catch (error) {
       const splits = String(error).split(":")
