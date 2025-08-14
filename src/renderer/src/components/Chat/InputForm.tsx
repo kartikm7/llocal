@@ -96,7 +96,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
           disabled={isLoading}
           onKeyDown={handleKeyDown}
           handleChange={handleChange}
-          className={`h-full w-full pl-10 pr-8 ${fileDrop && "border-2 border-dotted opacity-50 hover:opacity-100"}`}
+          className={`h-full w-full pl-10 pr-8 ${fileDrop && "outline-dotted outline-2 opacity-50 hover:opacity-100"}`}
           placeholder={t("Enter your prompt")}
         />
         <MoreButton className="text-2xl absolute left-2 top-1/2 transform -translate-y-1/2" />
