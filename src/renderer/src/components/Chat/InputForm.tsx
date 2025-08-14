@@ -15,7 +15,7 @@ import { MoreButton } from './MoreButton'
 import { ContextCard } from './ContextCard'
 import { AutoComplete } from './AutoComplete'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { fileContextAtom, knowledgeBaseAtom, stopGeneratingAtom, suggestionsAtom } from '@renderer/store/mocks'
+import { fileContextAtom, fileDropAtom, knowledgeBaseAtom, stopGeneratingAtom, suggestionsAtom } from '@renderer/store/mocks'
 import ToolTip from '@renderer/ui/ToolTip'
 import { t } from '@renderer/utils/utils'
 
@@ -39,6 +39,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
   const setSuggestions = useSetAtom(suggestionsAtom)
   const context = useAtomValue(fileContextAtom)
   const [isAutoComplete, setIsAutoComplete] = useState(false)
+  const fileDrop = useAtomValue(fileDropAtom)
   function handleClick(): void {
     setStopGenerating(pre => !pre)
   }
@@ -95,7 +96,7 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
           disabled={isLoading}
           onKeyDown={handleKeyDown}
           handleChange={handleChange}
-          className={`h-full w-full pl-10 pr-8`}
+          className={`h-full w-full pl-10 pr-8 ${fileDrop && "border-2 border-dotted opacity-50 hover:opacity-100"}`}
           placeholder={t("Enter your prompt")}
         />
         <MoreButton className="text-2xl absolute left-2 top-1/2 transform -translate-y-1/2" />

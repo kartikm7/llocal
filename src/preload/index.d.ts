@@ -28,7 +28,7 @@ declare global {
       checkVersion: () => Promise<string>,
       checkPlatform: () => Promise<string>,
       experimentalSearch: (searchQuery: string, links: string[]) => Promise<webSearchType>,
-      addKnowledge: () => Promise<addKnowledgeType>,
+      addKnowledge: (file?: string) => Promise<addKnowledgeType>,
       similaritySearch: (selectedKnowledge: addKnowledgeType[], prompt: string) => Promise<ragReturn>,
       getVectorDbList: () => Promise<addKnowledgeType[]>,
       deleteVectorDb: (indexPath: string) => Promise<boolean>,

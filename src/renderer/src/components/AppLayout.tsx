@@ -1,10 +1,11 @@
-import { ComponentProps, useState } from 'react'
+import { ComponentProps, useState, DragEvent } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import { AiFillCloseCircle } from 'react-icons/ai'
-import { settingsToggleAtom } from '@renderer/store/mocks'
-import { useAtom } from 'jotai'
+import { fileDropAtom, settingsToggleAtom } from '@renderer/store/mocks'
+import { useAtom, useSetAtom } from 'jotai'
 import { cn, t } from '@renderer/utils/utils'
+import { useFileDrop } from '@renderer/hooks/useFileDrop'
 
 export const RootLayout = ({
   className,
@@ -102,8 +103,14 @@ export const Chat = ({
   children,
   ...props
 }: ComponentProps<'div'>): React.ReactElement => {
+  const setFileDrop = useSetAtom(fileDropAtom)
+  const { handleDrop } = useFileDrop()
+  function handleEvent(e: DragEvent, val: boolean) {
+    e.preventDefault()
+    setFileDrop(val)
+  }
   return (
-    <aside className={twMerge('flex-1 overflow-hidden pt-10 pb-6 px-8 lg:pt-8', className)} {...props}>
+    <aside onDrop={handleDrop} onDragOver={(e) => handleEvent(e, true)} onDragLeave={(e) => handleEvent(e, false)} className={twMerge('flex-1 overflow-hidden pt-10 pb-6 px-8 lg:pt-8', className)} {...props}>
       {children}
     </aside>
   )

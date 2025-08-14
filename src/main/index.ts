@@ -250,10 +250,13 @@ app.whenReady().then(() => {
     return response
   })
 
-  ipcMain.handle('addKnowledge', async (): Promise<addKnowledgeType> => {
-    const { filePaths } = await getSelectedFiles()
-    const fileName = getFileName(filePaths[0]);
-    const docs = await generateDocs(filePaths[0]);
+  ipcMain.handle('addKnowledge', async (_event, file = ""): Promise<addKnowledgeType> => {
+    if (!file) {
+      const { filePaths } = await getSelectedFiles()
+      file = filePaths[0]
+    }
+    const fileName = getFileName(file);
+    const docs = await generateDocs(file);
     const dir = path.join(app.getPath('documents'), 'LLocal', 'Knowledge Base', fileName)
     await saveVectorDb(docs, dir)
     return { path: dir, fileName: fileName };
