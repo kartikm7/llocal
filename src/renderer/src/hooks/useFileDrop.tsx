@@ -10,16 +10,20 @@ export function useFileDrop() {
   const setImageAttachment = useSetAtom(imageAttatchmentAtom)
 
   async function handleDrop(e: DragEvent) {
-    let toastId: string | number = ""
     // need to ensure the page does not reload
+    e.stopPropagation()
     e.preventDefault()
+    let toastId: string | number = ""
+    e.dataTransfer.dropEffect = "copy"
     const file = e.dataTransfer && e.dataTransfer.files[0]
     try {
       if (!file) throw new Error("Something went wrong, while loading file")
+      const splits = (file.path).split("/")
+      const fileName = splits[splits.length - 1]
       // if it's image then we gucci
       if (file.type.includes("image")) {
         handleImage(file)
-      } else if (checkFileExtensions(file.type)) {
+      } else if (checkFileExtensions(fileName)) {
         toastId = toast.loading(t(`Adding to the knowledge base`))
         const response = await window.api.addKnowledge(file.path)
         setFile(pre => Array.isArray(pre) ? [response, ...pre] : [response])
