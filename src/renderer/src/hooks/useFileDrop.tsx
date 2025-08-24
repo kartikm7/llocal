@@ -18,12 +18,14 @@ export function useFileDrop() {
     const file = e.dataTransfer && e.dataTransfer.files[0]
     try {
       if (!file) throw new Error("Something went wrong, while loading file")
-      const splits = (file.path).split("/")
+      let splits = (file.path).split("/")
       const fileName = splits[splits.length - 1]
+      splits = fileName.split(".")
+      const extension = splits[splits.length - 1]
       // if it's image then we gucci
       if (file.type.includes("image")) {
         handleImage(file)
-      } else if (checkFileExtensions(fileName)) {
+      } else if (checkFileExtensions(extension)) {
         toastId = toast.loading(t(`Adding to the knowledge base`))
         const response = await window.api.addKnowledge(file.path)
         setFile(pre => Array.isArray(pre) ? [response, ...pre] : [response])
