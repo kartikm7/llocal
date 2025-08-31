@@ -1,5 +1,7 @@
 import { clsx, ClassValue } from "clsx"
+import { createPortal } from "react-dom"
 import { twMerge } from "tailwind-merge"
+import { ReactNode, ReactPortal } from "react"
 
 export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs))
@@ -39,3 +41,16 @@ export function customTagValidator(message: string, tagName: string): boolean {
 export function t(key: string, options = {}): string {
   return window.api.translate(key, options)
 }
+
+
+type Portal = (children: ReactNode, container?: Element | DocumentFragment, key?: string | null | undefined) => ReactPortal
+
+/**
+ * Helper with default values for container i.e the first <main> or fallsback to <body>
+ * This is so fucking interesting, and just a basic helper, to smooth things out.
+ * */
+export const Portal: Portal = (children, container = document.getElementsByTagName("main")[0] ?? document.body, key = null) => {
+  return createPortal(children, container, key)
+}
+
+

@@ -33,7 +33,7 @@ export const Settings = ({
       {settingsToggle && (
         <div
           className={twMerge(
-            `dark:bg-black dark:bg-opacity-50 bg-foreground bg-opacity-50 absolute z-30 flex flex-col justify-center items-center w-full h-screen backdrop-blur p-5 overflow-y-scroll overflow-x-hidden`,
+            `dark:bg-black dark:bg-opacity-50 bg-foreground bg-opacity-50 absolute z-40 flex flex-col justify-center items-center w-full h-screen backdrop-blur p-5 overflow-y-scroll overflow-x-hidden`,
             className
           )}
           {...props}
@@ -76,7 +76,7 @@ export const Sidebar = ({
     <div className={`flex gap-2 items-center justify-center bg-transparent`}>
       <aside
         className={twMerge(
-          `transition-transform transform ${open ? 'translate-x-0 w-[250px] h-screen p-5' : '-translate-x-full w-0'} `,
+          `transition-transform transform z-30 ${open ? 'translate-x-0 w-[250px] h-screen max-w-screen p-5' : '-translate-x-full w-0'} `,
           className
         )}
         {...props}

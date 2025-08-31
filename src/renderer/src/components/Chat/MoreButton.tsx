@@ -1,4 +1,4 @@
-import { Menu, MenuContent, MenuItem, MenuTrigger } from '@renderer/ui/Menu'
+import { Menu } from '@renderer/ui/Menu'
 import { cn, t } from '@renderer/utils/utils'
 import { ChangeEvent, ComponentProps } from 'react'
 import { IoIosAddCircle } from 'react-icons/io'
@@ -81,15 +81,15 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
 
   return (
     <div className={cn('flex flex-col justify-center items-center ', className)} {...props}>
-      <Menu modal={false}>
-        <MenuTrigger className='data-[state=open]:rotate-45 opacity-50 hover:opacity-100 transition-all'>
+      <Menu.Root modal={false}>
+        <Menu.Trigger className='data-[state=open]:rotate-45 opacity-50 hover:opacity-100 transition-all'>
           <IoIosAddCircle className='' />
-        </MenuTrigger>
-        <MenuContent className="flex flex-col justify-center items-center gap-2">
-          <MenuItem onClick={handleAddFile} className='flex items-center w-full gap-2 cursor-pointer'>
+        </Menu.Trigger>
+        <Menu.Content className="flex flex-col justify-center items-center gap-2">
+          <Menu.Item onClick={handleAddFile} className='flex items-center w-full gap-2 cursor-pointer'>
             <LuFile className='text-2xl' /> Add file
-          </MenuItem>
-          <MenuItem onSelect={(e) => e.preventDefault()} onInput={handleImage} className='w-full'>
+          </Menu.Item>
+          <Menu.Item onSelect={(e) => e.preventDefault()} onInput={handleImage} className='w-full'>
             <label htmlFor="images" className="flex items-center gap-2 cursor-pointer">
               <LuImage className="text-2xl" /> Upload an image
             </label>
@@ -99,12 +99,12 @@ export const MoreButton = ({ className, ...props }: ComponentProps<'div'>): Reac
               id="images"
               accept="image/*"
             />
-          </MenuItem>
-          <MenuItem onSelect={(e) => e.preventDefault()} onClick={handleClick} className="w-full cursor-pointer flex items-center gap-2">
+          </Menu.Item>
+          <Menu.Item onSelect={(e) => e.preventDefault()} onClick={handleClick} className="w-full cursor-pointer flex items-center gap-2">
             <Checkbox isExternalState={true} externalState={experimentalSearch} /> Web search
-          </MenuItem>
-        </MenuContent>
-      </Menu >
+          </Menu.Item>
+        </Menu.Content>
+      </Menu.Root >
     </div>
   )
 }
