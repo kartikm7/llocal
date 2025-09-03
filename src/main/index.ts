@@ -54,6 +54,7 @@ function createWindow(): void {
     titleBarStyle: 'hidden',
     frame: true,
     roundedCorners: true,
+    transparent: process.platform == "linux",
     backgroundMaterial: 'acrylic',
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
