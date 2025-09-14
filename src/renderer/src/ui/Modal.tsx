@@ -3,6 +3,7 @@ import { ComponentProps, Dispatch, ReactElement, createContext, useContext, useS
 import { Card } from "./Card";
 import { SetStateAction } from "jotai";
 import { useClickOutside } from "@renderer/hooks/useClickOutside";
+import { Button, ButtonProps } from "./Button";
 
 interface ModalContextInterface {
   isOpen: boolean,
@@ -78,19 +79,31 @@ const CancelTrigger = ({ children, ...props }: ComponentProps<'div'>): ReactElem
   </div>
 }
 
-interface AcceptTriggerProps extends ComponentProps<'div'> { callbackFn: () => void }
-
+interface AcceptTriggerProps extends ButtonProps { callbackFn?: () => void }
 const AcceptTrigger = ({ children, callbackFn, ...props }: AcceptTriggerProps): ReactElement | null => {
   const context = useContext(ModalContext)
   if (!context) return null
   const { setOpen } = context
-  return <div onClick={() => {
-    callbackFn()
-    setOpen(false)
-  }
-  } {...props}>
+  return <Button onClick={(e) => {
+    if (callbackFn) {
+      e.preventDefault()
+      callbackFn()
+      setOpen(false)
+    }
+  }}   {...props}>
     {children}
-  </div>
+  </Button>
 }
 
-export const Modal = { Root, Trigger, Content, Header, Description, CancelTrigger, AcceptTrigger, Overlay }
+const Form = ({ children, onSubmit, ...props }: ComponentProps<'form'>): ReactElement | null => {
+  const context = useContext(ModalContext)
+  if (!context) return null
+  const { setOpen } = context
+  return <form onSubmit={(e) => {
+    if (onSubmit) onSubmit(e)
+    setOpen(false)
+  }
+  } {...props}>{children}</form>
+}
+
+export const Modal = { Root, Trigger, Content, Header, Description, Form, CancelTrigger, AcceptTrigger, Overlay }

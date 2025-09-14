@@ -1,30 +1,33 @@
 import { db } from '@renderer/utils/db'
-import { Message, selectedChatIndexAtom } from '../store/mocks'
-import { useAtom } from 'jotai'
+import { Message, selectedChatIndexAtom, titleUpdateAtom } from '../store/mocks'
+import { useAtom, useSetAtom } from 'jotai'
 import { toast } from 'sonner';
 import { t } from '@renderer/utils/utils';
 
 export interface getDbReturn {
   date: string;
+  title: string;
   chat: Message[];
 }
 
 type useDbReturn = {
   addChat: (messages: Message[], force?: boolean) => Promise<string>
   getMessageList: () => Promise<getDbReturn[]>
-  getChat: () => Promise<Message[]>
+  getChat: (date?: string) => Promise<Message[]>
   updateDate: (date: string) => Promise<string>
+  updateTitle: (date: string, title: string) => Promise<void>
   deleteChat: (date: string) => Promise<void>
 }
 
 
 export function useDb(): useDbReturn {
   const [selectedChatIndex, setSelectedChatIndex] = useAtom(selectedChatIndexAtom)
+  const setTitleUpdate = useSetAtom(titleUpdateAtom)
 
   /* Force is to throw an error, so we can force fully add a new chat.
    * God bless coding, it so much fun
    * */
-  const addChat = async (messages: Message[], force = false): Promise<string> => {
+  const addChat = async (messages: Message[], force = false, title = ""): Promise<string> => {
     try {
       if (force) throw new Error("Forcefully add a new chat")
       const response = await db
@@ -32,6 +35,7 @@ export function useDb(): useDbReturn {
         .doc({ date: selectedChatIndex })
         .set({
           date: selectedChatIndex,
+          title: title,
           chat: messages
         })
         .then((chat) => console.log('AddChat: ', chat))
@@ -43,6 +47,7 @@ export function useDb(): useDbReturn {
         .collection('chat')
         .add({
           date: isoDateString,
+          title: title,
           chat: messages
         })
         .then((chat) => console.log('AddChat: ', chat))
@@ -51,8 +56,8 @@ export function useDb(): useDbReturn {
     }
   }
 
-  const getChat = async (): Promise<Message[]> => {
-    const response: getDbReturn = await db.collection('chat').doc({ date: selectedChatIndex }).get()
+  const getChat = async (date = ""): Promise<Message[]> => {
+    const response: getDbReturn = await db.collection('chat').doc({ date: date || selectedChatIndex }).get()
     return response.chat
   }
 
@@ -68,7 +73,6 @@ export function useDb(): useDbReturn {
 
   const getMessageList = async (): Promise<getDbReturn[]> => {
     const response = await db.collection('chat').orderBy('date').get()
-    // console.log(response);
     return response.reverse()
   }
 
@@ -79,5 +83,15 @@ export function useDb(): useDbReturn {
     return response.date
   }
 
-  return { addChat, getMessageList, getChat, updateDate, deleteChat }
+  const updateTitle = async (date: string, title: string): Promise<void> => {
+    try {
+      await db.collection('chat').doc({ date: date }).update({ title: title })
+      // TODO: honestly, I'm unsure if there's a better way to do the state update here
+      setTitleUpdate(date)
+    } catch (error) {
+      toast.error(String(error))
+    }
+  }
+
+  return { addChat, getMessageList, getChat, updateDate, updateTitle, deleteChat }
 }

@@ -140,6 +140,7 @@ export function usePrompt(): [boolean, (prompt: string) => Promise<void>] {
         }
         setStream(chunk)
       }
+      // TODO: use Structured outputs here aswell
       // incase suggestions are toggled on
       if (suggestions.show) {
         // the JSON mode prompt

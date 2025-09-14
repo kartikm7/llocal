@@ -31,10 +31,7 @@ export const messages = [
     role: 'assistant',
     content: 'due to rayleigh scattering.'
   },
-  {
-    role: 'user',
-    content: 'how is that different than mie scattering?'
-  }
+  { role: 'user', content: 'how is that different than mie scattering?' }
 ]
 
 export const chatAtom = atom<Message[]>([]) // Current Chat
@@ -50,6 +47,7 @@ export const settingsToggleAtom = atom<boolean>(false)
 export const isOllamaInstalledAtom = atom<boolean>(false)
 export const suggestionsAtom = atom<suggestions>({ show: JSON.parse(localStorage.getItem('showSuggestions') || 'false'), prompts: [] })
 export const fileDropAtom = atom<boolean>(false)
+export const titleUpdateAtom = atom<string>("")
 
 // User Preferences
 const url = new URL('/src/assets/themes/galaxia.svg', import.meta.url).href

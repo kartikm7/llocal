@@ -81,7 +81,8 @@
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
     "turndown": "^7.2.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.24.6"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
