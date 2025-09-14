@@ -109,7 +109,6 @@ const RenameModal = ({ className, date, children, ...props }: ChatListModalProps
   }
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    console.log("triggered")
     reset()
     if (data.title) {
       setLoading(true)
@@ -130,8 +129,7 @@ const RenameModal = ({ className, date, children, ...props }: ChatListModalProps
       <Modal.Header className='flex items-center text-center self-center gap-2 font-bold mb-2 text-md'>
         <LuInfo className='text-2xl' /> Rename
       </Modal.Header>
-      {/* <Modal.Description className='w-72'>All your data is llocaly saved, once you delete this chat is gone forever!</Modal.Description> */}
-      <Modal.Form onSubmit={handleSubmit(onSubmit, onError)}>
+      <Modal.Form className='space-y-2' onSubmit={handleSubmit(onSubmit, onError)}>
         <Input
           name="title"
           register={register}
