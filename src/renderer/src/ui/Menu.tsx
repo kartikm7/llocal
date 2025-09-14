@@ -18,7 +18,7 @@ const MenuItemVariants = cva('font-poppins w-full ', {
   variants: {
     variant: {
       base: '',
-      interactable: 'w-full data-[highlighted]:underline data-[highlighted]:scale-[0.98] data-[highlighted]:opacity-100 outline-none hover:underline hover:scale-[0.98] opacity-60 hover:opacity-100 transition-all',
+      interactable: 'w-full data-[highlighted]:underline data-[highlighted]:scale-[0.98] data-[highlighted]:opacity-100 outline-none hover:underline hover:scale-[0.98] opacity-60 hover:opacity-100 transition-all cursor-pointer',
     }
   },
   defaultVariants: {
