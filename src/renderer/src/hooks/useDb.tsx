@@ -87,7 +87,7 @@ export function useDb(): useDbReturn {
     try {
       await db.collection('chat').doc({ date: date }).update({ title: title })
       // TODO: honestly, I'm unsure if there's a better way to do the state update here
-      setTitleUpdate(date)
+      setTitleUpdate(new Date().getTime())
     } catch (error) {
       toast.error(String(error))
     }

@@ -47,7 +47,7 @@ export const settingsToggleAtom = atom<boolean>(false)
 export const isOllamaInstalledAtom = atom<boolean>(false)
 export const suggestionsAtom = atom<suggestions>({ show: JSON.parse(localStorage.getItem('showSuggestions') || 'false'), prompts: [] })
 export const fileDropAtom = atom<boolean>(false)
-export const titleUpdateAtom = atom<string>("")
+export const titleUpdateAtom = atom<number>(0)
 
 // User Preferences
 const url = new URL('/src/assets/themes/galaxia.svg', import.meta.url).href
