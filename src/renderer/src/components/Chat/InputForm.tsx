@@ -64,7 +64,6 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
       const typed = input.replace('/', ''); // this is to get whatever the user has typed after the /
       setAutoCompleteList(list.filter((val) => val.fileName.includes(typed)))
       setIsAutoComplete(true)
-      setIsAutoComplete
     } else {
       setAutoCompleteList([]) // set it empty when it does not start with /
       setIsAutoComplete(false)
@@ -95,7 +94,8 @@ export const InputForm = ({ className, ...props }: ComponentProps<'form'>): Reac
           register={register}
           disabled={isLoading}
           onKeyDown={handleKeyDown}
-          handleChange={handleChange}
+          onChange={handleChange}
+          variant={"chat"}
           className={`h-full w-full pl-10 pr-8 ${fileDrop && "outline-dotted outline-2 opacity-50 hover:opacity-100"}`}
           placeholder={t("Enter your prompt")}
         />
