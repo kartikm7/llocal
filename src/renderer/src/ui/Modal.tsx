@@ -17,7 +17,7 @@ interface ModalProps extends ComponentProps<'div'> {
 const ModalContext = createContext<ModalContextInterface | null>(null)
 const ModalProvider = ModalContext.Provider
 
-const Root = ({ className, children, ...props }: ModalProps): ReactElement => {
+const Root = ({ children, ...props }: ModalProps): ReactElement => {
   const [isOpen, setOpen] = useState(false)
   // useEffect(() => {
   //   setOpen(open)
@@ -46,8 +46,8 @@ const Content = ({ children, className, ...props }: ComponentProps<'div'>): Reac
   const { isOpen, setOpen } = context
   const ref = useClickOutside<HTMLDivElement>(() => setOpen(false))
   return <>
-    {isOpen && Portal(<div ref={ref} className={cn("fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-auto z-50 overflow-visible flex items-center justify-center", className)} {...props}>
-      <Card className="">{children}</Card>
+    {isOpen && Portal(<div ref={ref} className={cn("fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 m-auto z-50 overflow-visible flex items-center justify-center")} {...props}>
+      <Card className={cn("border-2 border-foreground border-opacity-5 rounded-2xl shadow-xl", className)}>{children}</Card>
     </div>)
     }
   </>
